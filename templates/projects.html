@@ -11,10 +11,10 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content="Justice Ndou Github Projects and active freelance profiles"/>
 	<meta property="og:title" content="Justice Ndou Github Projects" />
-	<meta property="og:url" content="https://justice-ndou.appspot.com/projects" />
+	<meta property="og:url" content="{{ url_for('projects', _external=True)}}" />
 
 	<!-- og:image -->
-	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/github-projects-justice-ndou.png') }}" />
+	<meta property="og:image" content="{{ url_for('static', filename='/imgs/github-projects-justice-ndou.png') }}" />
 	<meta property="og:image:type" content="image/png" />
 	<meta property="og:image:width" content="1024" />
 	<meta property="og:image:height" content="1270" />
@@ -22,11 +22,11 @@
 
     <!-- Twitter Card -->
 	<meta name="twitter:card" content='summary_large_image' />
-	<meta name="twitter:site" content="https://justice-ndou.appspot.com" />
+	<meta name="twitter:site" content="{{ url_for('home', _external=True) }}" />
 	<meta name="twitter:creator" content="@blueitserver" />
 	<meta name="twitter:title" content="Justice Ndou Github Projects" />
 	<meta name="twitter:description" content="Justice Ndou Github Projects and active freelance profiles" />
-	<meta name="twitter:domain" content='https://justice-ndou.appspot.com/projects' />
+	<meta name="twitter:domain" content="{{ url_for('projects', _external=True)}}" />
 
 	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/github-projects-justice-ndou.png') }}" />
 	<meta name="twitter:image:alt" content="Justice Ndou Github Projects" />
@@ -35,6 +35,7 @@
 	<link rel="shortcut icon" href="{{ url_for('static', filename='/imgs/avatar.png')}}" />
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
 
+	<link rel="canonical" href="{{ url_for('projects', _external=True )}}" />
 {% endblock header%}
 
 {% block content %}

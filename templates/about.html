@@ -3,7 +3,7 @@
 {% extends "layout.html" %}
 {% block header %}
 
-    <title> About Justice Ndou - Web Development- Freelancer</title>
+    <title> About Justice Ndou - Web Development - Freelancer</title>
 
     <meta name="description" content="More Information on Justice Ndou life as a freelancer and web developer" />
 
@@ -14,10 +14,10 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content="About Justice Ndou a Freelancer, Web Developer, #Bitcoin and #Dogecoin Supporter"/>
 	<meta property="og:title" content="About Justice Ndou a Freelancer and Web Developer, Supporter of #Bitcoin and #Dogecoin" />
-	<meta property="og:url" content="https://justice-ndou.appspot.com/about" />
+	<meta property="og:url" content="{{ url_for('about', _external=True )}}" />
 
 	<!-- og:image -->
-	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/about-justice-ndou.png') }}" />
+	<meta property="og:image" content="{{ url_for('static', filename='/imgs/about-justice-ndou.png') }}" />
 	<meta property="og:image:type" content="image/png" />
 	<meta property="og:image:width" content="1024" />
 	<meta property="og:image:height" content="1270" />
@@ -25,11 +25,11 @@
 
     <!-- Twitter Card -->
 	<meta name="twitter:card" content='summary_large_image' />
-	<meta name="twitter:site" content="https://justice-ndou.appspot.com" />
+	<meta name="twitter:site" content="{{ url_for('home', _external=True) }}" />
 	<meta name="twitter:creator" content="@blueitserver" />
 	<meta name="twitter:title" content="About Justice Ndou a Freelancer and Web Developer, Supporter of #Bitcoin and #Dogecoin" />
 	<meta name="twitter:description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's" />
-	<meta name="twitter:domain" content='https://justice-ndou.appspot.com/about' />
+	<meta name="twitter:domain" content="{{ url_for('about', _external=True )}}"  />
 
 	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/about-justice-ndou.png') }}" />
 	<meta name="twitter:image:alt" content="About Justice Ndou" />
@@ -38,6 +38,8 @@
 
 	<link rel="shortcut icon" href="{{ url_for('static', filename='/imgs/avatar.png')}}" />
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
+
+	<link rel="canonical" href="{{ url_for('about', _external=True )}}" />
 
 {% endblock header%}
 
