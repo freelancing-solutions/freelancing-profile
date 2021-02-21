@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+sitemap: https://justice-ndou.appspot.com/sitemap.xml

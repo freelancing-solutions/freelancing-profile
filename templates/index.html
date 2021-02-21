@@ -1,10 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>Hoola</h1>
-</body>
-</html>
+
+{% extends "layout.html" %}
+
+{% block header %}
+    <title> Professional &amp; Freelance Profile of Justice Ndou- Web Development Profile</title>
+
+    <meta name="description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's " />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+	<!-- og:properties -->
+	<meta property="og:site_name" name="Justice Ndou Freelance &amp; Web Development Profile" />
+	<meta property="og:type" content="website" />
+	<meta property="og:description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's" />
+	<meta property="og:title" content="Freelance Profile of Justice Ndou" />
+	<meta property="og:url" content="https://justice-ndou.appspot.com" />
+
+	<!-- og:image -->
+	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/justice.png') }}" />
+	<meta property="og:image:type" content="image/png" />
+	<meta property="og:image:width" content="1024" />
+	<meta property="og:image:height" content="1270" />
+	<meta property="og:image:alt" content="Justice Ndou Profile" />
+
+    <!-- Twitter Card -->
+	<meta name="twitter:card" content='summary_large_image' />
+	<meta name="twitter:site" content="https://justice-ndou.appspot.com" />
+	<meta name="twitter:creator" content="@blueitserver" />
+	<meta name="twitter:title" content="#freelancer , Justice Ndou Freelance Profile Home" />
+	<meta name="twitter:description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's" />
+	<meta name="twitter:domain" content='https://justice-ndou.appspot.com' />
+
+	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/justice.png')}}" />
+	<meta name="twitter:image:alt" content="Justice Ndou Profile" />
+
+	<!--- favicon -->
+	<link rel="shortcut icon" href="{{ url_for('static', filename='/imgs/avatar.png')}}" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
+
+{% endblock header %}
+
+
+{% block content %}
+  <h1>{{ heading }}</h1>
+{% endblock content %}
+
+{% block service_worker %}
+	<script>
+		if('serviceWorker' in navigator) {
+		navigator.serviceWorker
+				.register('/sw.js')
+				.then(function() { console.log("Service Worker Registered"); });
+		}
+	</script>
+{% endblock service_worker %}
+
