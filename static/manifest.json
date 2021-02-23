@@ -1,0 +1,10 @@
+{
+  "name": "Justice Ndou Freelance &amp; Web Development Profile",
+  "short_name": "Justice Profile",
+  "theme_color": "#fff",
+  "background_color": "#fff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/"
+}

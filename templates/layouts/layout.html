@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    {% include "layouts/metatags.html" %}
+        <!-- Javascript and css includes here-->
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/adminlte.min.css') }}">
+        <!-- Google Font: Source Sans Pro -->
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    </head>
+
+    <body class="hold-transition sidebar-mini">
+        <div class="wrapper">
+            {% include "layouts/header.html" %}
+              <!-- Main Sidebar Container -->
+              {% include "layouts/sidebar.html" %}
+
+              <!-- Content Wrapper. Contains page content -->
+              <div class="content-wrapper">
+                    {% block content %}
+                        <!-- Page Content Here -->
+                    {% endblock %}
+              </div>
+
+              <!-- Footer Container -->
+            {% include "layouts/footer.html" %}
+
+        </div>
+
+        <!-- Javascript and css here -->
+        <script src="{{ url_for('static', filename='js/app.js') }}"> </script>
+
+        {% block service_worker %}
+            <!-- Service Worker Here -->
+        {% endblock %}
+
+        <!-- jQuery -->
+        <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
+        <!-- Bootstrap 4 -->
+        <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{ url_for('static', filename='js/adminlte.min.js') }}"></script>
+
+    </body>
+</html>

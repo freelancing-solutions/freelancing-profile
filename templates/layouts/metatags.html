@@ -1,0 +1,41 @@
+
+
+{% if meta_tags %}
+    <title> {{ meta_tags.title }} </title>
+
+    <meta name="description" content="{{ meta_tags.description }}" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <!-- og:properties -->
+    <meta property="og:site_name" name="Justice Ndou Freelance &amp; Web Development Profile" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ meta_tags.og_description }}" />
+    <meta property="og:title" content="{{ meta_tags.og_title }}" />
+    <meta property="og:url" content="{{ url_for(meta_tags.page, _external=True ) }}" />
+
+    <!-- og:image -->
+    <meta property="og:image" content="{{ url_for('static', filename=meta_tags.image_filename) }}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1270" />
+    <meta property="og:image:alt" content="{{ meta_tags.image_alt }}" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content='summary_large_image' />
+    <meta name="twitter:site" content="{{ url_for(meta_tags.page , _external=True) }}" />
+    <meta name="twitter:creator" content="@blueitserver" />
+    <meta name="twitter:title" content="{{ meta_tags.twitter_title }}" />
+    <meta name="twitter:description" content="{{ meta_tags.twitter_description }}" />
+    <meta name="twitter:domain" content="{{ url_for(meta_tags.page , _external=True ) }}" />
+
+
+    <meta name="twitter:image" content="{{ url_for('static', filename=meta_tags.image_filename)}}" />
+    <meta name="twitter:image:alt" content="{{ meta_tags.image_alt }}" />
+
+    <!--- favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename=meta_tags.image_filename) }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
+
+    <link rel="canonical" href="{{ url_for( meta_tags.page , _external=True ) }}" />
+
+{% endif %}

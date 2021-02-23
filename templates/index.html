@@ -1,58 +1,136 @@
 
-{% extends "layout.html" %}
-
-{% block header %}
-    <title> Professional &amp; Freelance Profile of Justice Ndou- Web Development Profile</title>
-
-    <meta name="description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's " />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-	<!-- og:properties -->
-	<meta property="og:site_name" name="Justice Ndou Freelance &amp; Web Development Profile" />
-	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's" />
-	<meta property="og:title" content="Freelance Profile of Justice Ndou" />
-	<meta property="og:url" content="{{ url_for('home', _external=True ) }}" />
-
-	<!-- og:image -->
-	<meta property="og:image" content="{{ url_for('static', filename='/imgs/justice.png') }}" />
-	<meta property="og:image:type" content="image/png" />
-	<meta property="og:image:width" content="1024" />
-	<meta property="og:image:height" content="1270" />
-	<meta property="og:image:alt" content="Justice Ndou Profile" />
-
-    <!-- Twitter Card -->
-	<meta name="twitter:card" content='summary_large_image' />
-	<meta name="twitter:site" content="{{ url_for('home', _external=True) }}" />
-	<meta name="twitter:creator" content="@blueitserver" />
-	<meta name="twitter:title" content="#freelancer , Justice Ndou Freelance Profile Home" />
-	<meta name="twitter:description" content="Justice Ndou is a freelance website developer experienced in Google Cloud Platform Applications and API's" />
-	<meta name="twitter:domain" content="{{ url_for('home', _external=True ) }}" />
-	<meta name="twitter:domain" content="{{ url_for('home', _external=True) }}" />
-
-	<meta name="twitter:image" content="{{ url_for('static', filename='/imgs/justice.png')}}" />
-	<meta name="twitter:image:alt" content="Justice Ndou Profile" />
-
-	<!--- favicon -->
-	<link rel="shortcut icon" href="{{ url_for('static', filename='/imgs/avatar.png')}}" />
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
-
-	<link rel="canonical" href="{{ url_for('home', _external=True ) }}" />
-
-{% endblock header %}
-
+{% extends "layouts/layout.html" %}
 
 {% block content %}
-  <h1>{{ heading }}</h1>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Freelance &amp; Web Development Profile</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item active"><a href="#">Home</a></li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <h2 class='text-dark'>Justice Ndou</h2>
+
+            <div class="card">
+              <div class="card-body">
+                <span class="card-title bg-dark">
+                  <h5 class="text-light">Back End Web Development</h5>
+                </span>
+                <p class='card-text'>
+                  I am a skilled backend developer using both Python and Node.js, i have experience's in developing
+                  for both Google Cloud Platform, and Heroku Cloud Based Solutions.
+                  I can either develop Rest API's (Application Programming Interface) using Python or Node.js.
+                  Or Full Web Applications complete with their own API's.
+                </p>
+
+                <p class="card-text">
+                    <ul class="group-list bg-dark">
+                      <span class="text-light">Programming Languages and Frameworks </span>
+                      <li class="list-group-item text-dark"> Python 3.x
+                          <ul>
+                            <li>Flask</li>
+                            <li>Flask_restful</li>
+                            <li>Fast_Api</li>
+                            <li>Jinja2 Templating</li>
+                            <li>GCP Functions (Python 3.x)</li>
+                            <li>GCP Cloud Run (Python 3.x)</li>
+                          </ul>
+                      </li>
+                      <li class="list-group-item text-dark"> Node.js
+                          <ul>
+                            <li>Express.JS</li>
+                            <li>Feathers.io</li>
+                            <li>Sockets.io</li>
+                            <li>Firebase Functions (Node.JS)</li>
+                            <li>GCP Function (Node.JS)</li>
+                            <li>GCP Cloud Run (Node.JS)</li>
+                          </ul>
+                      </li>
+                    </ul>
+                </p>
+
+                <a href="{{ url_for('freelancer') }}" class="card-link">Hire Me</a>
+                <a href="{{ url_for('learn_more', path='backend-development') }}" class="card-link">Learn More...</a>
+              </div>
+            </div>
+
+            <div class="card  card-outline">
+              <div class="card-body">
+                <span class="card-title bg-dark">
+                  <h5 class="text-light">
+                    Front End Web Development
+                  </h5>
+                </span>
+                <p class="card-text">
+                  I am also skilled in Web Applications & Single Page Web Apps, using React.JS or Vanilla.js to create
+                  specific business solutions such as :
+                  <ol>
+                    <li>E-Commerce Packages</li>
+                    <li>Forums</li>
+                    <li>Custom Blogs</li>
+                    <li>Chat Apps</li>
+                    <li>Ticket Based Support Systems</li>
+                  </ol>
+              </p>
+
+                <p class="card-text">
+                  <ul class="group-list bg-dark">
+                    <span class="text-light">Scripting Languages</span>
+                    <li class="list-group-item text-dark">
+                        <ul>
+                            <li> HTML </li>
+                            <li> CSS </li>
+                            <li> Javascript ES 2016, 2017, 2018, 2019 </li>
+                            <li> JQuery </li>
+                            <li> Web Assembly</li>
+                        </ul>
+                      </li>
+                      <span class="text-light">Frameworks </span>
+                      <li  class="list-group-item text-dark">
+                        <ul>
+                            <li>React.JS</li>
+                            <li>Bootstrap</li>
+                            <li>Jinja2 </li>
+                            <li>WordPress</li>
+                        </ul>
+                      </li>
+                  </ul>
+                </p>
+                <a href="{{ url_for('freelancer') }}" class="card-link">Hire Me</a>
+                <a href="{{ url_for('learn_more', path='frontend-development') }}" class="card-link">Learn More...</a>
+              </div>
+            </div><!-- /.card -->
+          </div>
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
 {% endblock content %}
 
 {% block service_worker %}
-	<script>
-		if('serviceWorker' in navigator) {
-		navigator.serviceWorker
-				.register('/sw.js')
-				.then(function() { console.log("Service Worker Registered"); });
-		}
-	</script>
+    <script>
+      if('serviceWorker' in navigator) {
+      navigator.serviceWorker
+          .register('sw.js')
+          .then(function() { console.log("Service Worker Registered"); });
+      }
+    </script>
+
 {% endblock service_worker %}
 
