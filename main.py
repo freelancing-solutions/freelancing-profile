@@ -56,6 +56,16 @@ def projects():
     else:
         pass
 
+@app.route('/projects/repos/<path:path>', methods=['GET'])
+def projects_repos(path):
+    if path == "github":
+        return render_template('projects/github.html', heading="Github Repositories", meta_tags=Metatags().set_projects())
+    elif path == "codepen":
+        return render_template('projects/codepen.html', heading="Codepen Repositories", meta_tags=Metatags().set_projects())
+    else:
+        return render_template('projects/repos.html', heading="Project Repositories", meta_tags=Metatags().set_projects())
+
+
 @app.route('/hire-freelancer', methods=['GET', 'POST'])
 def freelancer():
     if request.method == "GET":

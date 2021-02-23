@@ -13,9 +13,14 @@
 
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
-            {% include "layouts/header.html" %}
+                <!-- Including Site Header  -->
+              {% block header %}
+                {% include "layouts/header.html" %}
+              {% endblock header %}
               <!-- Main Sidebar Container -->
-              {% include "layouts/sidebar.html" %}
+              {% block sidebar %}
+                {% include "layouts/sidebar.html" %}
+              {% endblock sidebar %}
 
               <!-- Content Wrapper. Contains page content -->
               <div class="content-wrapper">
@@ -23,10 +28,10 @@
                         <!-- Page Content Here -->
                     {% endblock %}
               </div>
-
-              <!-- Footer Container -->
-            {% include "layouts/footer.html" %}
-
+            {% block footer %}
+                <!-- Footer Container -->
+              {% include "layouts/footer.html" %}
+            {% endblock footer %}
         </div>
 
         <!-- Javascript and css here -->

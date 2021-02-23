@@ -32,41 +32,41 @@
                     with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview">
                 <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-home"></i>
+                    <i class="nav-icon fas fa-folder"></i>
                     <p>
-                    Home Menu
+                        Blog Menu
                     <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Home</p>
-                    </a>
+                        <a href="{{ url_for('projects_repos', path='github') }}" class="nav-link">
+                            <i class="nav-icon fas fa-github"></i>
+                            <p> Front End Dev</p>
+                        </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url_for('about') }}" class="nav-link">
-                        <i class="nav-icon fas fa-info"></i>
-                        <p>About</p>
-                    </a>
+                        <a href="{{ url_for('projects_repos', path='codepen') }}" class="nav-link">
+                            <i class="nav-icon fas fa-codepen"></i>
+                            <p> Back End Dev </p>
+                        </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url_for('contact') }}" class="nav-link">
-                        <i class="nav-icon fas fa-envelope"></i>
-                        <p>Contact</p>
-                    </a>
+                        <a href="{{ url_for('freelancer') }}" class="nav-link">
+                            <i class="nav-icon fas fa-person-booth"></i>
+                            <p>API Dev </p>
+                        </a>
                     </li>
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link active">
+                    <a href="{{ url_for('home') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Home</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('blog') }}" class="nav-link">
+                <li class="nav-item active">
+                    <a href="{{ url_for('blog') }}" class="nav-link active">
                         <i class="nav-icon fas fa-folder"></i>
                         <p> Blog</p>
                     </a>

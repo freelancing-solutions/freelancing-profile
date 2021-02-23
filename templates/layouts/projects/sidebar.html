@@ -32,35 +32,29 @@
                     with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview">
                 <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-home"></i>
+                    <i class="nav-icon fas fa-code"></i>
                     <p>
-                    Home Menu
+                        Projects Menu
                     <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Home</p>
-                    </a>
+                        <a href="{{ url_for('projects_repos', path='github') }}" class="nav-link">
+                            <i class="nav-icon fas fa-github"></i>
+                            <p> Github Repos </p>
+                        </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url_for('about') }}" class="nav-link">
-                        <i class="nav-icon fas fa-info"></i>
-                        <p>About</p>
-                    </a>
-                    </li>
-                    <li class="nav-item">
-                    <a href="{{ url_for('contact') }}" class="nav-link">
-                        <i class="nav-icon fas fa-envelope"></i>
-                        <p>Contact</p>
-                    </a>
+                        <a href="{{ url_for('projects_repos', path='codepen') }}" class="nav-link">
+                            <i class="nav-icon fas fa-codepen"></i>
+                            <p> CodePen Repos </p>
+                        </a>
                     </li>
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link active">
+                    <a href="{{ url_for('home') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Home</p>
                     </a>
@@ -80,7 +74,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url_for('projects') }}" class="nav-link">
+                    <a href="{{ url_for('projects') }}" class="nav-link active">
                         <i class="nav-icon fas fa-code"></i>
                         <p> Projects </p>
                     </a>

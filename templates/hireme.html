@@ -3,4 +3,12 @@
 
 {% block content %}
     <h1>{{ heading }}</h1>
-{% endblock content %}
+{% endblock content %}>
+
+{% block sidebar %}
+    {% include "layouts/hireme/sidebar.html" %}
+{% endblock %}
+
+{% block header %}
+    {% include "layouts/hireme/header.html" %}
+{% endblock header %}
