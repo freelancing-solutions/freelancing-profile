@@ -30,29 +30,42 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview">
+                {% if menu_open %}
+                    <li class="nav-item has-treeview menu-open">
+                {% else %}
+                    <li class="nav-item has-treeview">
+                {% endif %}
+
                 <a href="#" class="nav-link active">
                     <i class="nav-icon fas fa-code"></i>
                     <p>
-                        Projects Menu
+                        Hire Me
                     <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url_for('projects_repos', path='github') }}" class="nav-link">
+                        <a href="{{ url_for('hire', path='login') }}" class="nav-link">
                             <i class="nav-icon fas fa-github"></i>
-                            <p> Github Repos </p>
+                            <p> Login </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('projects_repos', path='codepen') }}" class="nav-link">
+                        <a href="{{ url_for('hire', path='gigs') }}" class="nav-link">
                             <i class="nav-icon fas fa-codepen"></i>
-                            <p> CodePen Repos </p>
+                            <p> Previous Gigs </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('hire', path='hire') }}" class="nav-link">
+                            <i class="nav-icon fas fa-codepen"></i>
+                            <p> Hire </p>
+                        </a>
+                    </li>
+
                 </ul>
                 </li>
+                <li class="nav-item ui-menu-divider">-</li>
                 <li class="nav-item">
                     <a href="{{ url_for('home') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
@@ -67,14 +80,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url_for('freelancer') }}" class="nav-link">
+                    <a href="{{ url_for('freelancer') }}" class="nav-link active">
                         <i class="nav-icon fas fa-person-booth"></i>
                         <p> Hire Me </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url_for('projects') }}" class="nav-link active">
+                    <a href="{{ url_for('projects') }}" class="nav-link">
                         <i class="nav-icon fas fa-code"></i>
                         <p> Projects </p>
                     </a>

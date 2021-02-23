@@ -30,43 +30,48 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
+                {% if menu_open %}
+                    <li class="nav-item has-treeview menu-open">
+                {% else %}
                 <li class="nav-item has-treeview">
+                {% endif %}
                 <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-home"></i>
+                    <i class="nav-icon fas fa-folder"></i>
                     <p>
-                    Home Menu
+                        Blog Menu
                     <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
-                        <p>Home</p>
-                    </a>
+                        <a href="{{ url_for('blog_categories', path='front-end') }}" class="nav-link">
+                            <i class="nav-icon fas fa-code"></i>
+                            <p> Front End Dev</p>
+                        </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url_for('about') }}" class="nav-link">
-                        <i class="nav-icon fas fa-info"></i>
-                        <p>About</p>
-                    </a>
+                        <a href="{{ url_for('blog_categories', path='back-end') }}" class="nav-link">
+                            <i class="nav-icon fas fa-code"></i>
+                            <p> Back End Dev </p>
+                        </a>
                     </li>
                     <li class="nav-item">
-                    <a href="{{ url_for('contact') }}" class="nav-link">
-                        <i class="nav-icon fas fa-envelope"></i>
-                        <p>Contact</p>
-                    </a>
+                        <a href="{{ url_for('blog_categories', path='api') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file-code"></i>
+                            <p>API Dev </p>
+                        </a>
                     </li>
                 </ul>
                 </li>
+                <li class="nav-item ui-menu-divider">-</li>
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link active">
+                    <a href="{{ url_for('home') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Home</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ url_for('blog') }}" class="nav-link">
+                <li class="nav-item active">
+                    <a href="{{ url_for('blog') }}" class="nav-link active">
                         <i class="nav-icon fas fa-folder"></i>
                         <p> Blog</p>
                     </a>

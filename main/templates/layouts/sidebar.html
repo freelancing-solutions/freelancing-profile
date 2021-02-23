@@ -30,43 +30,61 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
-                <li class="nav-item has-treeview">
+                {% if menu_open %}
+                    <li class="nav-item has-treeview menu-open">
+                {% else %}
+                    <li class="nav-item has-treeview">
+                {% endif %}
                 <a href="#" class="nav-link active">
-                    <i class="nav-icon fas fa-folder"></i>
+                    <i class="nav-icon fas fa-home"></i>
                     <p>
-                        Blog Menu
+                    Home Menu
                     <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url_for('projects_repos', path='github') }}" class="nav-link">
-                            <i class="nav-icon fas fa-github"></i>
-                            <p> Front End Dev</p>
+                    <a href="{{ url_for('home') }}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>Home</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="{{ url_for('about') }}" class="nav-link">
+                        <i class="nav-icon fas fa-info"></i>
+                        <p>About</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                    <a href="{{ url_for('contact') }}" class="nav-link">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <p>Contact</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('terms') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Terms of Services</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('projects_repos', path='codepen') }}" class="nav-link">
-                            <i class="nav-icon fas fa-codepen"></i>
-                            <p> Back End Dev </p>
+                        <a href="{{ url_for('privacy') }}" class="nav-link">
+                            <i class="nav-icon fas fa-bullhorn"></i>
+                            <p>Privacy</p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ url_for('freelancer') }}" class="nav-link">
-                            <i class="nav-icon fas fa-person-booth"></i>
-                            <p>API Dev </p>
-                        </a>
-                    </li>
+
                 </ul>
                 </li>
+                <li class="nav-item ui-menu-divider">-</li>
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">
+                    <a href="{{ url_for('home') }}" class="nav-link active">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Home</p>
                     </a>
                 </li>
-                <li class="nav-item active">
-                    <a href="{{ url_for('blog') }}" class="nav-link active">
+                <li class="nav-item">
+                    <a href="{{ url_for('blog') }}" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p> Blog</p>
                     </a>

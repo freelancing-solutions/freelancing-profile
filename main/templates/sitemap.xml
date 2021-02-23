@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    <url>
+        <loc>{{ url_for('home', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('learn_more', path='backend-development', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('learn_more', path='frontend-development', _external=True) }}</loc>
+    </url>
+
+    <url>
+        <loc>{{ url_for('about', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('contact', _external=True) }}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('blog', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('freelancer', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hire', path='login', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hire', path='gigs', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hire', path='hire', _external=True) }}</loc>
+    </url>
+
+    <url>
+        <loc>https://justice-ndou.appspot.com/blog/categories</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('blog_categories', path="front-end", _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('blog_categories', path="back-end", _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('blog_categories', path="api", _external=True) }}</loc>
+    </url>
+
+    {% for post in blog_posts %}
+        <loc>{{ url_for('blog', _external=True) + '/' + post.category + '/posts/' + post.link }} </loc>
+    {% endfor %}
+
+    <url>
+        <loc>{{ url_for('projects', _external=True)}}</loc>
+    </url>
+
+    <url>
+        <loc>{{ url_for('projects_repos', path='', _external=True)}}</loc>
+    </url>
+
+    <url>
+        <loc>{{ url_for('projects_repos', path='github', _external=True)}}</loc>
+    </url>
+    {% for project in github_repos %}
+        <url>
+            <loc>{{ url_for('projects_repos', path='github', _external=True) + '/' + project.link }}</loc>
+        </url>
+    {% endfor %}
+    <url>
+        <loc>{{ url_for('projects_repos', path='codepen', _external=True)}}</loc>
+    </url>
+    {% for project in codepen_repos %}
+        <url>
+            <loc>{{ url_for('projects_repos', path='codepen', _external=True) + '/' + project.link }}</loc>
+        </url>
+    {% endfor %}
+    <url>
+        <loc>{{ url_for('terms', _external=True) }}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('privacy', _external=True) }}</loc>
+    </url>
+
+</urlset>
