@@ -24,7 +24,72 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-12">
-            <h2 class='text-dark'>Justice Ndou</h2>
+            <div class="card">
+                <div class="card-body">
+                    <span class="card-title bg-dark">
+                        <a href="{{ url_for('projects.projects') }}"> <h5 class="text-light">Freelance Profile</h5> </a>
+                    </span>
+                    <p class='card-text'>
+
+                This Website allows me <a href="{{ url_for('projects.projects')}}"><strong>showcase my work as a web developer</strong></a>, offer helpful tips to fellow developers
+                        while at the same time allowing clients/ users to <a href="{{ url_for('hireme.hire', path='hire')}}"><strong>submit their freelance jobs to me</strong></a> so that i can help
+                them create: <strong>Web Applications</strong>, <strong>API</strong>, <strong>E-Commerce Solutions</strong>,
+                <strong>FinTech Solutions</strong>, <strong>Business Management Solutions</strong>
+                for themselves and or their businesses.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <span class="card-title bg-dark">
+                        <a href="{{ url_for('hireme.hire', path='gigs') }}"> <h5 class="text-light">Freelance Jobs &amp; Rates </h5> </a>
+                    </span>
+                    <p class='card-text'>
+                        <strong>I take freelance jobs through this website</strong>, <strong>manage jobs</strong>, <strong>take payments</strong>, and also allow clients to monitor
+                        the progress of their projects on this website.<br/>
+                        My Going Rates as Reflected on My Github Profile is as follows:
+                        <ul>
+                            <li> <strong>Hourly $15.00 / Hour</strong> </li>
+                            <li> <strong>$450.00 / Gig(Freelance Job)</strong> </li>
+                        </ul>
+                        Weather or not to use Hourly Rates or Per Freelance Job rate will be decided on a case by case basis.
+                        You need to create an account in this website in order for you to submit freelance jobs to me.
+                    </p>
+                    <a href="{{ url_for('hireme.hire', path='hire') }}" class="card-link">Submit Jobs </a>
+                    <a href="{{ url_for('users.login') }}" class="card-link">Login </a>
+                    <a href="{{ url_for('users.register') }}" class="card-link">Create Account </a>
+
+                </div>
+            </div>
+
+
+
+            <div class="card">
+                <div class="card-body">
+                    <span class="card-title bg-dark">
+                        <a href="{{ url_for('blog.blog') }}"> <h5 class="text-light">Blog - Programming Topics </h5> </a>
+                    </span>
+                    <p class='card-text'>
+                        Although i will be taking <strong>freelancing jobs</strong> from this website and also use it to help me and my clients
+                        to manage the progress of such freelancing work, this site itself will also serve as an experimental
+                        place for me to try out certain <strong>API</strong>, <strong>Frameworks</strong>, <strong>Micro-Services (Implementations)</strong> and etc.
+                        and then <a href="{{ url_for('blog.blog') }}"><strong>write articles about such experiences</strong></a>, make recommendations and demonstrate the end results.
+                        This will be done for educational purposes both for me, visitors and clients.
+                    </p>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                <span class="card-title bg-dark">
+                    <a href="{{ url_for('main.contact') }}"> <h5 class="text-light">Contact - Support And Suggestions</h5> </a>
+                </span>
+                <p class='card-text'>
+                    If you need to communicate anything to me, or make suggestions for future articles / implementations
+                    of certain programming concepts or API's please use our <a href="{{ url_for('main.contact') }}"><strong>contact page in this website</strong></a>.
+                </p>
+              </div>
+            </div>
 
             <div class="card">
               <div class="card-body">

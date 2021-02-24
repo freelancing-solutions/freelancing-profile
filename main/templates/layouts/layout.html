@@ -11,43 +11,39 @@
         <!-- Google Font: Source Sans Pro -->
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     </head>
-
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
-                <!-- Including Site Header  -->
-              {% block header %}
+            <!-- Including Site Header  -->
+            {% block header %}
                 {% include "layouts/header.html" %}
-              {% endblock header %}
-              <!-- Main Sidebar Container -->
-              {% block sidebar %}
+            {% endblock header %}
+            <!-- Main Sidebar Container -->
+            {% block sidebar %}
                 {% include "layouts/sidebar.html" %}
-              {% endblock sidebar %}
-
-              <!-- Content Wrapper. Contains page content -->
-              <div class="content-wrapper">
-                    {% block content %}
-                        <!-- Page Content Here -->
-                    {% endblock %}
-              </div>
+            {% endblock sidebar %}
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+            {% block content %}
+                <!-- Page Content Here -->
+            {% endblock %}
+            </div>
+            <!-- Footer Container -->
             {% block footer %}
-                <!-- Footer Container -->
-              {% include "layouts/footer.html" %}
+                {% include "layouts/footer.html" %}
             {% endblock footer %}
-
-              <!-- Admin Sidebar -->
+            <!-- Admin Sidebar -->
             {% block adminsidebar %}
                 {% include "layouts/useradmin.html" %}
             {% endblock adminsidebar %}
-
-</div>
-
+        </div>
         <!-- Javascript and css here -->
         <script src="{{ url_for('static', filename='js/app.js') }}"> </script>
-
+        {% block user_scripts_block %}
+            <!-- this block is used to add additional javascript in pages -->
+        {% endblock user_scripts_block %}
         {% block service_worker %}
             <!-- Service Worker Here -->
         {% endblock %}
-
         <!-- jQuery -->
         <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
         <!-- Bootstrap 4 -->

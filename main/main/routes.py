@@ -10,24 +10,19 @@ main = Blueprint('main', __name__)
 
 @main.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html',
-                           heading="Home",
-                           menu_open=True,
-                           meta_tags=Metatags().set_home()
-                           )
+    return render_template('index.html', heading="Home",
+                           menu_open=True, meta_tags=Metatags().set_home())
 
 
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == "GET":
-        return render_template('contact.html',
-                               heading="Contact",
-                               menu_open=True,
-                               meta_tags=Metatags().set_contact()
-                               )
-    else:
+        return render_template('contact.html', heading="Contact",
+                               menu_open=True, meta_tags=Metatags().set_contact())
+    elif request.method == "POST":
         # TODO- handle post request here
-        pass
+        return render_template('contact.html', heading="Contact",
+                               menu_open=True, meta_tags=Metatags().set_contact())
 
 
 @main.route('/about', methods=['GET'])

@@ -2,5 +2,114 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-        <h1>{{heading}}</h1>
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{{heading}}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ url_for('main.home')}}">Home</a></li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+
+            <!-- Input addon -->
+            <div class="card card-info">
+              <div class="card-header">
+                <h3 class="card-title">Contact Us</h3>
+              </div>
+              <form action="{{ url_for('main.contact')}}" method="post">
+                      <div class="card-body">
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-user"> </i> </span>
+                          </div>
+                          <input type="text" class="form-control" placeholder="Names">
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                          </div>
+                          <input type="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                          </div>
+                          <input type="email" class="form-control" placeholder="Cell">
+                        </div>
+                      <!-- select -->
+                      <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Reason</span>
+                      </div>
+                        <select class="form-control" id="select_reason">
+                          <option value="" selected="selected">--Select Reason---</option>
+                          <option value="freelance-jobs">Freelance Jobs</option>
+                          <option value="support-ticket">Open Support Ticket</option>
+                          <option value="suggestion">Suggestion</option>
+                          <option value="feedback">Feedback</option>
+                          <option value="complaint">Complaint</option>
+                        </select>
+                      </div>
+                      <div id="additional_content"> </div>
+
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-bullhorn"></i></span>
+                          </div>
+                          <input type="email" class="form-control" placeholder="Subject">
+                        </div>
+
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">Body</span>
+                          </div>
+                                <textarea type="text" class="form-control"> </textarea>
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <label for="exampleInputFile">Attach Files</label>
+                            <div class="input-group">
+                              <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="exampleInputFile">
+                                <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                              </div>
+                              <div class="input-group-append">
+                                <span class="input-group-text" id="">Upload</span>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group mb-3">
+                                <button type="submit" class="btn btn-primary btn-sm mr-2"> Submit</button>
+                                <button type="reset" class="btn btn-warning btn-sm"> Reset</button>
+                        </div>
+
+                        <!-- /input-group -->
+                      </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+          </div>
+        </div>
+      </div>
+    </section>
+
 {% endblock content %}
+
+{% block user_scripts_block %}
+        <script src="{{ url_for('static', filename='js/contact.js')}}"></script>
+{% endblock user_scripts_block %}
