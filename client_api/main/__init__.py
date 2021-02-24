@@ -2,8 +2,8 @@
 from flask import Flask
 # from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from main.rest_api import Contact, Blog, Freelancer, Github, Sitemap
-from main.library.config import Config
+from client_api.main.rest_api import ContactAPI, Blog, Freelancer, Github, Sitemap
+from client_api.main.library.config import Config
 api = Api()
 
 
@@ -15,11 +15,11 @@ def create_app(config_class=Config):
     api.init_app(app)
 
     # importing blue prints
-    from main.blog.routes import blog_bp
-    from main.hireme.routes import hireme
-    from main.main.routes import main
-    from main.projects.routes import projects_bp
-    from main.users.routes import users
+    from client_api.main.blog import blog_bp
+    from client_api.main import hireme
+    from client_api.main.main.routes import main
+    from client_api.main.projects import projects_bp
+    from client_api.main.users.routes import users
 
     app.register_blueprint(blog_bp)
     app.register_blueprint(hireme)

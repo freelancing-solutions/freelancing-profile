@@ -1,5 +1,5 @@
-from flask import render_template, request, Blueprint
-from main.library import Metatags
+from flask import render_template, Blueprint
+from client_api.main import Metatags
 
 users = Blueprint('users', __name__)
 

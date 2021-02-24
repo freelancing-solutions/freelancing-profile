@@ -1,5 +1,5 @@
 from flask import render_template, request, Blueprint
-from main.library import Metatags
+from client_api.main import Metatags
 hireme = Blueprint('hireme', __name__)
 
 
