@@ -1,0 +1,16 @@
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      {% if user and user.logged_in %}
+      <h5>Freelance Admin</h5>
+        <p>Projects</p>
+        <p>Payments</p>
+        <p>Balances</p>
+        <p>Make Payment</p>
+      <a href="{{ url_for('users.logout') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Log Out </a>
+      {% else %}
+        <a href="{{ url_for('users.login') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Login </a>
+      {% endif %}
+    </div>
+  </aside>

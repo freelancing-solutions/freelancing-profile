@@ -32,7 +32,7 @@ class Metatags():
                                    "Google Cloud Platform Applications and API's"
         self.og_description = "Justice Ndou is a freelance website developer experienced in " \
                               "Google Cloud Platform Applications and API's"
-        self.page = "home"
+        self.page = "main.home"
         self.image_filename = "imgs/justice.png"
         self.image_alt = "Justice Ndou Profile"
 
@@ -48,7 +48,7 @@ class Metatags():
                                    "Javascript, Node.js, and etc"
         self.og_description = "Contact Justice Ndou for help in Web Development experienced in Python, " \
                               "Javascript, Node.js, and etc"
-        self.page = "contact"
+        self.page = "main.contact"
         self.image_filename = "imgs/contact-justice-ndou.png"
         self.image_alt = "Contact Justice Ndou"
 
@@ -64,7 +64,7 @@ class Metatags():
                                    "Applications and API's"
         self.og_description = "Justice Ndou Blogs about Web Development, Freelancing, Python, Node.js, " \
                               "Bitcoin and Dogecoin"
-        self.page = "blog"
+        self.page = "blog.blog"
         self.image_filename = "imgs/blog-by-justice-ndou.png"
         self.image_alt = "A Blog by Justice Ndou"
 
@@ -78,7 +78,7 @@ class Metatags():
                                    "Google Cloud Platform Applications and API's"
         self.og_title = "About Justice Ndou a Freelancer and Web Developer, Supporter of #Bitcoin and #Dogecoin"
         self.og_description = "About Justice Ndou a Freelancer, Web Developer, #Bitcoin and #Dogecoin Supporter"
-        self.page = "about"
+        self.page = "main.about"
         self.image_filename = "imgs/about-justice-ndou.png"
         self.image_alt = "About Justice Ndou"
 
@@ -91,7 +91,7 @@ class Metatags():
         self.twitter_description = "Justice Ndou Github Projects and active freelance profiles"
         self.og_title = "Justice Ndou Github Projects"
         self.og_description = "Justice Ndou Github Projects and active freelance profiles"
-        self.page = "projects"
+        self.page = "projects.projects"
         self.image_filename = "imgs/github-projects-justice-ndou.png"
         self.image_alt = "Justice Ndou Github Projects"
 
@@ -106,7 +106,7 @@ class Metatags():
         self.og_title = "Freelance - Hire Justice Ndou for Web Development- Javascript, Node.js, Python, GCP. React.js "
         self.og_description = "You can Hire Justice Ndou for freelance web development i can work with react.js " \
                               " Node.js python and etc"
-        self.page = "freelancer"
+        self.page = "hireme.freelancer"
         self.image_filename = "imgs/hire-freelancer.png"
         self.image_alt = "Hire Justice Ndou as a freelancer"
 
@@ -123,7 +123,7 @@ class Metatags():
                                    "Google Cloud Platform Applications and API's"
         self.og_description = "Justice Ndou is a freelance website developer experienced in " \
                               "Google Cloud Platform Applications and API's"
-        self.page = "home"
+        self.page = "main.home"
         self.image_filename = "imgs/justice.png"
         self.image_alt = "Justice Ndou Profile"
 
@@ -140,7 +140,59 @@ class Metatags():
                                    "Google Cloud Platform Applications and API's"
         self.og_description = "Justice Ndou is a freelance website developer experienced in " \
                               "Google Cloud Platform Applications and API's"
-        self.page = "home"
+        self.page = "main.home"
+        self.image_filename = "imgs/justice.png"
+        self.image_alt = "Justice Ndou Profile"
+
+        return self
+
+    def set_login(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Professional & Freelance Profile of Justice Ndou- Web Development Profile"
+        self.twitter_title = "#freelancer , Justice Ndou Freelance Profile Home"
+        self.og_title = "Freelance Profile of Justice Ndou"
+        self.description = "Justice Ndou is a freelance website developer experienced in " \
+                           "Google Cloud Platform Applications and API"
+        self.twitter_description = "Justice Ndou is a freelance website developer experienced in " \
+                                   "Google Cloud Platform Applications and API's"
+        self.og_description = "Justice Ndou is a freelance website developer experienced in " \
+                              "Google Cloud Platform Applications and API's"
+        self.page = "main.home"
+        self.image_filename = "imgs/justice.png"
+        self.image_alt = "Justice Ndou Profile"
+
+        return self
+
+    def set_logout(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Professional & Freelance Profile of Justice Ndou- Web Development Profile"
+        self.twitter_title = "#freelancer , Justice Ndou Freelance Profile Home"
+        self.og_title = "Freelance Profile of Justice Ndou"
+        self.description = "Justice Ndou is a freelance website developer experienced in " \
+                           "Google Cloud Platform Applications and API"
+        self.twitter_description = "Justice Ndou is a freelance website developer experienced in " \
+                                   "Google Cloud Platform Applications and API's"
+        self.og_description = "Justice Ndou is a freelance website developer experienced in " \
+                              "Google Cloud Platform Applications and API's"
+        self.page = "main.home"
+        self.image_filename = "imgs/justice.png"
+        self.image_alt = "Justice Ndou Profile"
+
+        return self
+
+
+    def set_register(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Professional & Freelance Profile of Justice Ndou- Web Development Profile"
+        self.twitter_title = "#freelancer , Justice Ndou Freelance Profile Home"
+        self.og_title = "Freelance Profile of Justice Ndou"
+        self.description = "Justice Ndou is a freelance website developer experienced in " \
+                           "Google Cloud Platform Applications and API"
+        self.twitter_description = "Justice Ndou is a freelance website developer experienced in " \
+                                   "Google Cloud Platform Applications and API's"
+        self.og_description = "Justice Ndou is a freelance website developer experienced in " \
+                              "Google Cloud Platform Applications and API's"
+        self.page = "main.home"
         self.image_filename = "imgs/justice.png"
         self.image_alt = "Justice Ndou Profile"
 

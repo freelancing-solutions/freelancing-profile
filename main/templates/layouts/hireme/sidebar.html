@@ -2,7 +2,7 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ url_for('home') }}" class="brand-link">
+    <a href="{{ url_for('main.home') }}" class="brand-link">
         <img src="{{ url_for('static', filename='imgs/AdminLTELogo.png')}}" alt="Justice Ndou Profile" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">Freelance Profile</span>
@@ -45,20 +45,20 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
-                        <a href="{{ url_for('hire', path='login') }}" class="nav-link">
-                            <i class="nav-icon fas fa-github"></i>
+                        <a href="{{ url_for('users.login') }}" class="nav-link">
+                            <i class="nav-icon fas fa-user"></i>
                             <p> Login </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('hire', path='gigs') }}" class="nav-link">
-                            <i class="nav-icon fas fa-codepen"></i>
-                            <p> Previous Gigs </p>
+                        <a href="{{ url_for('hireme.hire', path='gigs') }}" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p> Your Projects </p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ url_for('hire', path='hire') }}" class="nav-link">
-                            <i class="nav-icon fas fa-codepen"></i>
+                        <a href="{{ url_for('hireme.hire', path='hire') }}" class="nav-link">
+                            <i class="nav-icon fas fa-pen"></i>
                             <p> Hire </p>
                         </a>
                     </li>
@@ -67,27 +67,27 @@
                 </li>
                 <li class="nav-item ui-menu-divider">-</li>
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">
+                    <a href="{{ url_for('main.home') }}" class="nav-link">
                         <i class="nav-icon fas fa-home"></i>
                         <p> Home</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('blog') }}" class="nav-link">
+                    <a href="{{ url_for('blog.blog') }}" class="nav-link">
                         <i class="nav-icon fas fa-folder"></i>
                         <p> Blog</p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url_for('freelancer') }}" class="nav-link active">
+                    <a href="{{ url_for('hireme.freelancer') }}" class="nav-link active">
                         <i class="nav-icon fas fa-person-booth"></i>
                         <p> Hire Me </p>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ url_for('projects') }}" class="nav-link">
+                    <a href="{{ url_for('projects.projects') }}" class="nav-link">
                         <i class="nav-icon fas fa-code"></i>
                         <p> Projects </p>
                     </a>

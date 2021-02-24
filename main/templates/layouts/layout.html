@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-    {% include "layouts/metatags.html" %}
+        <meta charset="utf-8">
+        {% include "layouts/metatags.html" %}
         <!-- Javascript and css includes here-->
         <!-- Font Awesome Icons -->
         <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
@@ -32,7 +33,13 @@
                 <!-- Footer Container -->
               {% include "layouts/footer.html" %}
             {% endblock footer %}
-        </div>
+
+              <!-- Admin Sidebar -->
+            {% block adminsidebar %}
+                {% include "layouts/useradmin.html" %}
+            {% endblock adminsidebar %}
+
+</div>
 
         <!-- Javascript and css here -->
         <script src="{{ url_for('static', filename='js/app.js') }}"> </script>
