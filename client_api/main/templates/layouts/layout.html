@@ -6,10 +6,15 @@
         <!-- Javascript and css includes here-->
         <!-- Font Awesome Icons -->
         <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/ionicons.min.css')}}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/adminlte.min.css') }}">
         <!-- Google Font: Source Sans Pro -->
-        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" >
+
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -38,18 +43,19 @@
         </div>
         <!-- Javascript and css here -->
         <script src="{{ url_for('static', filename='js/app.js') }}"> </script>
-        {% block user_scripts_block %}
-            <!-- this block is used to add additional javascript in pages -->
-        {% endblock user_scripts_block %}
-        {% block service_worker %}
-            <!-- Service Worker Here -->
-        {% endblock %}
+
+
         <!-- jQuery -->
         <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
         <!-- Bootstrap 4 -->
         <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ url_for('static', filename='js/adminlte.min.js') }}"></script>
-
+        {% block user_scripts_block %}
+            <!-- this block is used to add additional javascript in pages -->
+        {% endblock user_scripts_block %}
+        {% block service_worker %}
+            <!-- Service Worker Here -->
+        {% endblock %}
     </body>
 </html>

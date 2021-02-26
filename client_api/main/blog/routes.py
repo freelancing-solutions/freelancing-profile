@@ -36,10 +36,12 @@ def learn_more(path):
     if path == "backend-development":
         return render_template('learnmore/backend.html',
                                heading="Learn More Back End Development",
+                               menu_open=True,
                                meta_tags=Metatags().set_learn_backend())
     elif path == "frontend-development":
         return render_template('learnmore/frontend.html',
                                heading="Learn More Front End Development",
+                               menu_open=True,
                                meta_tags=Metatags().set_learn_frontend())
     else:
         return render_template("404.html", heading="Not Found", meta_tags=Metatags().set_home())

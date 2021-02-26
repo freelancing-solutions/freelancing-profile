@@ -1,0 +1,54 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{heading}}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.home')}}">Home</a></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+
+            <!-- Input addon -->
+            <div class="card card-dark">
+                <div class="card-header">
+                <h3 class="card-title"> Twitter @blueitserver </h3>
+                </div>
+                <a class="twitter-timeline" data-lang="en" data-theme="dark" href="https://twitter.com/blueitserver?ref_src=twsrc%5Etfw">Tweets by blueitserver</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Input addon -->
+            <div class="card card-dark">
+                <div class="card-header">
+                    <h3 class="card-title">Follow My Profile </h3>
+                    </div>
+                    <div class="card-text">
+                        <p>
+                            You can follow me on tweeter for updates on this website and latest information on web Development
+                            &amp; Crypto-Currencies .
+                        </p>
+                        <a href="https://twitter.com/blueitserver?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-count="false">Follow @blueitserver</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    </div>
+
+    </section>
+
+{% endblock content %}
+

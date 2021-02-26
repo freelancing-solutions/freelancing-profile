@@ -196,3 +196,19 @@ class Metatags():
         self.image_alt = "Create Account - Freelance Profile"
 
         return self
+
+
+    def set_social_twitter(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
+        self.twitter_title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
+        self.og_title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
+        self.description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
+        self.twitter_description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
+        self.og_description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
+        self.page = "users.register"
+        self.path = ""
+        self.image_filename = "imgs/register.png"
+        self.image_alt = "Create Account - Freelance Profile"
+
+        return self

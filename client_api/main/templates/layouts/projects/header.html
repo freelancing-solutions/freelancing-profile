@@ -15,6 +15,14 @@
     >
         Justice Ndou Freelance Profile
     </a>
+    <span class="nav-item d-none d-sm-inline-block ml-auto">
+      <a href="{{ url_for('main.social', path='twitter') }}" class="text-blue">
+        <i class="navicon fab fa-twitter"> </i>  Twitter
+      </a>
+      <a href="{{ url_for('main.social', path='github')}}" class="tex-blue ml-auto">
+        <i class="navicon fab fa-github"> </i> Github
+      </a>
+    </span>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
@@ -29,8 +37,8 @@
       {% endif %}
 
       <li class="nav-item">
-        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-          <i class="fas fa-user"></i>
+        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" title="Sign In or Subscribe">
+          <i class="fas fa-sign-in-alt"> </i>
         </a>
       </li>
 

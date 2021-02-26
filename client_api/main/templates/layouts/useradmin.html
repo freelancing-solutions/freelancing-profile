@@ -10,7 +10,10 @@
         <p>Make Payment</p>
       <a href="{{ url_for('users.logout') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Log Out </a>
       {% else %}
-        <a href="{{ url_for('users.login') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Login </a>
+      <ul class="navbar-nav ml-auto">
+        <li><a href="{{ url_for('users.login') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Sign In </a></li>
+        <li><a href="{{ url_for('users.register') }}" class="nav-item  btn btn-warning text-bold"><i class="nav-icon fas fa-user-plus"> </i> Register </a></li>
+      </ul>
       {% endif %}
     </div>
   </aside>

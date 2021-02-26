@@ -31,7 +31,14 @@ def contact():
 def about():
     return render_template('about.html', heading="About", menu_open=True, meta_tags=Metatags().set_about())
 
-
+@main.route('/social/<path:path>', methods=['GET'])
+def social(path):
+    if path == "twitter":
+        return render_template('social/twitter.html', heading="On Twitter", menu_open=True,meta_tags=Metatags().set_social_twitter())
+    elif path == "github":
+        return render_template('social/github.html', heading="Github Profile", menu_open=True,meta_tags=Metatags().set_social_twitter())
+    else:
+        pass
 ###########################################################################################################
 # Basic Website Routes Sitemaps & Robots.txt
 
@@ -47,7 +54,7 @@ def privacy():
 
 @main.route('/offline')
 def offline():
-    return render_template('offline.html', heading="Network Connection Lost...", meta_tags=Metatags().set_home())
+    return render_template('offline.html', heading="Network Connection Lost...", menu_open=True, meta_tags=Metatags().set_home())
 
 
 @main.route('/robots.txt')

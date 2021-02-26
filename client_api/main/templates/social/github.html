@@ -1,0 +1,61 @@
+{% extends "layouts/layout.html" %}
+{% block content %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{{heading}}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ url_for('main.home')}}">Home</a></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-8">
+
+            <!-- Input addon -->
+            <div class="card card-dark">
+                <div class="card-header">
+                <h3 class="card-title"> Github Profile </h3>
+                </div>
+
+                <!-- Load your own profile -->
+
+                <div class="content-section">
+                  <!-- Widget template -->
+                  <div id="github-widget" data-username="freelancing-solutions"></div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <!-- Input addon -->
+            <div class="card card-dark">
+                <div class="card-header">
+                    <h3 class="card-title">Github Repositories </h3>
+                    </div>
+                    <div class="card-text">
+                    </div>
+                </div>
+        </div>
+
+    </div>
+    </div>
+
+    </section>
+
+{% endblock content %}
+
+{% block user_scripts_block %}
+<script src="{{ url_for('static', filename='js/github.js') }}"> </script>
+<!-- <link href="{{ url_for('static', filename='css/github.css')}}" rel="stylesheet"> -->
+{% endblock user_scripts_block %}
