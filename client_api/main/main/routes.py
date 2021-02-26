@@ -1,6 +1,6 @@
 
 from flask import render_template, request, make_response, Blueprint
-from client_api.main import Metatags
+from main.library import Metatags
 
 main = Blueprint('main', __name__)
 

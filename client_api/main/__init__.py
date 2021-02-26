@@ -1,9 +1,9 @@
 
 from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from client_api.main.rest_api import ContactAPI, Blog, Freelancer, Github, Sitemap
-from client_api.main.library.config import Config
+from main.rest_api import ContactAPI, Blog, Freelancer, Github, Sitemap
+from main.library.config import Config
 api = Api()
 
 
@@ -12,14 +12,18 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
     # TODO- Add Extensions here
     # TODO- Add API Resources
+    api.add_resource(ContactAPI, '/api/v1/contact/<string:uid>', endpoint='get_contact') # Get Method
+    api.add_resource(ContactAPI, '/api/v1/contact', endpoint='post_contact') # Post Method
+    api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact',)  # Update Method
+
     api.init_app(app)
 
     # importing blue prints
-    from client_api.main.blog import blog_bp
-    from client_api.main import hireme
-    from client_api.main.main.routes import main
-    from client_api.main.projects import projects_bp
-    from client_api.main.users.routes import users
+    from main.blog.routes import blog_bp
+    from main.hireme.routes import hireme
+    from main.main.routes import main
+    from main.projects.routes import projects_bp
+    from main.users.routes import users
 
     app.register_blueprint(blog_bp)
     app.register_blueprint(hireme)
