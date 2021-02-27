@@ -13,7 +13,6 @@
     <url>
         <loc>{{ url_for('blog.learn_more', path='frontend-development', _external=True) }}</loc>
     </url>
-
     <url>
         <loc>{{ url_for('main.about', _external=True) }}</loc>
     </url>
@@ -35,7 +34,45 @@
     <url>
         <loc>{{ url_for('hireme.hire', path='hire', _external=True) }}</loc>
     </url>
-
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='create-freelancing-account', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='submit-freelance-jobs', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='download-install-slack', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='download-install-teamviewer', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='create-a-github-account', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='create-a-gcp-developer-account', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='create-a-heroku-developer-account', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.how_to_articles', path='create-a-heroku-developer-account', _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.expectations', path='communication-channels-procedures',  _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.expectations', path='payments-procedures-methods',  _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.expectations', path='due-diligence',  _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.expectations', path='handing-over-procedures',  _external=True)}}</loc>
+    </url>
+    <url>
+        <loc>{{ url_for('hireme.expectations', path='maintenance-procedures',  _external=True)}}</loc>
+    </url>
     <url>
         <loc>https://justice-ndou.appspot.com/blog/categories</loc>
     </url>
@@ -48,15 +85,12 @@
     <url>
         <loc>{{ url_for('blog.blog_categories', path="api", _external=True) }}</loc>
     </url>
-
     {% for post in blog_posts %}
         <loc>{{ url_for('blog.blog', _external=True) + '/' + post.category + '/posts/' + post.link }} </loc>
     {% endfor %}
-
     <url>
         <loc>{{ url_for('projects.projects', _external=True)}}</loc>
     </url>
-
     <url>
         <loc>{{ url_for('projects.projects_repos', path='', _external=True)}}</loc>
     </url>

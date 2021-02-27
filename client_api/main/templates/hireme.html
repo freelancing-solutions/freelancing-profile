@@ -1,14 +1,183 @@
 
 {% extends "layouts/layout.html" %}
-
 {% block content %}
-    <h1>{{ heading }}</h1>
-{% endblock content %}>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-8">
+              <h1 class="m-0 text-dark">{{heading}} </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-4">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active"><a href="{{ url_for('main.home')}}">Home</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+      <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                      <div class="card-header bg-dark">
+                            <h3 class="card-title">What is Freelancing </h3>
+                      </div>
+                      <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            Freelancing is a process by which you hire someone to work on your
+                            task or job, commonly known as freelance jobs, and then pay such a person or freelancer
+                            an agreed upon amount, depending on the task or freelance job and the time it takes for 
+                            the person to complete such a job.
+                        </p>
+                        <p class='card-text'>
+                            Finding freelancers or the best freelancers for a job is the reason why there are several online freelancing sites
+                            servicing specific sectors today. it is also one of the reasons why i have created this website the other being as a means
+                            to share my knowledge and skills with the community.
+                        </p>
 
+                        <p class='card-text'>
+
+                        </p>
+
+                    </div>
+              </div>
+              <div class="card">
+                <div class="card-header bg-dark">
+                    <h3 class="card-title"> Hiring Me - Steps to follow </h3>
+              </div>
+              <div class="card-body">
+              <span class='card-text'>
+                  <p class="blockquote">
+                  If you have a job on Web Development which you think i can complete then you only have to
+                  </p>
+                  <ul class="list">
+                      <li> <a href="{{ url_for('users.register')}}">Create your freelancing account</a> in this website</li>
+                      <li> <a href="{{ url_for('hireme.hire', path='hire')}}"> Submit your freelance job details</a>
+                            <ol>
+                                <li>Details on and about your Website</li>
+                                <li>Details about you services or products</li>
+                                <li>Company Contact Details and or Personal Contact Details</li>
+                                <li>Information on what you want to achieve with your website or web application such as Customer Support,E-Commerce, Web Presence , and etc</li>
+                            </ol>
+                      </li>
+                      <li><a href="https://slack.com" target='_blank'> Download Slack</a> and Accept the invitation which would have been sent upon completion of the above steps</li>
+                      <li><a href="https://github.com" target='_blank'> Create a Github Account</a> (If you dont already have one), from which you can monitor the progress of your site and get access to your website code</li>
+                      <li><a href="https://console.cloud.google.com/" target='_blank'>Register for a developer account on GCP</a> (Google Cloud Platform) - I Prefer hosting web applications on Google Cloud Platform</li>
+                      <li>Alternatively and depending on the projects specifications <a href="https://heroku.com" target='_blank'>Heroku</a> can be substituted for Google Cloud Platform</li>
+                      <li> Downloading and setting up of <a href="https://teamviewer.com" target='_blank' title="Download and setup teamviewer on your workstation">Teamviewer</a> for remote assistance &amp; Optional Setup Procedures </li>
+                      <li>Once the setup process is complete then i will proceed creating your project to your specific needs</li>
+                  </ul>
+                </span>
+              </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title">
+                            How to Articles
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            in order for me to be able to complete your jobs you are expected to complete
+                            the following tasks, the articles below indicate step by step instructions on each of the tasks.
+                        </p>
+                        <ul>
+                            <li title="Step by step instructions on how to create a freelance account in this website">
+                                <a href="{{ url_for('hireme.how_to_articles', path='create-freelancing-account')}}">
+                                    How to Create a freelancing account in this website
+                                </a>
+                            </li>
+                            <li title="step by step instructions on How to submit freelance jobs">
+                                <a href="{{ url_for('hireme.how_to_articles', path='submit-freelance-jobs')}}">
+                                    How to submit a freelance job
+                                </a>
+                            </li>
+                            <li title="Instructions on how to download, install and setting up slack for freelance jobs notifications">
+                                <a href="{{ url_for('hireme.how_to_articles', path='download-install-slack')}}">
+                                    How to Download and install Slack 
+                                </a>
+                            </li>
+                            <li title="Instructions on how to download, install and setting up Teamviwer">
+                                <a href="{{ url_for('hireme.how_to_articles', path='download-install-teamviewer')}}">
+                                    How to Download and install Teamviewer 
+                                </a>
+                            </li>
+                            <li title="Step by step instructions on how to create Github Accounts">
+                                <a href="{{ url_for('hireme.how_to_articles', path='create-a-github-account')}}">
+                                    How to Create a Github account
+                                </a>
+                            </li>
+                            <li title="Creating GCP Developer accounts and setting up for your project">
+                                <a href="{{ url_for('hireme.how_to_articles', path='create-a-gcp-developer-account')}}">
+                                    How to register for a GCP Developer Account 
+                                </a>
+                            </li>
+                            <li title="Creating a heroku developer account and setting up">
+                                <a href="{{ url_for('hireme.how_to_articles', path='create-a-heroku-developer-account')}}">
+                                    How to register for a Heroku Cloud Developer Account
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header bg-dark">
+                            <h3 class="card-title" title="Things expected of you during and after the completion of your freelance jobs">
+                                Expectations
+                            </h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Once you are done with all the steps indicated above there are certain things will be expected
+                            from you, this is to insure that the project or freelance job is completed smoothly and with
+                            as less of obstacles as possible. go through the articles in this section in order to familiarise
+                            yourself with the procedures.
+                            <ul>
+                                <li title="Communication Channels and Procedures">
+                                    <a href="{{ url_for('hireme.expectations', path='communication-channels-procedures')}}">
+                                        Communications Channels
+                                    </a>
+                                </li>
+                                <li title="payment methods and procedures">
+                                    <a href="{{ url_for('hireme.expectations', path='payments-procedures-methods')}}">
+                                        Payment Methods
+                                    </a>
+                                </li>
+                                <li title="Due Diligence and Legal Expectations">
+                                    <a href="{{ url_for('hireme.expectations', path='due-diligence')}}">
+                                        Due Diligence
+                                    </a>
+                                </li>
+                                <li title="Handing Over Procedures- Deploying project to production servers &amp; and etc">
+                                    <a href="{{ url_for('hireme.expectations', path='handing-over-procedures')}}">
+                                        Handing Over Procedures 
+                                    </a>
+                                </li>
+                                <li title="Maintenance Procedures Agreements and considerations">
+                                    <a href="{{ url_for('hireme.expectations', path='maintenance-procedures')}}">
+                                        Maintenance Procedures &amp; Agreements
+                                    </a>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+{% endblock content %}>
 {% block sidebar %}
     {% include "layouts/hireme/sidebar.html" %}
 {% endblock %}
-
 {% block header %}
     {% include "layouts/hireme/header.html" %}
 {% endblock header %}

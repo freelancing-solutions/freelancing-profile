@@ -2,7 +2,58 @@
 {% extends "layouts/layout.html" %}
 
 {% block content %}
-    <h1>{{ heading }}</h1>
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-8">
+              <h1 class="m-0 text-dark">A Blog on Web Development </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-4">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                      <div class="card-header bg-dark">
+                            <h3 class="card-title">Articles </h3>
+                      </div>
+                      <div class="card-body">
+                      <p class='card-text'>
+                          <!-- Text Here -->
+
+                      </p>
+                      </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"> Topics </h3>
+                  </div>
+                  <div class="card-body">
+                  <p class='card-text'>
+                      <!-- Text Here -->
+                  </p>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
 {% endblock content %}>
 
 {% block sidebar %}

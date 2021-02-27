@@ -212,3 +212,178 @@ class Metatags():
         self.image_alt = "Create Account - Freelance Profile"
 
         return self
+
+    def set_how_to_create_freelancing_account(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to create a freelancing account - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to create a freelancing account - Justice Ndou Freelance Profile"
+        self.og_title = "How to create a freelancing account - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to create a freelancing account on justice ndou freelancing profile website"
+        self.twitter_description = "a step by step guide on how to create a freelancing account on justice ndou freelancing profile website"
+        self.og_description = "a step by step guide on how to create a freelancing account on justice ndou freelancing profile website"
+        self.page = "hireme.how_to_articles"
+        self.path = "create-freelancing-account"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Creating an Account - Freelance Profile"
+
+        return self
+
+    def set_submit_freelance_jobs(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to submit freelance jobs - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to submit freelance jobs - Justice Ndou Freelance Profile"
+        self.og_title = "How to submit freelance jobs - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to submit freelance jobs on justice ndou freelancing profile website"
+        self.twitter_description = "a step by step guide on how to submit freelance jobs on justice ndou freelancing profile website"
+        self.og_description = "a step by step guide on how to submit freelance jobs on justice ndou freelancing profile website"
+        self.page = "hireme.how_to_articles"
+        self.path = "submit-freelance-jobs"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Submitting freelancing jobs - Freelance Profile"
+
+        return self
+
+    def set_download_slack(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to download and install Slack - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to download and install Slack - Justice Ndou Freelance Profile"
+        self.og_title = "How to download and install Slack - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to download and install slack"
+        self.twitter_description = "a step by step guide on how to download and install slack"
+        self.og_description = "a step by step guide on how to download and install slack"
+        self.page = "hireme.how_to_articles"
+        self.path = "download-install-slack"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Download Install Slack - Freelance Profile"
+
+        return self
+
+    def set_download_teamviewer(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to download and install Teamviewer - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to download and install Teamviewer - Justice Ndou Freelance Profile"
+        self.og_title = "How to download and install Teamviewer - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to download and install Teamviewer"
+        self.twitter_description = "a step by step guide on how to download and install Teamviewer"
+        self.og_description = "a step by step guide on how to download and install Teamviewer"
+        self.page = "hireme.how_to_articles"
+        self.path = "download-install-teamviewer"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Download Install Teamviewer - Freelance Profile"
+
+        return self
+
+    def set_create_github(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to create a Github Account - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to create a Github Account - Justice Ndou Freelance Profile"
+        self.og_title = "How to create a Github Account - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to create a github account, and keep updated on your website code"
+        self.twitter_description = "a step by step guide on how to create a github account, and keep updated on your website code"
+        self.og_description = "a step by step guide on how to create a github account, and keep updated on your website code"
+        self.page = "hireme.how_to_articles"
+        self.path = "create-a-github-account"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Create Github Account - Freelance Profile"
+
+        return self
+
+    def set_gcp_account(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to create a GCP Developer Account - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to create a GCP Developer Account - Justice Ndou Freelance Profile"
+        self.og_title = "How to create a GCP Developer Account - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to create a Google Cloud Platform Account, for hosting your website or web applications"
+        self.twitter_description = "a step by step guide on how to create a Google Cloud Platform Account, for hosting your website or web applications"
+        self.og_description = "a step by step guide on how to create a Google Cloud Platform Account, for hosting your website or web applications"
+        self.page = "hireme.how_to_articles"
+        self.path = "create-a-gcp-developer-account"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Create a GCP Developer Account - Freelance Profile"
+
+        return self
+
+    def set_heroku_account(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "How to create a Heroku Account - Justice Ndou Freelance Profile"
+        self.twitter_title = "How to create a Heroku Developer Account - Justice Ndou Freelance Profile"
+        self.og_title = "How to create a Heroku Developer Account - Justice Ndou Freelance Profile"
+        self.description = "a step by step guide on how to create a Heroku Account, for hosting your website or web applications"
+        self.twitter_description = "a step by step guide on how to create a Heroku Account, for hosting your website or web applications"
+        self.og_description = "a step by step guide on how to create a Heroku Account, for hosting your website or web applications"
+        self.page = "hireme.how_to_articles"
+        self.path = "create-a-heroku-developer-account"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Create a Heroku Developer Account - Freelance Profile"
+
+        return self
+
+    def set_communications(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Communication Procedures, Channels and Protocols - Justice Ndou Freelance Profile"
+        self.twitter_title = "Communication Procedures, Channels and Protocols - Justice Ndou Freelance Profile"
+        self.og_title = "Communication Procedures, Channels and Protocols - Justice Ndou Freelance Profile"
+        self.description = "how to communicate with me as a client, channels, and procedures Justice Ndou Freelance Profile"
+        self.twitter_description = "how to communicate with me as a client, channels, and procedures Justice Ndou Freelance Profile"
+        self.og_description = "how to communicate with me as a client, channels, and procedures Justice Ndou Freelance Profile"
+        self.page = "hireme.expectations"
+        self.path = "communication-channels-procedures"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Communication Channels and Procedures - Freelance Profile"
+        return self
+
+    def set_payments(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Payment Methods and Procedures For freelance jobs- Justice Ndou Freelancing Profile"
+        self.twitter_title = "Payment Procuders For freelance jobs- Justice Ndou Freelancing Profile"
+        self.og_title = "Payment Procuders For freelance jobs- Justice Ndou Freelancing Profile"
+        self.description = "How to make payments for freelance jobs on Justice Ndou freelance profile"
+        self.twitter_description = "How to make payments for freelance jobs on Justice Ndou freelance profile"
+        self.og_description = "How to make payments for freelance jobs on Justice Ndou freelance profile"
+        self.page = "hireme.expectations"
+        self.path = "payments-procedures-methods"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Payment Methods and Procedures - Freelance Profile"
+        return self
+    
+    def set_diligence(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Due Diligence and Legal Expectations- Justice Ndou Freelancing Profile"
+        self.twitter_title = "Due Diligence and Legal Expectations- Justice Ndou Freelancing Profile"
+        self.og_title = "Due Diligence and Legal Expectations- Justice Ndou Freelancing Profile"
+        self.description = "I expect that the website i am creating falls within legal boundaries in your country, state or province i also reserve the right to suspend services if otherwise"
+        self.twitter_description = "I expect that the website i am creating falls within legal boundaries in your country, state or province i also reserve the right to suspend services if otherwise"
+        self.og_description = "I expect that the website i am creating falls within legal boundaries in your country, state or province i also reserve the right to suspend services if otherwise"
+        self.page = "hireme.expectations"
+        self.path = "due-diligence"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Due Diligence legal - Freelance Profile"
+        return self
+
+    def set_handinqover(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Handing Over Procedures and Production Servers Deployment - Justice Ndou Freelancing Profile"
+        self.twitter_title = "Handing Over Procedures and Production Servers Deployment - Justice Ndou Freelancing Profile"
+        self.og_title = "Handing Over Procedures and Production Servers Deployment - Justice Ndou Freelancing Profile"
+        self.description = "Handing over procedures and production servers deployment"
+        self.twitter_description = "Handing over procedures and production servers deployment"
+        self.og_description = "Handing over procedures and production servers deployment"
+        self.page = "hireme.expectations"
+        self.path = "handing-over-procedures"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Handing Over Procedures - Freelance Profile"
+        return self
+
+    def set_maintenance(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.twitter_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.og_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.twitter_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.og_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.page = "hireme.expectations"
+        self.path = "maintenance-procedures"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Maintenance Procedures - Freelance Profile"
+        return self
