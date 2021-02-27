@@ -1,4 +1,4 @@
-
+// Handle reason selection
 function on_selected_select_reason(e){
     this.freelance_job_dom_html = `
     <div class="input-group mb-3">
@@ -35,8 +35,7 @@ function on_selected_select_reason(e){
         this.additional_content_dom.classList.add('input-group mb-3');
     }
 };
-
-
+// Handle Contact Submissions
 function handle_contact_form_submit(e){
   e.preventDefault();
   this.names_node = document.getElementById('names')
@@ -46,13 +45,12 @@ function handle_contact_form_submit(e){
   this.subject_node = document.getElementById('subject')
   this.body_node = document.getElementById('body')
 };
-
-
+// Adding Document Onload Event Handlers to handle contact submissions and reasons selections
 this.addEventListener('load', () => {
   document.getElementById('select_reason').addEventListener('click', on_selected_select_reason);
   document.getElementById('contact_form').addEventListener('submit', handle_contact_form_submit);
 });
-
+// Removing event handlers
 document.addEventListener('close', () => {
   console.log('select reason');
   document.getElementById('select_reason').removeEventListener('click', on_selected_select_reason);
