@@ -9,7 +9,7 @@ projects_bp = Blueprint('projects', __name__)
 @projects_bp.route('/projects', methods=['GET', 'POST'])
 def projects():
     if request.method == "GET":
-        return render_template('projects.html', heading="Projects",menu_open=True, meta_tags=Metatags().set_projects())
+        return render_template('projects.html', heading="Web Development Projects",menu_open=True, meta_tags=Metatags().set_projects())
     else:
         pass
 
