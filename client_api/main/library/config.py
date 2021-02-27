@@ -1,7 +1,4 @@
-
 import os
-
-
 class Config:
     """
         All Configuration settings for the application will be stored here

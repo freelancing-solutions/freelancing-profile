@@ -29,7 +29,7 @@
               <div class="card-header">
                 <h3 class="card-title">Contact Me</h3>
               </div>
-              <form action="{{ url_for('main.contact')}}" method="post">
+              <form action="{{ url_for('main.contact')}}" method="post" id='contact_form'>
                       <div class="card-body">
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
@@ -64,21 +64,18 @@
                         </select>
                       </div>
                       <div id="additional_content"> </div>
-
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fas fa-bullhorn"></i></span>
                           </div>
-                          <input type="text" class="form-control" placeholder="Subject" id="email">
+                          <input type="text" class="form-control" placeholder="Subject" id="subject">
                         </div>
-
                         <div class="input-group mb-3">
                           <div class="input-group-prepend">
                             <span class="input-group-text">Body</span>
                           </div>
                                 <textarea type="text" class="form-control" id="body"> </textarea>
                         </div>
-
                         <div class="input-group mb-3">
                             <label for="fileAttachments">Attach Files</label>
                             <div class="input-group">
@@ -94,7 +91,6 @@
                               </div>
                             </div>
                         </div>
-
                         <div class="input-group mb-3">
                                 <button type="submit" class="btn btn-primary btn-sm mr-2">
                                   <i class="fas fa-envelope"> </i>&nbsp;
@@ -105,13 +101,11 @@
                                   Reset
                                 </button>
                         </div>
-
                         <!-- /input-group -->
                       </div>
               </form>
             </div>
             <!-- /.card -->
-
           </div>
           <div class="col-md-6">
             <div class="card card-dark">
@@ -135,7 +129,6 @@
                       Email Me : justice@justice-ndou.site
                     </a>
                   </li>
-
                   <li>
                     <a href="tel:+27762777153">
                       <i class="fa fa-mobile-alt"> </i>
@@ -151,14 +144,11 @@
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </section>
-
 {% endblock content %}
-
 {% block user_scripts_block %}
         <script src="{{ url_for('static', filename='js/contact.js')}}"></script>
 {% endblock user_scripts_block %}

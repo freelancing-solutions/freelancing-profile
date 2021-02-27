@@ -345,7 +345,7 @@ class Metatags():
         self.image_filename = "imgs/hireme.png"
         self.image_alt = "Payment Methods and Procedures - Freelance Profile"
         return self
-    
+
     def set_diligence(self):
         # TODO - update login frontend metatags to be relevant
         self.title = "Due Diligence and Legal Expectations- Justice Ndou Freelancing Profile"
