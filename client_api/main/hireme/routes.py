@@ -1,6 +1,140 @@
+import time
 from flask import render_template, request, Blueprint
 from main.library import Metatags
 hireme = Blueprint('hireme', __name__)
+
+
+#  Temporary Data Models
+temp_freelance_jobs = [
+    {
+        'uid': '546034t045t0459t45', # user id of the user who created the project
+        'project_id': '02349u3rf3945394yr7',
+        'project_name': 'Web Development',
+        'project_category': 'Web Development',
+        'description': 'Create a business presence website for my poultry farms it must allow order taking onsite',
+        'progress': 70,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Web Application Development',
+        'project_category': 'Web Development',
+        'description': 'Create a management web application for my poultry business, need to manage employees time, and etc',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'API Development',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    },
+    {
+        'uid': '546034t5t0459t45', # user id of the user who created the project
+        'project_id': '029u3rf3945394yr7',
+        'project_name': 'Rest API for react Project',
+        'project_category': 'Back-End Development',
+        'description': 'Create an API for my newsletter emailing services',
+        'progress': 55,
+        'status': 'in-progress',
+        'link_details': '02349u3rf3945394yr7',
+        'time_created': time.time() * 1000, # time in milliseconds
+        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'budget_allocated': 500,
+        'total_paid': 200
+    }
+]
+
+
 
 
 ###########################################################################################################
@@ -18,9 +152,13 @@ def hire(path):
     if path == 'login':
         return render_template('hireme/login.html', heading="Login",menu_open=True, meta_tags=Metatags().set_freelancer())
     elif path == "gigs":
-        return render_template('hireme/gigs.html', heading="My Previous Gigs",menu_open=True, meta_tags=Metatags().set_freelancer())
+        return render_template('hireme/gigs.html',
+                                freelance_jobs=temp_freelance_jobs,
+                                heading="My Freelance Jobs",
+                                menu_open=True, 
+                                meta_tags=Metatags().set_freelancer())
     elif path == "hire":
-        return render_template('hireme/hire.html', heading="Hire a Freelancer",menu_open=True, meta_tags=Metatags().set_freelancer())
+        return render_template('hireme/hire.html', heading="Submit Freelance Job",menu_open=True, meta_tags=Metatags().set_freelancer())
     else:
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
@@ -31,7 +169,7 @@ def project_details(path):
         # TODO- search for project details using path then display results
         return render_template('hireme/project-details.html', heading='Project Details',menu_open=True,meta_tags=Metatags().set_freelancer())
     else:
-        return render_template('hireme/gigs.html', heading="My Previous Gigs",menu_open=True, meta_tags=Metatags().set_freelancer())
+        return render_template('hireme/gigs.html', heading="My Freelance Jobs",menu_open=True, meta_tags=Metatags().set_freelancer())
 
 
 @hireme.route('/hire-freelancer/gig-editor/<path:path>', methods=['GET', 'POST'])
