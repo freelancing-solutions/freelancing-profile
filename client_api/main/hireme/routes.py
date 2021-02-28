@@ -17,6 +17,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -31,6 +32,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -45,6 +47,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -59,6 +62,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -73,6 +77,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -87,6 +92,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -101,6 +107,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -115,6 +122,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     },
@@ -129,6 +137,7 @@ temp_freelance_jobs = [
         'link_details': '02349u3rf3945394yr7',
         'time_created': time.time() * 1000, # time in milliseconds
         'est_hours_to_complete':0,   # time in milliseconds left until project is completed
+        'currency' : '$',
         'budget_allocated': 500,
         'total_paid': 200
     }
@@ -151,7 +160,7 @@ def freelancer():
 def hire(path):
     if path == 'login':
         return render_template('hireme/login.html', heading="Login",menu_open=True, meta_tags=Metatags().set_freelancer())
-    elif path == "gigs":
+    elif path == "freelance-jobs":
         return render_template('hireme/gigs.html',
                                 freelance_jobs=temp_freelance_jobs,
                                 heading="My Freelance Jobs",
@@ -163,22 +172,63 @@ def hire(path):
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
 
-@hireme.route('/hire-freelancer/gigs/<path:path>', methods=['GET', 'POST'])
+@hireme.route('/hire-freelancer/freelance-job/<path:path>', methods=['GET', 'POST'])
 def project_details(path):
     if path is not None:
         # TODO- search for project details using path then display results
-        return render_template('hireme/project-details.html', heading='Project Details',menu_open=True,meta_tags=Metatags().set_freelancer())
+        freelance_job = temp_freelance_jobs[3]
+        # TODO- use database to select freelance job
+        return render_template('hireme/project-details.html',
+                                freelance_job=freelance_job,
+                                heading='Freelance Job Details',
+                                menu_open=True,
+                                meta_tags=Metatags().set_freelancer())
     else:
         return render_template('hireme/gigs.html', heading="My Freelance Jobs",menu_open=True, meta_tags=Metatags().set_freelancer())
 
 
-@hireme.route('/hire-freelancer/gig-editor/<path:path>', methods=['GET', 'POST'])
+@hireme.route('/hire-freelancer/freelance-job-editor/<path:path>', methods=['GET', 'POST'])
 def project_editor(path):
     if path is not None: # TODO- search for project details using path then display results
-        return render_template('hireme/project-editor.html', heading='Project Editor',menu_open=True, meta_tags=Metatags().set_freelancer())
+        freelance_job = temp_freelance_jobs[3]
+        return render_template('hireme/project-editor.html', 
+                                freelance_job=freelance_job,
+                                heading='Freelance Job Editor',
+                                menu_open=True, 
+                                meta_tags=Metatags().set_freelancer())
     else:
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
+@hireme.route('/hire-freelancer/messages/<path:path>', methods=['GET', 'POST'])
+def project_messages(path):
+    if path is not None:
+        project_messages = []
+        return render_template('hireme/project-messages.html',
+                                project_messages=project_messages,
+                                job_link=path,
+                                heading='Project Messages',
+                                menu_open=True,
+                                meta_tags=Metatags().set_project_messages())
+    else:
+        return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
+
+@hireme.route('/hire-freelancer/payments/<path:path>', methods=['GET', 'POST'])
+def project_payments(path):
+    if path is not None:
+        # Path holds the project_id use the project_id to obtain project payment information
+        project_payments = []
+        return render_template('hireme/payments.html',
+                                project_payments=project_payments,
+                                job_link=path,
+                                heading='Project Payments',
+                                menu_open=True,
+                                meta_tags=Metatags().set_project_payments())
+    else:
+        return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
+
+
+####################################################################################
+# How to Articles
 
 @hireme.route('/hire-freelancer/how-to/<path:path>', methods=['GET'])
 def how_to_articles(path):

@@ -42,11 +42,17 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary btn-lg"
+                        <a class="btn btn-primary btn-lg btn-flat"
                             href="{{url_for('hireme.hire', path='hire')}}"
                             title="Hire Me / Submit your Freelance Job">
                             <i class="fas fa-business-time"> </i>
-                            Submit Freelance Job
+                            Submit Job
+                        </a>
+                        <a class="btn btn-info btn-lg btn-flat"
+                            href="{{url_for('hireme.hire', path='freelance-jobs')}}"
+                            title="List of Previous Freelance Jobs">
+                            <i class="fas fa-search"> </i>
+                            View Jobs
                         </a>
                     </div>
               </div>

@@ -29,7 +29,7 @@
         <loc>{{ url_for('hireme.hire', path='login', _external=True) }}</loc>
     </url>
     <url>
-        <loc>{{ url_for('hireme.hire', path='gigs', _external=True) }}</loc>
+        <loc>{{ url_for('hireme.hire', path='freelance-jobs', _external=True) }}</loc>
     </url>
     <url>
         <loc>{{ url_for('hireme.hire', path='hire', _external=True) }}</loc>

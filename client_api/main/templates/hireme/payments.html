@@ -1,0 +1,32 @@
+
+{% extends "layouts/layout.html" %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>{{ heading }}</h1>
+            </div>
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ url_for('hireme.project_details', path=job_link) }}"> Freelance Job </a></li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+      </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Add Project Messages and a way to respond and send messages -->
+    </section>
+{% endblock content %}>
+
+{% block sidebar %}
+    {% include "layouts/hireme/sidebar.html" %}
+{% endblock %}
+
+{% block header %}
+    {% include "layouts/hireme/header.html" %}
+{% endblock header %}

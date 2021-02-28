@@ -429,3 +429,32 @@ class Metatags():
         self.image_filename = "imgs/hireme.png"
         self.image_alt = "Maintenance Procedures - Freelance Profile"
         return self
+
+
+        # TODO- very important update meta tags
+
+    def set_project_messages(self):
+        self.title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.twitter_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.og_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.twitter_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.og_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.page = "hireme.expectations"
+        self.path = "maintenance-procedures"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Maintenance Procedures - Freelance Profile"
+        return self
+
+    def set_project_payments(self):
+        self.title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.twitter_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.og_title = "Project Maintenance Agreements and Procedures - Justice Ndou Freelancing Profile"
+        self.description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.twitter_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.og_description = "Maintenance Agreements expectations and Procedures for expected jobs and unplanned events"
+        self.page = "hireme.expectations"
+        self.path = "maintenance-procedures"
+        self.image_filename = "imgs/hireme.png"
+        self.image_alt = "Maintenance Procedures - Freelance Profile"
+        return self

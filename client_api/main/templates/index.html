@@ -1,6 +1,5 @@
 
 {% extends "layouts/layout.html" %}
-
 {% block content %}
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -18,7 +17,6 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
     <!-- Main content -->
     <div class="content">
       <div class="container-fluid">
@@ -38,10 +36,9 @@
                     </p>
                 </div>
             </div>
-
             <div class="card">
                     <div class="card-header bg-dark">
-                        <a href="{{ url_for('hireme.hire', path='gigs') }}"> <h3 class="card-title">Freelance Jobs &amp; Rates </h3> </a>
+                        <a href="{{ url_for('hireme.hire', path='freelance-jobs') }}"> <h3 class="card-title">Freelance Jobs &amp; Rates </h3> </a>
                     </div>
                     <div class="card-body">
                     <p class='card-text'>
@@ -58,14 +55,9 @@
                     <a href="{{ url_for('hireme.hire', path='hire') }}" class="card-link">Submit Jobs </a>
                     <a href="{{ url_for('users.login') }}" class="card-link">Login </a>
                     <a href="{{ url_for('users.register') }}" class="card-link">Create Account </a>
-
                 </div>
             </div>
-
-
-
             <div class="card">
-
                     <div class="card-header bg-dark">
                         <a href="{{ url_for('blog.blog') }}"> <h3 class="card-title"> Blog - Programming Topics </h3> </a>
                     </div>
@@ -78,20 +70,17 @@
                           This will be done for educational purposes both for me, visitors and clients.
                       </p>
                     </div>
-
             <div class="card">
                 <div class="card-header bg-dark">
                     <a href="{{ url_for('main.contact') }}"> <h3 class="card-title">Contact - Support And Suggestions</h3> </a>
                 </div>
                 <div class="card-body">
-
                   <p class='card-text'>
                       If you need to communicate anything to me, or make suggestions for future articles / implementations
                       of certain programming concepts or API's please use our <a href="{{ url_for('main.contact') }}"><strong>contact page in this website</strong></a>.
                   </p>
                 </div>
             </div>
-
             <div class="card">
                 <div class="card-header bg-dark">
                   <h3 class="card-title">Back End Web Development</h3>
@@ -103,7 +92,6 @@
                   I can either develop Rest API's (Application Programming Interface) using Python or Node.js.
                   Or Full Web Applications complete with their own API's.
                 </p>
-
                 <p class="card-text">
                     <ul class="group-list bg-dark">
                       <span class="text-light">Programming Languages and Frameworks </span>
@@ -127,7 +115,6 @@
                             <li>GCP Cloud Run (Node.JS)</li>
                           </ul>
                       </li>
-
                       <li class="list-group-item text-dark"> Databases
                         <ul>
                           <li>Firebase Firestore</li>
@@ -137,15 +124,12 @@
                           <li>MySQL</li>
                         </ul>
                     </li>
-
                     </ul>
                 </p>
-
                 <a href="{{ url_for('hireme.freelancer') }}" class="card-link">Hire Me</a>
                 <a href="{{ url_for('blog.learn_more', path='backend-development') }}" class="card-link">Learn More...</a>
               </div>
             </div>
-
             <div class="card  card-outline">
                 <div class="card-header bg-dark">
                   <h5 class="card-title">
@@ -153,7 +137,6 @@
                   </h5>
                 </div>
                 <div class="card-body">
-
                 <p class="card-text">
                   I am also skilled in Web Applications & Single Page Web Apps, using React.JS or Vanilla.js to create
                   specific business solutions such as :
@@ -165,7 +148,6 @@
                     <li>Ticket Based Support Systems</li>
                   </ol>
               </p>
-
                 <p class="card-text">
                   <ul class="group-list bg-dark">
                     <span class="text-light">Scripting Languages</span>
@@ -199,7 +181,7 @@
                 <div class="card">
                   <div class="card-header bg-dark">
                     <h3 class="card-title">
-                      <i class="fab fa-affiliatetheme"> </i>
+                      <i class="nav-icon fas fa-business-time"></i>
                       Hire Me
                     </h3>
                   </div>
@@ -211,7 +193,7 @@
                     </div>
                     <div class="card-footer">
                       <a href="{{ url_for('hireme.freelancer')}}" class="btn btn-primary">
-                        <i class="fab fa-affiliatetheme"> </i>
+                        <i class="nav-icon fas fa-business-time"></i>
                         Hire Me
                       </a>
                     </div>
@@ -290,7 +272,6 @@
     </div>
     <!-- /.content -->
 {% endblock content %}
-
 {% block service_worker %}
     <script>
       if('serviceWorker' in navigator) {
