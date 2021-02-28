@@ -36,7 +36,7 @@ def social(path):
     if path == "twitter":
         return render_template('social/twitter.html', heading="On Twitter", menu_open=True,meta_tags=Metatags().set_social_twitter())
     elif path == "github":
-        return render_template('social/github.html', heading="Github Profile", menu_open=True,meta_tags=Metatags().set_social_twitter())
+        return render_template('social/github.html', heading="Github Profile", menu_open=True,meta_tags=Metatags().set_social_github())
     else:
         pass
 ###########################################################################################################
@@ -44,12 +44,12 @@ def social(path):
 
 @main.route('/terms-of-service')
 def terms():
-    return render_template('terms.html', heading='Terms of Service', menu_open=True, meta_tags=Metatags().set_home())
+    return render_template('terms.html', heading='Terms of Service', menu_open=True, meta_tags=Metatags().set_terms())
 
 
 @main.route('/privacy-policy')
 def privacy():
-    return render_template('privacy.html', heading='Privacy Policy', menu_open=True, meta_tags=Metatags().set_home())
+    return render_template('privacy.html', heading='Privacy Policy', menu_open=True, meta_tags=Metatags().set_privacy())
 
 
 @main.route('/offline')

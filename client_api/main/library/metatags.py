@@ -200,18 +200,60 @@ class Metatags():
 
     def set_social_twitter(self):
         # TODO - update login frontend metatags to be relevant
-        self.title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
-        self.twitter_title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
-        self.og_title = "Register New Account, Professional & Freelance Profile of Justice Ndou"
-        self.description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
-        self.twitter_description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
-        self.og_description = "Register or Create New Account in order to Submit Freelance Jobs to Justice Ndou Personal Freelancing Site"
-        self.page = "users.register"
-        self.path = ""
-        self.image_filename = "imgs/register.png"
-        self.image_alt = "Create Account - Freelance Profile"
-
+        self.title = "Follow Freelance Profile of Justice Ndou on Twitter"
+        self.twitter_title = "Follow Freelance Profile of Justice Ndou on Twitter"
+        self.og_title = "Follow Freelance Profile of Justice Ndou on Twitter"
+        self.description = "I use my Twitter Presence to share articles, events, and news related to Web Development Crypto Currencies and tech related stuff"
+        self.twitter_description = "I use my Twitter Presence to share articles, events, and news related to Web Development Crypto Currencies and tech related stuff"
+        self.og_description = "I use my Twitter Presence to share articles, events, and news related to Web Development Crypto Currencies and tech related stuff"
+        self.page = "main.social"
+        self.path = "twitter"
+        self.image_filename = "imgs/twitter.png"
+        self.image_alt = "Twitter Profile - Freelance Profile"
         return self
+
+    def set_social_github(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Follow Github Profile of Justice Ndou- Freelance Profile"
+        self.twitter_title = "Follow Github Profile of Justice Ndou- Freelance Profile"
+        self.og_title = "Follow Github Profile of Justice Ndou- Freelance Profile"
+        self.description = "Github Repositories for Freelance Profile of Justice Ndou"
+        self.twitter_description = "Github Repositories for Freelance Profile of Justice Ndou"
+        self.og_description = "Github Repositories for Freelance Profile of Justice Ndou"
+        self.page = "main.social"
+        self.path = "github"
+        self.image_filename = "imgs/github.png"
+        self.image_alt = "Github Profile - Freelance Profile"
+        return self
+
+    def set_terms(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Terms of Service, Freelance Profile of Justice Ndou"
+        self.twitter_title = "Terms of Service, Freelance Profile of Justice Ndou"
+        self.og_title = "Terms of Service, Freelance Profile of Justice Ndou"
+        self.description = "Terms of Services Related to my services as a freelancer"
+        self.twitter_description = "Terms of Services Related to my services as a freelancer"
+        self.og_description = "Terms of Services Related to my services as a freelancer"
+        self.page = "main.terms"
+        self.path = ""
+        self.image_filename = "imgs/terms.png"
+        self.image_alt = "terms of service - Freelance Profile"
+        return self
+
+    def set_privacy(self):
+        # TODO - update login frontend metatags to be relevant
+        self.title = "Privacy Policy, Freelance Profile of Justice Ndou"
+        self.twitter_title = "Privacy Policy, Freelance Profile of Justice Ndou"
+        self.og_title = "Privacy Policy, Freelance Profile of Justice Ndou"
+        self.description = "Privacy Policy Related to my services as a freelancer"
+        self.twitter_description = "Privacy Policy Related to my services as a freelancer"
+        self.og_description = "Privacy Policy Related to my services as a freelancer"
+        self.page = "main.privacy"
+        self.path = ""
+        self.image_filename = "imgs/privacy.png"
+        self.image_alt = "Privacy Policy - Freelance Profile"
+        return self
+
 
     def set_how_to_create_freelancing_account(self):
         # TODO - update login frontend metatags to be relevant

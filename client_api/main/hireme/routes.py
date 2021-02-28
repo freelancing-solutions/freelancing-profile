@@ -47,7 +47,6 @@ def how_to_articles(path):
     """
         How to articles on hiring a freelancer
     """
-
     if path == "create-freelancing-account":
         title = "How to create a freelancing account"
         return render_template('hireme/howto/create-freelancing-account.html', heading=title,menu_open=True, meta_tags=Metatags().set_how_to_create_freelancing_account())
@@ -60,7 +59,6 @@ def how_to_articles(path):
     elif path == "download-install-teamviewer":
         title ="How to download and Install Teamviewer"
         return render_template('hireme/howto/download-install-teamviewer.html', heading=title,menu_open=True, meta_tags=Metatags().set_download_teamviewer())
-
     elif path == "create-a-github-account":
         title ="Create a Github account"
         return render_template('hireme/howto/create-github-account.html', heading=title,menu_open=True, meta_tags=Metatags().set_create_github())
@@ -89,7 +87,7 @@ def expectations(path):
         title = "Due Diligence and Legal Expectations"
         return render_template('hireme/expectations/diligence.html', heading=title, menu_open=True, meta_tags=Metatags().set_diligence())
     elif path == "handing-over-procedures":
-        title = "handing Over Procedure & Production Deployment"
+        title = "Handing Over Procedure & Production Deployment"
         return render_template('hireme/expectations/handing-over.html', heading=title, menu_open=True, meta_tags=Metatags().set_handinqover())
     elif path == "maintenance-procedures":
         title = "Maintenance Procedures & Agreements"
