@@ -1,7 +1,7 @@
 {% extends "layouts/layout.html" %}
 {% block content %}
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-8">
@@ -14,7 +14,115 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </section>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+                    <div class="card-header bg-dark">
+                          <h3 class="card-title">Communication Guidelines </h3>
+                    </div>
+                    <div class="card-body">
+                          <!-- Text Here -->
+                          <div class="card">
+                            <div class="card-header bg-gradient-dark">
+                              <h3 class="card-title">Project Notifications &amp; Progress Updates</h3>
+                            </div>
+                            <div class='card-body'>
+                              <p class='card-text'>
+                                Every-time there is an update on your project messages detailing the updated
+                                components of the said project will appear on our slack channel dedicated to your
+                                project and also on the project details page on this website.
+                              </p>
+                              <p class='card-text'>
+                                <ul>
+                                  <li>
+                                    <strong>Website Development Progress Messages</strong> will be auto generated from Github upon updating of your
+                                    freelance project in github.
+                                  </li>
+                                  <li>
+                                    <strong>Payment Notifications Messages</strong> - will also be sent from our payment gateway to notify you of payment received,
+                                    Invoices will be downloadable from our website from links sent together with the notifications.
+                                  </li>
+                                </ul>
+                              </p>
+                            </div>
+                            <div class="card-footer">
+                                <p class="card-text">
+                                  <a href="{{ url_for('hireme.how_to_articles', path='download-install-slack')}}">
+                                    Instructions on downloading setting up and <strong>configuring slack for your website development freelance project</strong> can be found on this website.
+                                  </a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                          <div class="card-header bg-gradient-dark">
+                            <h3 class="card-title">
+                              Messaging &amp; File Uploads
+                            </h3>
+                          </div>
+
+                          <div class="card-body">
+                            <p class="card-text">
+                              Messages regarding your <strong>freelance job project (Web Development and etc.)</strong> can be sent
+                              through slack or on the website messaging tab on the freelance job detail page.
+                            </p>
+                            <p class="card-text text-info">
+                              Note that messages sent on the <strong>website project page</strong> will also appear on the slack project channel
+                              and vice versa. Responses will be sent as soon as is possible.
+                            </p>
+
+                            <p class='card-text'>
+                                File Uploads and Downloads are supported both on slack project channel and on the website project page
+                                Files related to:
+                                <ul class='text-info'>
+                                  <li><em>Website Development</em> (Website Logo, Information Files, etc)</li>
+                                  <li><em>Company Documents</em> (Letterheads, Contact Info, Services, Offices and etc)</li>
+                                  <li><em>Contact Information</em> (Related Persons Contact Information)</li>
+                                  <li><em>Product/Services</em> Information (Details Regarding the Products or Services and how they are offered.)</li>
+                                  <li><em>Proof of Payments</em> (Payment Information Related to Projects Only)</li>
+                                </ul>
+                                Can be uploaded using either slack or on the website.
+                            </p>
+                          </div>
+
+                        </div>
+                        <div class="card-footer">
+                          <p class="card-text">
+                            <a href="{{ url_for('hireme.expectations', path='payments-procedures-methods')}}">
+                              <em>
+                                Payment Methods
+                              </em>
+                            </a>
+                          </p>
+                        </div>
+                    </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="card">
+                  <div class="card-header bg-dark">
+                      <h3 class="card-title"> Available Channels </h3>
+                </div>
+                <div class="card-body">
+                <p class='card-text'>
+                    <!-- Text Here -->
+                    <u class='list-group-horizontal'>
+                      <li class='list-group-item'> Web Messaging </li>
+                      <li class='list-group-item'> Slack </li>
+                    </u>
+                </p>
+                </div>
+
+              </div>
+          </div>
+      </div>
+
+  </div>
+
+    </section>
+
 {% endblock content %}
 {% block sidebar %}
     {% include "layouts/hireme/sidebar.html" %}

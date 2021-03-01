@@ -2,7 +2,7 @@
 
 {% block content %}
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section  class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-8">
@@ -15,7 +15,181 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+      </section>
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                  <div class="card-header bg-dark">
+                    <h3 class="card-title">
+                        Payment Methods &amp; Procedures
+                    </h3>
+                  </div>
+                  <div class="card-body">
+                      <div class="card">
+                        <div class="card-header bg-gradient-dark">
+                          <h3 class="card-title" id="eft"> 
+                            <i class="fas fa-credit-card"> </i>
+                            EFT (Electronic Funds Transfer)
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                          <p class="card-title">
+                            <strong>Electronic Funds Transfer</strong> is supported in this website, once payment is made the payment receipt
+                            can be sent via the website project detail page (Messages Section) or on the Slack Project Channel
+                            (created upon freelance job submission).
+                          </p>
+                        </div>
+                        <div class="card-footer">
+                              <h5><em> EFT Payment verification </em></h5>
+                            Once payment is verified it will then be credited to your freelance project, Verification
+                            may be delayed dependent on the bank and country of origin. but may not exceed seven days upon 
+                            payment. delayed payments may not delay the progress of your freelance job.
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-header bg-dark" >
+                          <h3 class="card-title" id="credit-card">
+                            <i class="fab fa-cc-paypal"> </i>
+                            Credit Card Payments
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                          <p class="card-title">
+                            <strong>Credit Card Payments</strong> are supported only through PayPal, henceforth credit card
+                            details will not be held in this website or on any of my back end servers.
+                          </p>
+                        </div>
+                        <div class="card-footer">
+                            <h5><em> Credit Card Payment Verification</em></h5>
+                            i rely upon paypal for payment verifications and will only credit your project upon receipt of successful 
+                            payment.
+                        </div>
+                      </div>
+                      <div class="card">
+                        <div class="card-header bg-gradient-dark">
+                          <h3 class="card-title" id="paypal">
+                            <i class="fab fa-paypal"> </i>
+                            PayPal Payments
+                          </h3>
+                        </div>
+                        <div class="card-body">
+                          <p class="card-text">
+                              PayPal Payments are supported and payments will be credited once payment is verified by paypal.
+                              All paypal terms and conditions for payments on services and products will be respected, this includes payment refunds.
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="card">
+                        <div class="card-header bg-gradient-dark">
+                          <h3 class="card-title" id="crypto">
+                            <i class="fab fa-fa-bitcoin"> </i>
+                            Crypto Currency Payments
+                          </h3>
+                        </div>
+                          The following crypto currencies are excepted : 
+                          <ul class="text-info">
+                            <li><em>Bitcoin (BTC)</em></li>
+                            <li><em>Ethereum (ETH)</em></li>
+                            <li><em>Dogecoin (Doge)</em></li>
+                            <li><em>Monero (XMR)</em></li>
+                            <li><em>Litecoin (LTC)</em></li>
+                          </ul>
+                          <p class="card-text">
+                          Payments with crypto currencies for freelance jobs will be calculated using the dollar
+                          exchange value of the crypto currency at the moment of payment.
+                          </p>
+                          <p class="card-text">
+                          If payment method is selected as crypto currency when submitting your freelance job payment amount
+                          will be calculated using the exchange value to the dollar at the time of submitting the freelance job 
+                          and the amount wont change for the duration of the freelance job.
+                          </p>
+                      </div>
+                  </div>
+                  <div class="card-footer">
+                    <p class="card-text">
+
+                      <a href="{{ url_for('hireme.expectations', path='communication-channels-procedures')}}">
+                          <em>
+                            Communication
+                          </em>
+                        </a> | 
+                        <a href="{{ url_for('hireme.expectations', path='due-diligence')}}">
+                          <em>
+                            Due Diligence
+                          </em>
+                        </a>
+
+                    </p>
+                  </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                  <div class="card-header bg-dark">
+                      <h3 class="card-title">
+                         Supported Payment Methods
+                      </h3>
+                  </div>
+                  <div class="card-body">
+                      <p class="card-text">
+                          <ul>
+                              <li>
+                                <a href="#eft">
+                                  <strong>
+                                    <i class="fas fa-credit-card"> </i>
+                                    EFT
+                                  </strong>
+                                </a>
+                              </li>
+                              <li><a href="#credit-card"><strong>
+                                <i class="fab fa-cc-paypal"> </i>
+                                Credit Card
+                              </strong></a></li>
+                              <li>
+                                <a href="#paypal"><strong>
+                                  <i class="fab fa-paypal"> </i>
+                                  PayPal</strong>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="#crypto">
+                                  <strong>
+                                    <i class="fab fa-bitcoin"> </i>
+                                      Crypto Currency
+                                  </strong>
+                                </a>
+                              </li>
+                          </ul>
+                      </p>
+                  </div>
+              </div>
+              <div class="card">
+                <div class="card-header bd-dark">
+                  <h3 class="card-title">
+                    Terms and Refund Policy
+                  </h3>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">
+                      Our Refund policy is such that if there is any dissatisfaction when your services are being rendered
+                      and an agreement is reached to terminate the service agreement, then refund will normally be guaranteed to half of 
+                      the amount already paid. if the project has already progressed to 50% ( or half the job is already done).                      
+                  </p>
+                  <p class='card-text'>
+                    Any payment agreements made with third parties will not be affected by this terms, and the terms of the third parties will apply.
+                  </p>
+                  <p class='card-text'>
+                    Third parties include hosting services providers, Cloud Services (Google Cloud Platform and etc)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
 {% endblock content %}
 {% block sidebar %}
