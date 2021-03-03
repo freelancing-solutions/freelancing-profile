@@ -8,45 +8,39 @@
     <meta property="og:description" content="{{ meta_tags.og_description }}" />
     <meta property="og:title" content="{{ meta_tags.og_title }}" />
     {% if meta_tags.path %}
-        <meta property="og:url" content="{{ url_for(meta_tags.page, path=meta_tags.path, _external=True ) }}" />
+    <meta property="og:url" content="{{ url_for(meta_tags.page, path=meta_tags.path, _external=True ) }}" />
     {% else %}
-        <meta property="og:url" content="{{ url_for(meta_tags.page, _external=True ) }}" />
+    <meta property="og:url" content="{{ url_for(meta_tags.page, _external=True ) }}" />
     {% endif %}
-
     <!-- og:image -->
     <meta property="og:image" content="{{ url_for('static', filename=meta_tags.image_filename) }}" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1024" />
     <meta property="og:image:height" content="1270" />
     <meta property="og:image:alt" content="{{ meta_tags.image_alt }}" />
-
     <!-- Twitter Card -->
     <meta name="twitter:card" content='summary_large_image' />
     {% if meta_tags.path %}
-        <meta name="twitter:site" content="{{ url_for(meta_tags.page , path=meta_tags.path, _external=True) }}" />
+    <meta name="twitter:site" content="{{ url_for(meta_tags.page , path=meta_tags.path, _external=True) }}" />
     {% else %}
-        <meta name="twitter:site" content="{{ url_for(meta_tags.page , _external=True) }}" />
+    <meta name="twitter:site" content="{{ url_for(meta_tags.page , _external=True) }}" />
     {% endif %}
     <meta name="twitter:creator" content="@blueitserver" />
     <meta name="twitter:title" content="{{ meta_tags.twitter_title }}" />
     <meta name="twitter:description" content="{{ meta_tags.twitter_description }}" />
     {% if meta_tags.path %}
-        <meta name="twitter:domain" content="{{ url_for(meta_tags.page , path=meta_tags.path, _external=True ) }}" />
+    <meta name="twitter:domain" content="{{ url_for(meta_tags.page , path=meta_tags.path, _external=True ) }}" />
     {% else %}
-        <meta name="twitter:domain" content="{{ url_for(meta_tags.page , _external=True ) }}" />
+    <meta name="twitter:domain" content="{{ url_for(meta_tags.page , _external=True ) }}" />
     {% endif %}
-
-
     <meta name="twitter:image" content="{{ url_for('static', filename=meta_tags.image_filename)}}" />
     <meta name="twitter:image:alt" content="{{ meta_tags.image_alt }}" />
-
     <!--- favicon -->
     <link rel="shortcut icon" href="{{ url_for('static', filename=meta_tags.image_filename) }}" />
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}" />
     {% if meta_tags.path %}
-        <link rel="canonical" href="{{ url_for( meta_tags.page , path=meta_tags.path, _external=True ) }}" />
+    <link rel="canonical" href="{{ url_for( meta_tags.page , path=meta_tags.path, _external=True ) }}" />
     {% else %}
-        <link rel="canonical" href="{{ url_for( meta_tags.page , _external=True ) }}" />
+    <link rel="canonical" href="{{ url_for( meta_tags.page , _external=True ) }}" />
     {% endif %}
-
 {% endif %}

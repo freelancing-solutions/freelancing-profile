@@ -1,8 +1,9 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy()
 from flask_restful import Api
-from main.rest_api import ContactAPI, Blog, Freelancer, Github, Sitemap
+from main.rest_api import ContactAPI, Blog, Freelancer, Github, Sitemap, UserAPI
 from main.library.config import Config
 api = Api()
 
@@ -14,8 +15,11 @@ def create_app(config_class=Config):
     # TODO- Add API Resources
     api.add_resource(ContactAPI, '/api/v1/contact/<string:uid>', endpoint='get_contact') # Get Method
     api.add_resource(ContactAPI, '/api/v1/contact', endpoint='post_contact') # Post Method
-    api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact',)  # Update Method
+    api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact')  # Update Method
 
+    api.add_resource(UserAPI, '/api/v1/users/<string:uid>', endpoint='get') # 'GET SPECIFIC USER
+    api.add_resource(UserAPI, '/api/v1/user/login', endpoint='loginuser') #'POST REQUEST
+    db.init_app(app)
     api.init_app(app)
 
     # importing blue prints

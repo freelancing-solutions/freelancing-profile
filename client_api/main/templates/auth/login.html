@@ -1,6 +1,5 @@
 
 {% extends "auth/auth-layout.html" %}
-
 {% block body %}
   <div class="login-box">
     <div class="login-logo">
@@ -10,21 +9,24 @@
     <div class="card">
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
-
-        <form action="{{ url_for('users.login') }}" method="post">
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+        <form action="{{ url_for('users.login') }}" method="post" id='signin_form'>
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input type="email" id="email" class="form-control" placeholder="Email">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-envelope"></span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+          <div class="form-group">
+            <div class="input-group mb-3">
+                <input type="password" id="password" class="form-control" placeholder="Password">
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <span class="fas fa-lock"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -44,7 +46,6 @@
             <!-- /.col -->
           </div>
         </form>
-
         <div class="social-auth-links text-center mb-3">
           <p>- OR -</p>
           <a href="#" class="btn btn-block btn-primary">
@@ -62,8 +63,15 @@
         <p class="mb-0">
           <a href="{{ url_for('users.register') }}" class="text-center">Register a new membership</a>
         </p>
+         <p id='message'></p> 
       </div>
       <!-- /.login-card-body -->
     </div>
   </div>
 {% endblock body %}
+
+{% block user_scripts_block %}
+<script src={{ url_for('static', filename='js/axios.min.js',)}}></script>
+<script src={{ url_for('static', filename='js/login.js')}}></script>
+
+{% endblock user_scripts_block %}

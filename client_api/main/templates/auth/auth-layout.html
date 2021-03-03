@@ -26,6 +26,7 @@
     <script src="{{ url_for('static', filename='plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ url_for('static', filename='js/adminlte.min.js') }}"></script>
-
+    {% block user_scripts_block %}
+    {% endblock %}
 </body>
 </html>

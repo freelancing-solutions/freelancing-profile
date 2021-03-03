@@ -13,7 +13,6 @@ def projects():
     else:
         pass
 
-
 @projects_bp.route('/projects/repos/<path:path>', methods=['GET'])
 def projects_repos(path):
     if path == "github":

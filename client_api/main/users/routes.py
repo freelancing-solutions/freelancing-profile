@@ -1,13 +1,15 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request, abort
+from flask_login import login_user,logout_user,login_required
 from main.library import Metatags
-
 users = Blueprint('users', __name__)
 
 
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('auth/login.html', heading="Login", menu_open=True, meta_tags=Metatags().set_login())
-
+    if request.method == "GET":
+        return render_template('auth/login.html',
+                                menu_open=True,
+                                meta_tags=Metatags().set_login())
 
 @users.route('/logout', methods=['GET'])
 def logout():
