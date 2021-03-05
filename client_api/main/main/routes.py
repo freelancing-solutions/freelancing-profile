@@ -1,7 +1,8 @@
 
 from flask import render_template, request, make_response, Blueprint
 from main.library import Metatags
-
+from .models import ContactModel
+from main import db
 main = Blueprint('main', __name__)
 
 
@@ -16,12 +17,13 @@ def home():
 # noinspection PyArgumentList,PyArgumentList
 @main.route('/contact', methods=['GET', 'POST'])
 def contact():
+
     if request.method == "GET":
         return render_template('contact.html', heading="Contact",
                                menu_open=True, meta_tags=Metatags().set_contact())
+
     elif request.method == "POST":
         # TODO- handle post request here
-        print(request.args)
         return render_template('contact.html', heading="Contact",
                                menu_open=True, meta_tags=Metatags().set_contact())
 

@@ -3,6 +3,7 @@ from flask_login import login_user
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from main.users.models import UserModel
 from main import db
+from werkzeug.security import generate_password_hash, check_password_hash
 
 user_api_marshal_dict = {
     'status': fields.Boolean,
@@ -57,7 +58,7 @@ class UserAPI(Resource):
         if user_detail is None:
             user = UserModel()
             if user.add_user(email=email,uid=uid):
-                return {'status': True, 'payload':user_detail,'error':''}
+                return {'status': True, 'payload':user_detail.data(),'error':''}
             else:
                 return {'status': True, 'payload':{},'error':'Unable to create new user'}
         else:

@@ -8,6 +8,6 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///main.db'
-
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:11111111@localhost/ajfreelance'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
