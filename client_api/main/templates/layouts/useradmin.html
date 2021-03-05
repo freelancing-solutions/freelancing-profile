@@ -4,7 +4,7 @@
     <div class="p-3">
       {% if current_user %}
       <h5>Freelance Admin</h5>
-      <h6>{{ current_user.username }</h6>
+      <h6>{{ current_user.username }}</h6>
       <ul class="navbar-nav ml-auto">
         <li><a href="{{ url_for('projects.projects') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Freelance Jobs </a></li>
         <li><a href="{{ url_for('main.payments') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
