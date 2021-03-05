@@ -1,8 +1,8 @@
 import time
 from flask import render_template, request, Blueprint
-from main.library import Metatags
+from ..library import Metatags, token_required
+from .models import FreelanceJobModel
 hireme = Blueprint('hireme', __name__)
-
 
 #  Temporary Data Models
 temp_freelance_jobs = [
@@ -143,9 +143,6 @@ temp_freelance_jobs = [
     }
 ]
 
-
-
-
 ###########################################################################################################
 # Freelance and Hire Routes
 @hireme.route('/hire-freelancer', methods=['GET', 'POST'])
@@ -157,14 +154,15 @@ def freelancer():
 
 
 @hireme.route('/hire-freelancer/<path:path>', methods=['GET', 'POST'])
-def hire(path):
-    if path == 'login':
-        return render_template('hireme/login.html', heading="Login",menu_open=True, meta_tags=Metatags().set_freelancer())
-    elif path == "freelance-jobs":
+@token_required
+def hire(current_user,path):
+    if path == "freelance-jobs":
+        freelance_jobs = FreelanceJobModel.query.filter_by(uid=current_user.uid).all()
         return render_template('hireme/gigs.html',
-                                freelance_jobs=temp_freelance_jobs,
+                                freelance_jobs=freelance_jobs,
                                 heading="My Freelance Jobs",
-                                menu_open=True, 
+                                menu_open=True,
+                                current_user=current_user,
                                 meta_tags=Metatags().set_freelancer())
     elif path == "hire":
         return render_template('hireme/hire.html', heading="Submit Freelance Job",menu_open=True, meta_tags=Metatags().set_freelancer())
@@ -173,34 +171,37 @@ def hire(path):
 
 
 @hireme.route('/hire-freelancer/freelance-job/<path:path>', methods=['GET', 'POST'])
-def project_details(path):
+@token_required
+def project_details(current_user,path):
     if path is not None:
-        # TODO- search for project details using path then display results
-        freelance_job = temp_freelance_jobs[3]
-        # TODO- use database to select freelance job
+        freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
         return render_template('hireme/project-details.html',
                                 freelance_job=freelance_job,
                                 heading='Freelance Job Details',
                                 menu_open=True,
+                                current_user=current_user,
                                 meta_tags=Metatags().set_freelancer())
     else:
         return render_template('hireme/gigs.html', heading="My Freelance Jobs",menu_open=True, meta_tags=Metatags().set_freelancer())
 
 
 @hireme.route('/hire-freelancer/freelance-job-editor/<path:path>', methods=['GET', 'POST'])
-def project_editor(path):
-    if path is not None: # TODO- search for project details using path then display results
-        freelance_job = temp_freelance_jobs[3]
-        return render_template('hireme/project-editor.html', 
+@token_required
+def project_editor(current_user,path):
+    if path is not None:
+        freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
+        return render_template('hireme/project-editor.html',
                                 freelance_job=freelance_job,
                                 heading='Freelance Job Editor',
-                                menu_open=True, 
+                                menu_open=True,
+                                current_user=current_user,
                                 meta_tags=Metatags().set_freelancer())
     else:
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
 @hireme.route('/hire-freelancer/messages/<path:path>', methods=['GET', 'POST'])
-def project_messages(path):
+@token_required
+def project_messages(current_user,path):
     if path is not None:
         project_messages = []
         return render_template('hireme/project-messages.html',
@@ -208,12 +209,14 @@ def project_messages(path):
                                 job_link=path,
                                 heading='Project Messages',
                                 menu_open=True,
+                                current_user=current_user,
                                 meta_tags=Metatags().set_project_messages())
     else:
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
 @hireme.route('/hire-freelancer/payments/<path:path>', methods=['GET', 'POST'])
-def project_payments(path):
+@token_required
+def project_payments(current_user,path):
     if path is not None:
         # Path holds the project_id use the project_id to obtain project payment information
         project_payments = []
@@ -222,6 +225,7 @@ def project_payments(path):
                                 job_link=path,
                                 heading='Project Payments',
                                 menu_open=True,
+                                current_user=current_user,
                                 meta_tags=Metatags().set_project_payments())
     else:
         return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())

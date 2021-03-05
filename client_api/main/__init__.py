@@ -18,7 +18,7 @@ def create_app(config_class=Config):
     api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact')  # Update Method
 
     api.add_resource(UserAPI, '/api/v1/users/<string:uid>', endpoint='get') # 'GET SPECIFIC USER
-    api.add_resource(UserAPI, '/api/v1/user/login', endpoint='loginuser') #'POST REQUEST --Login User
+    api.add_resource(UserAPI, '/api/v1/user', endpoint='create_user') #'Create New User
 
     api.add_resource(FreelanceJobAPI, '/api/v1/freelance-job/<string:project_id>', endpoint="get_freelance_job") # Method Get
     api.add_resource(FreelanceJobAPI, '/api/v1/freelance-job', endpoint='create_freelance_job') # Method POST Create Freelance Job

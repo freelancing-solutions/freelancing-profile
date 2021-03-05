@@ -80,18 +80,12 @@ class ContactAPI(Resource):
         :return:
         """
 
-        contact = ContactModel.query.filter_by(contact_id=contact_id).first()
-        if contact is not None:
+        contact_model = ContactModel.query.filter_by(contact_id=contact_id)
+        if contact_model is not None:
             contact_form = self.parse_contact_args()
-            contact.names = contact_form['names']
-            contact.email = contact_form['email']
-            contact.cell = contact_form['cell']
-            contact.reason = contact_form['reason']
-            contact.subject = contact_form['subject']
-            contact.body = contact_form['body']
+            contact_model.update(dict(contact_form))
 
-            db.session.add(contact)
             db.session.commit()
-            return contact
+            return contact_model.first()
         else:
             abort(http_status_code=404, message='Contact not found')

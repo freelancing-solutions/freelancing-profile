@@ -21,8 +21,8 @@ from main import db
 class FreelanceJobAPI(Resource):
     """
         Freelancer API, responsible with freelance job creation and management tasks
-    Args:
-        Resource ([type]): [description]
+        Args:
+            Resource ([type]): [description]
     """
     freelance_job_fields = {
         "uid" : fields.String,
@@ -54,17 +54,14 @@ class FreelanceJobAPI(Resource):
     @staticmethod
     def create_link_detail(name,cat):
 
-        cat_link_list = cat.split(" ")
         cat_link = ""
-        for cat in cat_link_list:
+        for cat in cat.split(" "):
             cat_link += cat
-
-        name_link_list = name.split(" ")
         name_link = ""
-        for name in name_link_list:
+        for name in name.split(" "):
             name_link += name
-        link_details = "/"+ cat_link + "/" + name_link
-        return link_details.encode('UTF-8')
+
+        return "/{}/{}".format(cat_link,name_link).encode("UTF-8")
 
 
     @marshal_with(freelance_job_fields)
@@ -85,6 +82,11 @@ class FreelanceJobAPI(Resource):
 
     @marshal_with(freelance_job_fields)
     def post(self):
+        """
+            given freelance job arguments from json create new freelance job
+            Returns:
+                [type]: [freelance_job]
+        """
 
         fj_details = self.request_parser.parse_args()
         # Default is seven days allow user to edit
@@ -113,20 +115,21 @@ class FreelanceJobAPI(Resource):
 
     @marshal_with(freelance_job_fields)
     def put(self,project_id):
+        """
+            Given freelance job arguments update freelance job
+        Args:
+            project_id ([type]): [The id of the project or feelance job to update]
+
+        Returns:
+            [type]: [Returns the updated freelance job]
+        """
         fj_details = self.request_parser.parse_args()
-        freelance_job = FreelanceJobModel.query.filter_by(project_id=project_id).first()
+        freelance_job = FreelanceJobModel.query.filter_by(project_id=project_id)
 
         if freelance_job is not None:
-            freelance_job.project_name = fj_details['project_name']
-            freelance_job.project_category = fj_details['project_category']
-            freelance_job.description = fj_details['description']
-            freelance_job.currency = fj_details['currency']
-            freelance_job.budget_allocated = fj_details['budget_allocated']
-
-            db.session.add(freelance_job)
+            freelance_job.update(dict(fj_details))
             db.session.commit()
-
-            return freelance_job
+            return freelance_job.first()
         else:
             abort(http_status_code=404,message='Freelance job not found')
 
