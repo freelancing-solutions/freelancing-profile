@@ -3,5 +3,5 @@ README.MD
 *.pyc
 *.pyo
 *.pyd
-__pycache__
+/__pycache__
 .pytest_cache

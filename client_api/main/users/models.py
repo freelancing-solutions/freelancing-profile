@@ -1,4 +1,4 @@
-from main import db
+from .. import db
 from flask import current_app
 
 class UserModel(db.Model):

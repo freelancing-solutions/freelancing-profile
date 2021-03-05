@@ -3,16 +3,18 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from flask_restful import Api
-from main.rest_api import ContactAPI, Blog, FreelanceJobAPI, Github, Sitemap, UserAPI
-from main.library.config import Config
+from .rest_api import ContactAPI, Blog, FreelanceJobAPI, Github, Sitemap, UserAPI
+from .library.config import Config
 api = Api()
 
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config.from_object(Config)
-    # TODO- Add Extensions here
-    # TODO- Add API Resources
+
+
+    # TODO- find a way to restructure api
+    # NOTE that API are mainly used by admin user
     api.add_resource(ContactAPI, '/api/v1/contact/<string:contact_id>', endpoint='get_contact') # Get Method
     api.add_resource(ContactAPI, '/api/v1/contact', endpoint='post_contact') # Post Method
     api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact')  # Update Method
@@ -28,11 +30,11 @@ def create_app(config_class=Config):
     api.init_app(app)
 
     # importing blue prints
-    from main.blog.routes import blog_bp
-    from main.hireme.routes import hireme
-    from main.main.routes import main
-    from main.projects.routes import projects_bp
-    from main.users.routes import users
+    from .blog.routes import blog_bp
+    from .hireme.routes import hireme
+    from .main.routes import main
+    from .projects.routes import projects_bp
+    from .users.routes import users
 
     app.register_blueprint(blog_bp)
     app.register_blueprint(hireme)

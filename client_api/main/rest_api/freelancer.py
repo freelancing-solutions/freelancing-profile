@@ -1,6 +1,6 @@
 import time
 from flask_restful import Api, Resource, marshal_with, reqparse, fields,abort
-from main.hireme.models import FreelanceJobModel
+from ..hireme.models import FreelanceJobModel
 from main import db
 
 
