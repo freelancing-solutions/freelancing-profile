@@ -1,7 +1,9 @@
+from flask import jsonify
 from flask_restful import Api, Resource, marshal_with, reqparse, fields, abort
 import requests
-from main.main.models import ContactModel
-from main import db
+from ..main.models import ContactModel
+from .. import db
+from ..library import token_required
 
 
 
@@ -45,7 +47,7 @@ class ContactAPI(Resource):
                                             help='Message body is required')
         return self.contact_req_parse.parse_args(strict=True)
 
-    @marshal_with(contact_fields)
+
     def post(self):
         """
             create new contact from details and save to backend
@@ -60,27 +62,57 @@ class ContactAPI(Resource):
                               reason=contact_form['reason'])
         db.session.add(contact)
         db.session.commit()
+        response = {
+            'uid': contact.uid,
+            'contact_id': contact.contact_id,
+            'names': contact.names,
+            'email': contact.email,
+            'cell': contact.cell,
+            'reason': contact.reason,
+            'subject': contact.subject,
+            'body': contact.body
+        }
+        return jsonify({'status': True, "payload": response, "error": ""})
 
-        return contact
+    @token_required
+    def get(self,current_user, contact_id):
+        """
+            Can be invked by a logged in user or by admin to obtain a list of contact messages
+        Args:
+            current_user ([type]): [description]
+            contact_id ([type]): [description]
 
-    @marshal_with(contact_fields)
-    def get(self, contact_id):
-        contact = ContactModel.query.filter_by(contact_id=contact_id).first()
-        if contact is not None:
-            return contact
+        Returns:
+            [type]: [description]
+        """
+        if current_user.admin is True:
+            results = []
+            contact_list = ContactModel.query.filter_by().all()
+            for contact in contact_list:
+                results.append(dict(contact))
+                return jsonify({"status": True, "payload": results, "error": ""}), 200
         else:
-            abort(http_status_code=404, message='Contact not found')
+            contact = ContactModel.query.filter_by(contact_id=contact_id).first()
+            if contact is not None:
+                return jsonify({ "status":True, "payload":dict(contact),"error": ""}), 200
+            else:
+                abort(http_status_code=404, message='Contact not found')
 
 
     @marshal_with(contact_fields)
-    def put(self, contact_id):
+    @token_required
+    def put(self,current_user, contact_id):
         """
             update contact details depending on contact id
         :param contact_id:
         :return:
         """
+        # If you are not admin then you must own the Contact record in order to update it
+        if current_user.admin is True:
+            contact_model = ContactModel.query.filter_by(contact_id=contact_id)
+        else:
+            contact_model = ContactModel.query.filter_by(contact_id=contact_id, uid=current_user.uid)
 
-        contact_model = ContactModel.query.filter_by(contact_id=contact_id)
         if contact_model is not None:
             contact_form = self.parse_contact_args()
             contact_model.update(dict(contact_form))
@@ -89,3 +121,4 @@ class ContactAPI(Resource):
             return contact_model.first()
         else:
             abort(http_status_code=404, message='Contact not found')
+

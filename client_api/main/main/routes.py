@@ -1,8 +1,8 @@
 
 from flask import render_template, request, make_response, Blueprint
-from main.library import Metatags
+from ..library import Metatags, token_required
 from .models import ContactModel
-from main import db
+from .. import db
 main = Blueprint('main', __name__)
 
 
@@ -40,6 +40,26 @@ def social(path):
         return render_template('social/github.html', heading="Github Profile", menu_open=True,meta_tags=Metatags().set_social_github())
     else:
         pass
+
+###########################################################################################################
+# Payment Processing Modules
+
+@main.route('/payments', methods=['GET', 'POST'])
+@token_required
+def payments(current_user):
+    pass
+
+@main.route('/payment', methods=['GET', 'POST'])
+@token_required
+def make_payment(current_user):
+    pass
+
+@main.route('/balances', methods=['GET', 'POST'])
+@token_required
+def balances(current_ser):
+    pass
+
+
 ###########################################################################################################
 # Basic Website Routes Sitemaps & Robots.txt
 
@@ -79,3 +99,4 @@ def service_worker():
     response.headers['content-type'] = 'application/javascript'
     return response
 # TODO- add a 404 handler here incase no URL was matched
+

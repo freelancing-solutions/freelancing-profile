@@ -68,7 +68,7 @@
       support_ticket_type : '',
       subject : '',
       body : '',
-      access_token : '', // Learn how to put this in for JWT
+      access_token : localStorage.getItem('x-access-token'), // Learn how to put this in for JWT
       url : '/api/v1/contact',
       init_form : async function(){
 
@@ -83,6 +83,8 @@
         this.reason = document.getElementById('reason');
         this.subject = document.getElementById('subject')
         this.body = document.getElementById('body');
+        this.message = document.getElementById('message')
+        return this
     }, // end cachedDom
     attach_handlers: async function(){
       document.getElementById('contact_form').addEventListener('submit', this.submit_message);
@@ -112,12 +114,13 @@
         })
         let init = {
           method : "POST",
-          headers: {'Content-Type': 'application/json','x-access-token' : this.access_token},
+          headers: {'Content-Type': 'application/json','x-access-token' : localStorage.getItem('x-access-token')},
           body: message,
           mode: "cors",
           credentials: "same-origin",
           cache: "no-cache",
         }
+        console.log('headers :', init)
         let request = new Request('/api/v1/contact',init);
         await fetch(request).then(response => {
           if (!response.ok){
@@ -126,12 +129,14 @@
           return response.json();
         }).then(json => {
             // Data has been sent inform the user
+            console.log(json)
+            message = "Successfully created message"
+            // this.reset_form(message).then(response => console.log(response))
         })
       }catch(e){
           console.log('error : ', e.message)
       }
     }, // end submit_message
-
     switch_reason: function(e){
         this.freelance_job_dom_html = `
         <div class="input-group mb-3">

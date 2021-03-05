@@ -33,8 +33,8 @@ def login():
 
 @users.route('/logout', methods=['GET', 'POST'])
 @token_required
-def logout():
-    return render_template('auth/logout.html', heading="Log Out", menu_open=True, meta_tags=Metatags().set_logout())
+def logout(current_user):
+    return render_template('auth/logout.html', current_user=current_user, heading="Log Out", menu_open=True, meta_tags=Metatags().set_logout())
 
 
 @users.route('/register', methods=['GET', 'POST'])

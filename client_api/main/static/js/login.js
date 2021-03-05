@@ -5,7 +5,7 @@
     let login_form = {
         email : '',
         password : '',
-        url : '/api/v1/user/login',
+        url : '/login',
         init : async function(){
                 console.log('Code initialized');
                 await this.cacheDom();
@@ -26,9 +26,9 @@
                 mode: "cors",
                 credentials: "same-origin",
                 cache: "no-cache",
-                body: JSON.stringify({'email':this.email.value,'password':this.password.value})
+                body: JSON.stringify({'username':this.email.value,'password':this.password.value})
               };
-            let request = new Request('/api/v1/user/login',init);
+            let request = new Request('/login',init);
             await fetch(request).then(response => {
                 if (!response.ok){
                     console.log(response.text())
@@ -36,7 +36,7 @@
                     return response.json()
                 }
             }).then(json => {
-                console.log(json)
+                localStorage.setItem('x-access-token', json['token'])
             })
         },
     };

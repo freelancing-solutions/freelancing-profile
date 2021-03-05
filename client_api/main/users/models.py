@@ -11,6 +11,7 @@ class UserModel(db.Model):
     surname = db.Column(db.String(128), nullable=True)
     cell = db.Column(db.String(13), nullable=True)
     admin = db.Column(db.Boolean)
+    img_link = db.Column(db.String(256), nullable=True)
 
     def __repr__(self):
         return '<User {}> <Email {}>'.format(self.username,self.email)

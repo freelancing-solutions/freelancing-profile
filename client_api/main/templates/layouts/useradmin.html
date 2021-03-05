@@ -2,12 +2,14 @@
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     <div class="p-3">
-      {% if user and user.logged_in %}
+      {% if current_user %}
       <h5>Freelance Admin</h5>
-        <p>Projects</p>
-        <p>Payments</p>
-        <p>Balances</p>
-        <p>Make Payment</p>
+      <ul class="navbar-nav ml-auto">
+        <li><a href="{{ url_for('projects.projects') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Freelance Jobs </a></li>
+        <li><a href="{{ url_for('main.payments') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
+        <li><a href="{{ url_for('main.balances') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
+        <li><a href="{{ url_for('main.make_payment') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
+      </ul>
       <a href="{{ url_for('users.logout') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Log Out </a>
       {% else %}
       <ul class="navbar-nav ml-auto">
