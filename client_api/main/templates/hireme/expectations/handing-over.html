@@ -1,8 +1,7 @@
 {% extends "layouts/layout.html" %}
-
 {% block content %}
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <section class="content-header">
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-8">
@@ -15,7 +14,173 @@
             </div><!-- /.col -->
           </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </section>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="card">
+                  <div class="card-header bg-dark">
+                        <h3 class="card-title">Handing Over Procedures </h3>
+                  </div>
+                  <div class="card-body">
+                    <span class="card-text">
+                      <p>
+                        Once i have completed the initial production deployment in-case of <strong>Web Development</strong>, <strong>Web Application Development</strong>
+                        or <strong>API Development</strong>, the projected will be handed over to you or your company.
+                      </p>
+                      <p>
+                        There are certain procedures which will need to be followed in order for this process
+                        to be completed successfully.
+                      </p>
+                    </span>
+
+                    <div class="card">
+                      <div class="card-header bg-gradient-dark" id="domain">
+                        <h3 class="card-title">
+                          Domain and Email Setup
+                        </h3>
+                      </div>
+
+                      <div class="card-body">
+                        IN-Case of <strong>Web Development</strong> or <strong>Web Application Development</strong> involving a custom domain name
+                        i will setup your domain in order to take advantage of the following.
+                        <ul>
+                            <li>CloudFlare Caching to improve site speed</li>
+                            <li>SSL Certificates (http:// to https://) for your main domain, sub-domains and API Endpoints</li>
+                            <li>DDOS Protection Through CloudFlare</li>
+                            <li>DKIM for your Emails, to improve Email Deliverability and Security</li>
+                            <li>Free SMTP Server for your Emails + default email addresses for you and your stuff</li>
+                            <li>Custom Email Templates for your business emails</li>
+                        </ul>
+                      </div>
+
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header bg-gradient-dark" id="healthchecks">
+                          <h3 class="card-title">Website or Web Application Health Checks and Notifications</h3>
+                      </div>
+
+                      <div class="card-body">
+                        <p>
+                          I will help setup site or API health checks and notifications mainly by Email
+                          the notification messages will be sent to your email inbox, however you can also
+                          choose to have me get notified in-case there is a downtime or a malfunction that may cause an undesirable effect.
+                        </p>
+
+                        <p>
+                          if possible and also dependent on your hosting service some notification messages of this kind may be delivered through
+                          your <strong>Slack APP</strong> in addition to your email address.
+                        </p>
+
+                        <p>
+                          This option will be highly dependent on your maintenance contract see below.
+                        </p>
+                          <p>
+                            Events which will be monitored may include the following:
+                            <ul>
+                              <li> Unreachable Server (or Server Error)</li>
+                              <li> Traffic Spikes </li>
+                              <li> Abnormal Traffic (DDOS Attacks) </li>
+                              <li> Budget Exceeded (Hosting service Dependent)</li>
+                              <li> Security Vulnerability (Checks &amp; Notifications ) <ol><li>(Requires Maintenance Contract &amp; Agreement to be fixed)</li></ol></li>
+                            </ul>
+                          </p>
+                      </div>
+                    </div>
+
+                    <div class="card">
+                      <div class="card-header bg-gradient-dark" id="deployments">
+                        <h3 class="card-title">Production &amp; Staging Deployments</h3>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">
+                          Depending on your hosting service i may setup a continuous deployment environment
+                          from your github repository to your Hosting Provider, this will allow you, me or any developer to deploy to a specific
+                          branch in your github repository and the changes will automatically be deployed to your staging environment or production environment.
+                        </p>
+                        <p class="card-text">
+                          Note that it may be possible to complete this step during project setup procedures, in which case
+                          you might need only to be trained and shown how to deploy to each of your enviroments or the details be supplied to you or your company.
+                        </p>
+                        <p class="card-text">
+                          This workflow highly simplifies:
+                          <ul>
+                            <li> Project Testing </li>
+                            <li> The ability to roll-back deployments</li>
+                            <li> A/B Testing for landing pages &amp; etc </li>
+                            <li> Fast Recovery times in-case of errors</li>
+                          </ul>
+                        </p>
+                      </div>
+
+                    </div>
+                    <div class="card">
+                      <div class="card-header bg-gradient-dark" id="setupprocedures">
+                        <h3 class="card-title">Setup Procedures &amp; Accounts Documentations</h3>
+                      </div>
+                      <div class="card-footer">
+                        <p class="card-text">
+                            For the above setup procedures, instructions and accounts will be documented and handed over to you.
+                            if i am required to maintain your project then i will keep a copy of those instructions 
+                            for safe keeping or in-case they are needed for maintenance purposes.
+                        </p>
+                        <p class="card-text">
+                          Included in the instructions will be a procedure on how to change your API Keys, Access Tokens and or usernames and passwords for added security.
+                        </p>
+
+                        <p class="card-text text-warning">
+                          Note: some setup procedures may require Teamviewer in-case you are unable to follow some of the instructions
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="card">
+                  <div class="card-header bg-dark">
+                      <h3 class="card-title"> Deployments </h3>
+                </div>
+                <div class="card-body">
+                <p class='card-text'>
+                    <!-- Text Here -->
+                    <u class='list-group-horizontal'>
+                      <li class='list-group-item'> 
+                        <a href="#domain">
+                          Domain &amp; Email Setup
+                        </a>
+                      </li>
+                      <li class='list-group-item'> 
+                        <a href="#healthchecks">
+                          Health Checks 
+                        </a>
+                      </li>
+                      <li class='list-group-item'> 
+                        <a href="#deployments">
+                          Deployments
+                        </a>
+                      </li>
+                      <li class='list-group-item'> 
+                        <a href="#setupprocedures">
+                          Documentations
+                        </a>
+                      </li>
+
+
+                    </u>
+                </p>
+                </div>
+
+              </div>
+          </div>
+      </div>
+
+  </div>
+
+    </section>
 
 {% endblock content %}
 {% block sidebar %}
