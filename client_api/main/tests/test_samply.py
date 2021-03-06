@@ -43,8 +43,9 @@ def test_hireme_freelance_job_model():
     freelance_job_model = FreelanceJobModel(uid=uid,project_name=project_name,project_category=project_category,
     description=description,progress=progress,status=status,link_details=link_details,time_created=right_now_milliseconds,
     est_hours_to_complete=hours_to_complete,currency=currency,budget_allocated=budget_allocated,total_paid=total_paid)
-
+    print("Testing hireme freelance jobs models")
     assert isinstance(freelance_job_model,FreelanceJobModel), "Failed to created an instance of freelance model"
+    print("freelance job models are created correctly")
     assert freelance_job_model.budget_allocated == budget_allocated , "Failed to set budget_allocated"
     assert freelance_job_model.project_name == project_name , "Project Name set incorrectly"
     assert freelance_job_model.description == description, "Failed to set description"
@@ -66,9 +67,12 @@ def test_hireme_freelance_job_model():
 
         freelance_job_mo = FreelanceJobModel.query.filter_by(uid=uid).first()
 
-    assert freelance_job_mo == freelance_job_model, "Instance Values from database are not equal to created instances"
+        assert freelance_job_mo == freelance_job_model, "Instance Values from database are not equal to created instances"
 
+        db.session.delete(freelance_job_model)
+        db.session.flush()
+        db.session.commit()
 
-
-
+def test_main_contact_model():
+    from ..main.models import ContactModel
 
