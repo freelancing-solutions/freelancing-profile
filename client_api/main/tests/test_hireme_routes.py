@@ -47,6 +47,15 @@ def test_hireme_routes():
         assert test_client.get(url_for('hireme.how_to_articles', path='download-install-teamviewer')), "Unable to access how to download-install-teamviewer article"
         assert test_client.get(url_for('hireme.how_to_articles', path='create-a-github-account')), "Unable to access how to create-a-github-account article"
         assert test_client.get(url_for('hireme.how_to_articles', path='create-a-gcp-developer-account')), "Unable to access how to create-a-gcp-developer-account article"
+        assert test_client.get(url_for('hireme.how_to_articles', path='create-a-heroku-developer-account')), "Unable to access how to create-a-heroku-developer-account article"
+        # Starting test cases for expectations and documentations
+        assert test_client.get(url_for('hireme.expectations', path='communication-channels-procedures')), "Unable to reach communication-channels-procedures article"
+        assert test_client.get(url_for('hireme.expectations', path='payments-procedures-methods')), "Unable to reach payments-procedures-methods article"
+        assert test_client.get(url_for('hireme.expectations', path='due-diligence')), "Unable to reach due-diligence article"
+        assert test_client.get(url_for('hireme.expectations', path='handing-over-procedures')), "Unable to reach handing-over-procedures article"
+        assert test_client.get(url_for('hireme.expectations', path='maintenance-procedures')), "Unable to reach maintenance-procedures article"
+
+
 
 
 

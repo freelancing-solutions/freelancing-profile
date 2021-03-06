@@ -263,7 +263,7 @@ def how_to_articles(path):
         title ="Create a Heroku Developer Account"
         return render_template('hireme/howto/create-heroku-account.html', heading=title,menu_open=True, meta_tags=Metatags().set_heroku_account())
     else:
-        pass
+        return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
 
 
 @hireme.route('/hire-freelancer/expectations/<path:path>', methods=['GET'])
@@ -287,4 +287,4 @@ def expectations(path):
         title = "Maintenance Procedures & Agreements"
         return render_template('hireme/expectations/maintenance.html', heading=title, menu_open=True, meta_tags=Metatags().set_maintenance())
     else:
-        pass
+        return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
