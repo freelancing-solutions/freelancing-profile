@@ -6,7 +6,7 @@ blog_bp = Blueprint('blog', __name__)
 
 ###########################################################################################################
 # Blog Routes
-@blog_bp.route('/blog', methods=['GET', 'POST'])
+@blog_bp.route('/blog', methods=['GET'])
 def blog():
     if request.method == "GET":
         return render_template('blog.html', heading="Blog", menu_open=True, meta_tags=Metatags().set_blog())
@@ -14,7 +14,7 @@ def blog():
         pass
 
 
-@blog_bp.route('/blog/categories/<path:path>', methods=['GET', 'POST'])
+@blog_bp.route('/blog/categories/<path:path>', methods=['GET'])
 def blog_categories(path):
     if path == "front-end":
         # TODO- Fetch Front end Posts
@@ -27,8 +27,8 @@ def blog_categories(path):
         return render_template('blog/api.html', heading="API Development Articles", menu_open=True,
                                meta_tags=Metatags().set_blog())
     else:
-        # TODO- add categories list as default
-        pass
+        return render_template('404.html', heading="Page Not Found", menu_open=True,
+                               meta_tags=Metatags().set_blog())
 
 
 @blog_bp.route('/learn-more/<path:path>', methods=['GET'])
@@ -44,5 +44,5 @@ def learn_more(path):
                                menu_open=True,
                                meta_tags=Metatags().set_learn_frontend())
     else:
-        return render_template("404.html", heading="Not Found", meta_tags=Metatags().set_home())
+        return render_template("404.html", heading="Page Not Found", meta_tags=Metatags().set_home())
 

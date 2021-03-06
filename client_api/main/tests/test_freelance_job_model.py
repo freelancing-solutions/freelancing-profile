@@ -42,12 +42,15 @@ def test_hireme_freelance_job_model():
         app = current_app
 
     with app.app_context():
-        db.session.add(freelance_job_model)
-        db.session.flush()
-        db.session.commit()
+        try:
+            db.session.add(freelance_job_model)
+            db.session.flush()
+            db.session.commit()
+        except Exception as error:
+            assert False, "Could not save freelance model to database"
 
         freelance_job_mo = FreelanceJobModel.query.filter_by(uid=uid).first()
-
+        assert freelance_job_mo, "Cannot retrieve freelance job model from database"
         assert freelance_job_mo == freelance_job_model, "Instance Values from database are not equal to created instances"
 
         db.session.delete(freelance_job_model)
