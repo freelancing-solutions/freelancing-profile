@@ -1,6 +1,7 @@
 import uuid, time
 from .. import db, create_app
 from flask import current_app
+from ..library import config
 from werkzeug.security import check_password_hash, generate_password_hash
 
 def test_add_user_through_rest_api():

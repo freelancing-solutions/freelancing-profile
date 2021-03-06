@@ -2,6 +2,7 @@
 import uuid, time
 from .. import db, create_app
 from flask import current_app
+from ..library import config
 
 def test_hireme_freelance_job_model():
     from ..hireme.models import FreelanceJobModel
@@ -36,11 +37,11 @@ def test_hireme_freelance_job_model():
     assert freelance_job_model.total_paid == total_paid, "Failed to set total paid"
 
     if not current_app:
-        app = create_app()
+        app = create_app(config_class=config.TestingConfig)
         app.app_context().push()
     else:
         app = current_app
-
+    app.testing = True
     with app.app_context():
         try:
             db.session.add(freelance_job_model)

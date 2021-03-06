@@ -2,6 +2,7 @@
 import uuid, time
 from .. import db, create_app
 from flask import current_app
+from ..library import config
 
 def test_main_contact_model():
     from ..main.models import ContactModel
@@ -23,7 +24,7 @@ def test_main_contact_model():
     assert contact_model_instance.reason == reason, "Reason is not being set correctly"
 
     if not current_app:
-        app = create_app()
+        app = create_app(config_class=config.TestingConfig)
         app.app_context().push()
     else:
         app = current_app
