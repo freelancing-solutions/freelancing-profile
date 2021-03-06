@@ -1,7 +1,9 @@
 import time
+from flask import jsonify
 from flask_restful import Api, Resource, marshal_with, reqparse, fields,abort
 from ..hireme.models import FreelanceJobModel
-from main import db
+from .. import db
+from ..library import is_authenticated, authenticated_user
 
 
 # uid = db.Column(db.String(128),unique=True, nullable=False)
@@ -132,4 +134,29 @@ class FreelanceJobAPI(Resource):
             return freelance_job.first()
         else:
             abort(http_status_code=404,message='Freelance job not found')
+
+
+class ListFreelanceJobs(Resource):
+    """
+        ListFreelanceJobs displays a list of freelance jobs
+    Args:
+        Resource ([type]): [description]
+    """
+
+    def __init__(self):
+        super(ListFreelanceJobs).__init__()
+        self.args_parser = reqparse.RequestParser(bundle_errors=True, trim=True)
+        self.args_parser.add_argument('x-access-token', type=str, location="headers")
+
+
+    def get(self):
+
+        arguments = self.args_parser.parse_args()
+        access_token = arguments['x-access-token']
+        current_user = authenticated_user(token=access_token)
+        if current_user is None:
+            abort(http_status_code=401,message="User not Authenticated")
+
+        payload = [dict(freelance_job) for freelance_job in FreelanceJobModel.query.filter_by(uid=current_user.uid).all()]
+        return jsonify({"status": True, "payload": payload, "error": ""})
 

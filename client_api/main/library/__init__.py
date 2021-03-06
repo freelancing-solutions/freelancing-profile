@@ -58,3 +58,19 @@ def token_required(f):
 
         return f(current_user, *args, **kwargs)
     return decorated
+
+def is_authenticated(token):
+    try:
+        uid = decode_auth_token(auth_token=token)
+        current_user = UserModel.query.filter_by(uid=uid).first()
+        return True
+    except Exception as error:
+        return False
+
+def authenticated_user(token):
+    try:
+        uid = decode_auth_token(auth_token=token)
+        current_user = UserModel.query.filter_by(uid=uid).first()
+        return current_user
+    except Exception as error:
+        return None

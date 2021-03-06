@@ -1,4 +1,3 @@
-
 {% extends "layouts/layout.html" %}
 {% block content %}
     <!-- Content Header (Page header) -->
@@ -12,13 +11,11 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url_for('hireme.project_details', path=job_link) }}"> Freelance Job </a></li>
-
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -45,17 +42,13 @@
               </div>
             </div>
         </div>
-
       </div>
     </section>
     <!-- /.content -->
-
 {% endblock content %}>
-
 {% block sidebar %}
     {% include "layouts/hireme/sidebar.html" %}
 {% endblock %}
-
 {% block header %}
     {% include "layouts/hireme/header.html" %}
 {% endblock header %}

@@ -1,8 +1,8 @@
 from flask import make_response
 from flask_login import login_user
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
-from main.users.models import UserModel
-from main import db
+from ..users.models import UserModel
+from .. import db
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 

@@ -12,13 +12,11 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ url_for('hireme.project_details', path=freelance_job.link_details) }}"> Freelance Job </a></li>
-
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -26,7 +24,6 @@
           <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">General</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                   <i class="fas fa-minus"></i></button>
@@ -67,7 +64,6 @@
           <div class="card card-secondary">
             <div class="card-header">
               <h3 class="card-title">Budget</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                   <i class="fas fa-minus"></i></button>
@@ -93,7 +89,6 @@
           <div class="card card-info">
             <div class="card-header">
               <h3 class="card-title">Files</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
                   <i class="fas fa-minus"></i></button>
@@ -109,7 +104,6 @@
                   </tr>
                 </thead>
                 <tbody>
-
                   <tr>
                     <td>Functional-requirements.docx</td>
                     <td>49.8005 kb</td>
@@ -155,7 +149,6 @@
                         <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                       </div>
                     </td>
-
                 </tbody>
               </table>
             </div>
@@ -173,11 +166,9 @@
     </section>
     <!-- /.content -->
 {% endblock content %}>
-
 {% block sidebar %}
     {% include "layouts/hireme/sidebar.html" %}
 {% endblock %}
-
 {% block header %}
     {% include "layouts/hireme/header.html" %}
 {% endblock header %}
