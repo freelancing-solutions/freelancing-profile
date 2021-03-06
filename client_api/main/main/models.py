@@ -25,4 +25,9 @@ class ContactModel(db.Model):
     def __repr__(self):
         return '<ContactModel names : {}, email: {}, cell: {}, subject: {}, body: {}, reason: {}>'.format(self.names,self.email,self.cell,self.subject,self.body,self.reason)
 
+    def __eq__(self, value):
+        if (value.uid == self.uid) and (value.names == self.names) and  (value.email == self.email) and (value.cell == self.cell) and (value.subject == self.subject) and (value.body == self.body) and (value.reason == self.reason):
+            return True
+
+        return False
 

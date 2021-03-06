@@ -43,3 +43,9 @@ class FreelanceJobModel(db.Model):
             link_details: {}, time_created: {}, est_hours_to_complete: {}, currency: {}. budget_allocated: {}, total_paid: {} >".format(
             self.project_name, self.project_category, self.description, self.progress, self.status, self.link_details,
             self.time_created, self.est_hours_to_complete, self.currency, self.budget_allocated, self.total_paid)
+
+    def __eq__(self, value):
+        if (value.uid == self.uid) and (value.project_id == self.project_id) and (value.project_name == self.project_name) and (value.project_category == self.project_category) and (value.description == self.description) and (value.progress == self.progress) and (value.status == self.status) and (value.link_details == self.link_details) and (value.time_created == self.time_created) and (value.est_hours_to_complete == self.est_hours_to_complete) and (value.currency == self.currency) and (value.budget_allocated == self.budget_allocated) and (value.total_paid == self.total_paid):
+            return True
+        return False
+
