@@ -15,7 +15,7 @@ def create_app(config_class=Config):
 
     # TODO- find a way to restructure api
     # NOTE that API are mainly used by admin user
-    api.add_resource(ContactAPI, '/api/v1/contact/<string:contact_id>', endpoint='get_contact') # Get Method
+    api.add_resource(ContactAPI, '/api/v1/contact/<string:contact_id>', endpoint='get_contact_details') # Get Method
     api.add_resource(ContactAPI, '/api/v1/contact', endpoint='post_contact') # Post Method
     api.add_resource(ContactAPI, '/api/v1/contacts/<string:contact_id>', endpoint='put_contact')  # Update Method
 

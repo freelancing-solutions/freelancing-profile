@@ -16,7 +16,6 @@ def encode_auth_token(uid):
             'iat': datetime.datetime.utcnow(),
             'sub': uid
         }
-        print('Encoding token')
         return jwt.encode(
             payload=payload,
             key=current_app.config.get('SECRET_KEY'),
