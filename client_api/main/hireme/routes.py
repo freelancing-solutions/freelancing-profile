@@ -145,12 +145,11 @@ temp_freelance_jobs = [
 
 ###########################################################################################################
 # Freelance and Hire Routes
-@hireme.route('/hire-freelancer', methods=['GET', 'POST'])
+@hireme.route('/hire-freelancer', methods=['GET'])
 def freelancer():
     if request.method == "GET":
         return render_template('hireme.html', heading="Hiring a Freelancer", menu_open=True, meta_tags=Metatags().set_freelancer())
-    else:
-        pass
+
 
 
 @hireme.route('/hire-freelancer/<path:path>', methods=['GET', 'POST'])
@@ -175,12 +174,15 @@ def hire(current_user,path):
 def project_details(current_user,path):
     if path is not None:
         freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
-        return render_template('hireme/project-details.html',
-                                freelance_job=freelance_job,
-                                heading='Freelance Job Details',
-                                menu_open=True,
-                                current_user=current_user,
-                                meta_tags=Metatags().set_freelancer())
+        if freelance_job:
+            return render_template('hireme/project-details.html',
+                                    freelance_job=freelance_job,
+                                    heading='Freelance Job Details',
+                                    menu_open=True,
+                                    current_user=current_user,
+                                    meta_tags=Metatags().set_freelancer())
+        else:
+            return render_template('404.html', heading="Not Found",menu_open=True, meta_tags=Metatags().set_home())
     else:
         return render_template('hireme/gigs.html', heading="My Freelance Jobs",menu_open=True, meta_tags=Metatags().set_freelancer())
 

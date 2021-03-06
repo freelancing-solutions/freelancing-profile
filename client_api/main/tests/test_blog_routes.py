@@ -1,12 +1,10 @@
 # import unittest
 from .. import db, create_app
 from flask import current_app, url_for
-import pytest
+
 
 
 def test_blog_routes():
-    from ..blog import routes
-
     if not current_app:
         app = create_app()
         app.app_context().push()
