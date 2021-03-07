@@ -11,7 +11,7 @@ def test_blog_routes():
     else:
         app = current_app
     app.testing = True
-    with app.app_context():        
+    with app.app_context():
         with app.test_client(use_cookies=True) as test_client:
             assert test_client.get('/blog'), "could not access blog home page"
             # assert test_client.get(url_for('blog.blog')), "could not access blog home page through url-for method"

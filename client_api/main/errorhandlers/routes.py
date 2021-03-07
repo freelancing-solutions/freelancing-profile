@@ -27,3 +27,7 @@ def handle_not_allowed(e):
 @error_blueprint.app_errorhandler(Unauthorized)
 def handle_unauthorized(e):
     return render_template('error.html', heading="You are not authorized to make this request", meta_tags=Metatags().set_home())
+
+@error_blueprint.route('/debug-sentry')
+def trigger_sentry():
+    division_by_zero = 1 / 0

@@ -1,5 +1,7 @@
 import os
 from main import create_app, db
+from main.library.config import Config
+
 app = create_app()
 app.app_context().push()
 db.create_all(app=app)

@@ -96,4 +96,3 @@ def service_worker():
     response.headers['content-type'] = 'application/javascript'
     return response
 # TODO- add a 404 handler here incase no URL was matched
-

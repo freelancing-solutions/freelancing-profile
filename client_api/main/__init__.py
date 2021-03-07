@@ -1,5 +1,6 @@
-
+import sentry_sdk
 from flask import Flask
+from sentry_sdk.integrations.flask import FlaskIntegration
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from flask_restful import Api
@@ -7,6 +8,12 @@ from .rest_api import UserAPI,ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJob
 from .library.config import Config
 api = Api()
 
+
+sentry_sdk.init(
+    dsn=Config().SENTRY_INIT,
+    integrations=[FlaskIntegration()],
+    traces_sample_rate=1.0
+)
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")
