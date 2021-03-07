@@ -44,7 +44,7 @@ def create_app(config_class=Config):
     from .main.routes import main
     from .projects.routes import projects_bp
     from .errorhandlers.routes import error_blueprint
-
+    from .administrator.routes import admin_routes
 
     app.register_blueprint(error_blueprint)
     app.register_blueprint(users)
@@ -52,4 +52,5 @@ def create_app(config_class=Config):
     app.register_blueprint(blog_bp)
     app.register_blueprint(hireme)
     app.register_blueprint(projects_bp)
+    app.register_blueprint(admin_routes)
     return app

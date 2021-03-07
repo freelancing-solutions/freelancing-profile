@@ -22,6 +22,7 @@ class FreelanceJobModel(db.Model):
     currency = db.Column(db.String(32), nullable=False, default="$")
     budget_allocated = db.Column(db.Integer, nullable=False)
     total_paid = db.Column(db.Integer, nullable=False, default=0)
+    seen = db.Column(db.Boolean, default=False)
     user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
 
     def __repr__(self):
