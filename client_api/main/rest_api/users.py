@@ -23,12 +23,10 @@ class UserAPI(Resource):
         Args:
             Resource ([type]): [description]
     """
-
     def __init__(self):
         super(UserAPI, self).__init__()
         self.args_parser = reqparse.RequestParser(bundle_errors=True,trim=True)
         self.args_parser.add_argument('email', type=str, location='json', required=True, help='Email is a required field')
-
 
     @marshal_with(user_fields)
     def get(self,uid):
@@ -85,7 +83,6 @@ class UserAPI(Resource):
         names = self.args['names']
         surname = self.args['surname']
         admin = self.args['admin']
-
         password_hash = generate_password_hash(self.args['password'],method='sha256')
         user_detail = UserModel.query.filter_by(email=email)
         if user_detail is not None:
@@ -114,4 +111,3 @@ class UserAPI(Resource):
         if user_detail is not None:
             db.session.delete(user_detail)
             db.session.commit()
-

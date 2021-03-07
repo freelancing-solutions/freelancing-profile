@@ -1,42 +1,28 @@
 from .. import db
 from flask import current_app
-
+import time
 class FreelanceJobModel(db.Model):
     """
-        'uid': '546034t045t0459t45', # user id of the user who created the project
-        'project_id': '02349u3rf3945394yr7',
-        'project_name': 'Web Development',
-        'project_category': 'Web Development',
-        'description': 'Create a business presence website for my poultry farms it must allow order taking onsite',
-        'progress': 70,
-        'status': 'in-progress',
-        'link_details': '02349u3rf3945394yr7',
-        'time_created': time.time() * 1000, # time in milliseconds
-        'est_hours_to_complete':0,   # time in milliseconds left until project is completed
-        'currency' : '$',
-        'budget_allocated': 500,
-        'total_paid': 200
-
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.String(128),unique=True)
-    username = db.Column(db.String(128), unique=True, nullable=True)
-    Args:
-        db ([type]): [description]
+        id = db.Column(db.Integer, primary_key=True)
+        uid = db.Column(db.String(128),unique=True)
+        username = db.Column(db.String(128), unique=True, nullable=True)
+        Args:
+            db ([type]): [description]
     """
-    uid = db.Column(db.String(128),unique=False, nullable=False)
+    uid = db.Column(db.String(128),db.ForeignKey('user_model.uid'),unique=False, nullable=False)
     project_id = db.Column(db.Integer, unique=True, primary_key=True)
     project_name = db.Column(db.String(1048), unique=False, nullable=False)
     project_category = db.Column(db.String(64), nullable=False)
     description = db.Column(db.String(2096), nullable=False)
-    progress = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String(32), nullable=False)
+    progress = db.Column(db.Integer, nullable=False, default=0)
+    status = db.Column(db.String(32), nullable=False, default="active")
     link_details = db.Column(db.String(256), nullable=False)
-    time_created = db.Column(db.Integer, nullable=False)
-    est_hours_to_complete = db.Column(db.Integer, nullable=False)
-    currency = db.Column(db.String(32), nullable=False)
+    time_created = db.Column(db.Integer, nullable=False,default=int(float(time.time()) * 1000))
+    est_hours_to_complete = db.Column(db.Integer, nullable=False, default=7*24)
+    currency = db.Column(db.String(32), nullable=False, default="$")
     budget_allocated = db.Column(db.Integer, nullable=False)
-    total_paid = db.Column(db.Integer, nullable=False)
-
+    total_paid = db.Column(db.Integer, nullable=False, default=0)
+    user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
 
     def __repr__(self):
         return "<FreelanceJobModel project_name: {}, project_category: {}, description: {}, progress: {}, status: {},\

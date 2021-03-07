@@ -5,7 +5,6 @@ from .models import ContactModel
 from .. import db
 main = Blueprint('main', __name__)
 
-
 ###########################################################################################################
 # Basic Home Page Routes
 
@@ -26,7 +25,6 @@ def contact():
         # TODO- handle post request here
         return render_template('contact.html', heading="Contact",
                                menu_open=True, meta_tags=Metatags().set_contact())
-
 
 @main.route('/about', methods=['GET'])
 def about():
@@ -58,7 +56,6 @@ def make_payment(current_user):
 @token_required
 def balances(current_ser):
     pass
-
 
 ###########################################################################################################
 # Basic Website Routes Sitemaps & Robots.txt

@@ -14,16 +14,13 @@ class Config:
     TEMPLATES_AUTO_RELOAD = True
     DEBUG = False
     TESTING = False
-
 class ProductionConfig(Config):
     TEMPLATES_AUTO_RELOAD = False
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URI")
     SECRET_KEY = os.environ.get("SECRET_KEY")
-
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:11111111@localhost/ajfreelance'
-
 class TestingConfig(Config):
     TESTING = True
     DEBUG = True

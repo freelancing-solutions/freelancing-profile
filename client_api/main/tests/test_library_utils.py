@@ -15,7 +15,7 @@ def test_encode_decode_auth():
         app = current_app
 
     with app.app_context():
-        users_list = UserModel.query.filter_by().all()
+        users_list = UserModel.query.limit(1).all()
         if isinstance(users_list, list) and len(users_list) > 0:
             user_instance = users_list[0]
             token = encode_auth_token(user_instance.uid)

@@ -1,8 +1,6 @@
 from flask import render_template, request, Blueprint
 from ..library import Metatags
-
 projects_bp = Blueprint('projects', __name__)
-
 
 ###########################################################################################################
 # Projects Routes
@@ -24,4 +22,3 @@ def projects_repos(path):
     else:
         return render_template('projects/repos.html',menu_open=True, heading="Project Repositories",
                                meta_tags=Metatags().set_projects())
-

@@ -16,15 +16,15 @@ def login():
                                 menu_open=True,
                                 meta_tags=Metatags().set_login())
     elif request.method == 'POST':
-        auth = request.authorization
-        if not auth or not auth.username or not auth.password:
+        auth = request.get_json()
+        if not auth or not auth['username'] or not auth['password']:
             return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-        user_model = UserModel.query.filter_by(username=auth.username).first()
+        user_model = UserModel.query.filter_by(username=auth['username']).first()
         if not user_model:
             return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
 
-        if check_password_hash(user_model.password,auth.password):
+        if check_password_hash(user_model.password,auth['password']):
             token = encode_auth_token(uid=user_model.uid)
             # print('----------')
             # print('token : {}'.format(token))
@@ -64,15 +64,7 @@ def register():
         if user_model:
             return jsonify({'message': 'User already exists'})
 
-        # uid = db.Column(db.String(128),unique=True) # Public ID
-        # username = db.Column(db.String(128), unique=True, nullable=True)
-        # email = db.Column(db.String(120), unique=True, nullable=False)
-        # password = db.Column(db.String(120))
-        # names = db.Column(db.String(128), nullable=True)
-        # surname = db.Column(db.String(128), nullable=True)
-        # cell = db.Column(db.String(13), nullable=True)
-        # admin = db.Column(db.Boolean)
-        # img_link = db.Column(db.String(256), nullable=True)
+
         password_hash = generate_password_hash(password=password,method='sha256')
         uid = str(uuid.uuid4())
         user_model - UserModel(uid=uid ,username=email,email=email,password=password_hash,names=names,admin=False)
@@ -97,8 +89,8 @@ def recover(path):
 @token_required
 def useradmin(current_user):
     """
-     GIVEN current_user details load user details
-    Args:
-        current_user ([type]): [description]
+        GIVEN current_user details load user details
+        Args:
+            current_user ([type]): [description]
     """
     return render_template('user-admin.html', heading='Welcome {}'.format(current_user.names), menu_open=True, meta_tags=Metatags().set_home())
