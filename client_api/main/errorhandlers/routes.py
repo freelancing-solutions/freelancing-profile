@@ -1,7 +1,7 @@
 
 from flask import render_template, request, make_response, Blueprint
 from ..library import Metatags
-from werkzeug.exceptions import BadRequest, Forbidden,NotFound,MethodNotAllowed,Unauthorized
+from werkzeug.exceptions import BadRequest, Forbidden,NotFound,MethodNotAllowed,Unauthorized, HTTPException
 
 error_blueprint = Blueprint('error', __name__)
 
@@ -28,6 +28,22 @@ def handle_not_allowed(e):
 def handle_unauthorized(e):
     return render_template('error.html', heading="You are not authorized to make this request", meta_tags=Metatags().set_home())
 
+# @error_blueprint.app_errorhandler(HTTPException)
+# def handle_exception(e):
+#     """Return JSON instead of HTML for HTTP errors."""
+#     # start with the correct headers and status code from the error
+#     response = e.get_response()
+#     # replace the body with JSON
+#     response.data = json.dumps({
+#         "code": e.code,
+#         "name": e.name,
+#         "description": e.description,
+#     })
+#     response.content_type = "application/json"
+#     return response
+
+
 @error_blueprint.route('/debug-sentry')
 def trigger_sentry():
     division_by_zero = 1 / 0
+

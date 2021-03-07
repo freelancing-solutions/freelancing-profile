@@ -5,3 +5,4 @@ README.MD
 *.pyd
 /__pycache__
 .pytest_cache
+.env
