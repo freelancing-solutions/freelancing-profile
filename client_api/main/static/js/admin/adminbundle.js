@@ -1,4 +1,3 @@
-
 this.addEventListener('load', () => {
 
     // Where to place the content
@@ -7,7 +6,7 @@ this.addEventListener('load', () => {
     // Handle bars message handler
     let message_template = Handlebars.compile(`
         <div class="card bg-dark">
-            <p class="text-light"><em>{{ _message }}</em></p>
+            <p class="card-text text-light"><em>{{ _message }}</em></p>
         </div>
     `);
 
@@ -77,19 +76,19 @@ this.addEventListener('load', () => {
 
     // initializing request
     let init_get = {
-        method : "GET",
-        headers: {'Content-Type': 'application/json','x-access-token' : localStorage.getItem('x-access-token')},
+        method: "GET",
+        headers: { 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('x-access-token') },
         mode: "cors",
         credentials: "same-origin",
         cache: "no-cache",
     }
 
     // Creating new databases
-    document.getElementById('create_database').addEventListener('click', function(e){
+    document.getElementById('create_database').addEventListener('click', function(e) {
 
         let request = new Request('/admin/database/create', init_get);
         fetch(request).then(response => {
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('There was an error communicating with backend')
             }
             return response.json()
@@ -98,42 +97,42 @@ this.addEventListener('load', () => {
         })
     });
 
-    document.getElementById('load_database').addEventListener('click', function(e){
+    document.getElementById('load_database').addEventListener('click', function(e) {
         console.log('Event triggered');
-        content_html.innerHTML = message_template({ _message: "Handle bars rocks - load"});
+        content_html.innerHTML = message_template({ _message: "Handle bars rocks - load" });
     });
 
-    document.getElementById('reset_database').addEventListener('click', function(e){
+    document.getElementById('reset_database').addEventListener('click', function(e) {
         console.log('Event triggered');
-        content_html.innerHTML = message_template({ _message: "Handle bars rocks - reset"});
+        content_html.innerHTML = message_template({ _message: "Handle bars rocks - reset" });
     });
 
-    document.getElementById('new_freelance_jobs').addEventListener('click', function (e){
+    document.getElementById('new_freelance_jobs').addEventListener('click', function(e) {
         let request = new Request('/admin/freelance-jobs/recent', init_get);
         fetch(request).then(response => {
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('There was an error communicating with backend')
             }
             return response.json()
         }).then(json => {
-            content_html.innerHTML = freelance_jobs_template({freelance_jobs : json})
+            content_html.innerHTML = freelance_jobs_template({ freelance_jobs: json })
 
         });
     });
-    document.getElementById('all_freelance_jobs').addEventListener('click', function (e){
+    document.getElementById('all_freelance_jobs').addEventListener('click', function(e) {
         let request = new Request('/admin/freelance-jobs/all', init_get);
         fetch(request).then(response => {
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('There was an error communicating with backend')
             }
             return response.json()
         }).then(json => {
-            content_html.innerHTML = freelance_jobs_template({freelance_jobs : json})
+            content_html.innerHTML = freelance_jobs_template({ freelance_jobs: json })
 
         });
     });
 
-    document.getElementById('add_freelance_job').addEventListener('click', function (e){
+    document.getElementById('add_freelance_job').addEventListener('click', function(e) {
         // Adding form to submit a freelance job to DOM
         content_html.innerHTML = add_job_template();
         document.getElementById('freelance_job_form').addEventListener('submit', e => {
@@ -149,27 +148,27 @@ this.addEventListener('load', () => {
                 "project_name": project_name_dom.value,
                 "description": description_dom.value,
                 "est_hours_to_complete": hours_to_complete_dom.value,
-                "currency":currency_dom.value,
-                "budget":budget_allocated_dom.value});
+                "currency": currency_dom.value,
+                "budget": budget_allocated_dom.value
+            });
 
             console.log(json_data);
             let init_post = {
-                method : "POST",
-                headers: {'Content-Type': 'application/json','x-access-token' : localStorage.getItem('x-access-token')},
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('x-access-token') },
                 mode: "cors",
                 body: json_data,
                 credentials: "same-origin",
                 cache: "no-cache"
             }
-            let request = new Request('/admin/freelance-job',init_post);
+            let request = new Request('/admin/freelance-job', init_post);
             fetch(request).then(response => {
-                if (!response.ok){
-                    throw new Error('There was an error communicating with backend')
-                }
                 return response.json()
             }).then(json => {
-                content_html.innerHTML = message_template({_message : json.message });
-            });
+                content_html.innerHTML = message_template({ _message: json.message });
+            }).catch(error => {
+                content_html.innerHTML = message_template({ _message: error.message });
+            })
         });
     });
 

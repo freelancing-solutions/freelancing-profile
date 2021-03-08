@@ -1,80 +1,83 @@
-{% extends "auth/auth-layout.html" %}
-{% block body %}
-  <div class="register-box">
+{% extends "auth/auth-layout.html" %} {% block body %}
+<div class="register-box">
     <div class="register-logo">
-      <a href="{{ url_for('main.home') }}" title="Justice ndou Freelance Profile"><b>Freelance </b> Profile </a>
+        <a href="{{ url_for('main.home') }}" title="Justice ndou Freelance Profile"><b>Freelance </b> Profile </a>
     </div>
 
     <div class="card">
-      <div class="card-body register-card-body">
-        <p class="login-box-msg">You have to create an account in order to submit freelance jobs</p>
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">You have to create an account in order to submit freelance jobs</p>
 
-        <form action="../../index.html" method="post">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Full name">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-user"></span>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="email" class="form-control" placeholder="Email">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-              </div>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Retype password">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-                <label for="agreeTerms">
-                 I agree to the <a href="{{ url_for('main.terms') }}">terms</a>
+            <form action="{{ url_for('users.register')}}" method="post" id="register_form">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="names" placeholder="Full name ">
+                    <div class="input-group-append ">
+                        <div class="input-group-text ">
+                            <span class="fas fa-user "></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3 ">
+                    <input type="email " class="form-control " id="email" placeholder="Email ">
+                    <div class="input-group-append ">
+                        <div class="input-group-text ">
+                            <span class="fas fa-envelope "></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3 ">
+                    <input type="password " class="form-control" id="password" placeholder="Password ">
+                    <div class="input-group-append ">
+                        <div class="input-group-text ">
+                            <span class="fas fa-lock "></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3 ">
+                    <input type="password " class="form-control" id="password_match" placeholder="Retype password ">
+                    <div class="input-group-append ">
+                        <div class="input-group-text ">
+                            <span class="fas fa-lock "></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-8 ">
+                        <div class="icheck-primary ">
+                            <input type="checkbox " id="agreeTerms " name="terms " value="agree ">
+                            <label for="agreeTerms ">
+                 I agree to the <a href="{{ url_for( 'main.terms') }} ">terms</a>
                 </label>
-              </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Register</button>
-            </div>
-            <!-- /.col -->
-          </div>
-        </form>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-4 ">
+                        <button type="submit " class="btn btn-primary btn-block ">Register</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
 
-        <div class="social-auth-links text-center">
-          <p>- OR -</p>
-          <a href="#" class="btn btn-block btn-primary">
-            <i class="fab fa-facebook mr-2"></i>
-            Sign up using Facebook
-          </a>
-          <a href="#" class="btn btn-block btn-danger">
-            <i class="fab fa-google-plus mr-2"></i>
-            Sign up using Google+
-          </a>
+            <div class="social-auth-links text-center ">
+                <p>- OR -</p>
+                <a href="# " class="btn btn-block btn-primary ">
+                    <i class="fab fa-facebook mr-2 "></i> Sign up using Facebook
+                </a>
+                <a href="# " class="btn btn-block btn-danger ">
+                    <i class="fab fa-google-plus mr-2 "></i> Sign up using Google+
+                </a>
+            </div>
+
+            <a href="{{ url_for( 'users.login') }} " class="text-center ">I already have a membership</a>
         </div>
+        <div id="message_content"></div>
+        <!-- /.form-box -->
+    </div>
+    <!-- /.card -->
+</div>
 
-        <a href="{{ url_for('users.login') }}" class="text-center">I already have a membership</a>
-      </div>
-      <!-- /.form-box -->
-    </div><!-- /.card -->
-  </div>
-
-{% endblock body %}
+{% endblock body %} 
+{% block user_scripts_block %}
+    <script src="{{ url_for( 'static', filename='js/handlebars.js' )}} "> </script> 
+    <script src="{{ url_for( 'static', filename='js/auth/register.js' )}} "></script>
+{% endblock user_scripts_block %}}

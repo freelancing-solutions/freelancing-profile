@@ -2,15 +2,14 @@ from .. import db
 from flask import current_app
 
 class UserModel(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.String(128),unique=True) # Public ID
+    uid = db.Column(db.String(36),unique=True,primary_key=True) # Public ID
     username = db.Column(db.String(128), unique=True, nullable=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120))
     names = db.Column(db.String(128), nullable=True)
     surname = db.Column(db.String(128), nullable=True)
     cell = db.Column(db.String(13), nullable=True)
-    admin = db.Column(db.Boolean)
+    admin = db.Column(db.Boolean, default=False)
     img_link = db.Column(db.String(256), nullable=True)
 
     def __repr__(self):

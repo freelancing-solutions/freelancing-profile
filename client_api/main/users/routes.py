@@ -50,10 +50,12 @@ def register():
             email = user_details['email']
         else:
             return jsonify({'message': 'email address is required'})
+
         if user_details and 'password' in user_details:
             password = user_details['password']
         else:
             return jsonify({'message': 'password is required'})
+
         if user_details and 'names' in user_details:
             names = user_details['names']
             # NOTE : attempt names surname detection and resolution
@@ -64,10 +66,10 @@ def register():
         if user_model:
             return jsonify({'message': 'User already exists'})
 
-
         password_hash = generate_password_hash(password=password,method='sha256')
         uid = str(uuid.uuid4())
-        user_model - UserModel(uid=uid ,username=email,email=email,password=password_hash,names=names,admin=False)
+        # TODO check if uid is not present right now
+        user_model = UserModel(uid=uid ,username=email,email=email,password=password_hash,names=names,admin=False)
         db.session.add(user_model)
         db.session.commit()
         token = encode_auth_token(uid=user_model.uid)

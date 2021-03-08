@@ -1,13 +1,9 @@
-'use strict';
-
-
 (function() {
     let login_form = {
         email : '',
         password : '',
         url : '/login',
         init : async function(){
-                console.log('Code initialized');
                 await this.cacheDom();
                 await this.attach_handlers();
         },
@@ -21,7 +17,7 @@
         do_login: async function(e){
             e.preventDefault();
             let init = {
-                method: "post",
+                method: "POST",
                 headers: {"Content-Type": "application/json"},
                 mode: "cors",
                 credentials: "same-origin",
@@ -36,7 +32,17 @@
                     return response.json()
                 }
             }).then(json => {
+                localStorage.removeItem('x-access-token');
                 localStorage.setItem('x-access-token', json['token'])
+                send_auth_to_service_worker(json['token']).then( response => {
+                });
+
+                document.getElementById('message').innerHTML =`
+                    <div class="card">
+                        <p class="card-text mr-2 ml-2 mb-2 mt-2">Your account was created and you where successfully logged in</p>
+                    </div>
+                `;
+
             })
         },
     };

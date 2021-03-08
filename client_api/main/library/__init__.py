@@ -16,11 +16,8 @@ def encode_auth_token(uid):
             'iat': datetime.datetime.utcnow(),
             'sub': uid
         }
-        return jwt.encode(
-            payload=payload,
-            key=current_app.config.get('SECRET_KEY'),
-            algorithm='HS256'
-        )
+        token = jwt.encode(payload,current_app.config.get('SECRET_KEY'),algorithm='HS256')
+        return str(token)
     except Exception as e:
         return e
 
@@ -32,12 +29,12 @@ def decode_auth_token(auth_token):
     :return: integer|string
     """
     try:
-        payload = jwt.decode(auth_token, current_app.config.get('SECRET_KEY'))
-        return payload['sub'].decode()
+        payload = jwt.decode(auth_token, current_app.config.get('SECRET_KEY'),algorithms=['HS256'])
+        return payload['sub']
     except jwt.ExpiredSignatureError:
-        return 'Signature expired. Please log in again.'
+        return redirect(url_for('users.login'))
     except jwt.InvalidTokenError:
-        return 'Invalid token. Please log in again.'
+        return redirect(url_for('users.login'))
 
 
 def token_required(f):
@@ -46,15 +43,14 @@ def token_required(f):
         token = None
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
+            print('token found : {}'.format(token))
         if not token:
             return redirect(url_for('users.login'))
-
         try:
             uid = decode_auth_token(auth_token=token)
             current_user = UserModel.query.filter_by(uid=uid).first()
         except Exception as error:
             return redirect(url_for('users.login'))
-
         return f(current_user, *args, **kwargs)
     return decorated
 

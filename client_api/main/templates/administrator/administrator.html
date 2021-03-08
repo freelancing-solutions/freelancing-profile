@@ -1,187 +1,181 @@
-
-{% extends "layouts/layout.html" %}
-{% block content %}
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
+ {% extends "layouts/layout.html" %} {% block content %}
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
             <div class="col-sm-8">
-              <h1 class="m-0 text-dark">{{heading}}</h1>
-            </div><!-- /.col -->
+                <h1 class="m-0 text-dark">{{heading}}</h1>
+            </div>
+            <!-- /.col -->
             <div class="col-sm-4">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active"><a href="{{ url_for('main.home')}}">Home</a></li>
-              </ol>
-            </div><!-- /.col -->
-          </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-      </div>
-      <!-- /.content-header -->
-    <!-- Main content -->
-    <div class="content">
-        <div class="container-fluid">
-          <div class="row">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active"><a href="{{ url_for('main.home')}}">Home</a></li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-lg-8">
-              <div class="card">
+                <div class="card">
                     <div class="card-header bg-dark">
-                            <h3 class="card-title">Actions </h3>
+                        <h3 class="card-title">Actions </h3>
                     </div>
                     <div class="card-body">
                         <div id="main_content"></div>
                     </div>
-              </div>
+                </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"> Databases </h3>
-                  </div>
-                  <div class="card-body">
-                  <p class='card-text'>
-                      <!-- Text Here -->
-                      <ul class="list-unstyled">
-                            <li>
-                                <span class="btn btn-primary mb-2" id="load_database">
+                    </div>
+                    <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="btn btn-primary mb-2" id="load_database">
                                     <i class="fa fa-file-download"> </i>
                                     <strong>Load Databases</strong>
                                 </span>
-                            </li>
-                            <li>
-                                <span class="btn btn-warning mb-2" id="create_database">
+                                </li>
+                                <li>
+                                    <span class="btn btn-warning mb-2" id="create_database">
                                     <i class="fa fa-folder-open"> </i>
                                     <strong>Create Database</strong>
                                 </span>
-                            </li>
-                            <li>
-                                <span class="btn btn-danger" id="reset_database">
+                                </li>
+                                <li>
+                                    <span class="btn btn-danger" id="reset_database">
                                     <i class="fa fa-cut"> </i>
                                     <strong>Reset Database</strong>
                                 </span>
-                            </li>
+                                </li>
 
-                      </ul>
-                  </p>
-                  </div>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"> Freelance Jobs </h3>
-                  </div>
-                  <div class="card-body">
-                  <p class='card-text'>
-                      <!-- Text Here -->
-                      <ul class="unstyled">
-                            <li>
-                                <span class="btn btn-primary mb-2" id="new_freelance_jobs">
+                    </div>
+                    <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            <ul class="list-unstyled">
+                                <li>
+                                    <span class="btn btn-primary mb-2" id="new_freelance_jobs">
                                     <i class="fa fa-bullhorn"> </i>
                                    <strong>Recent Jobs</strong>
                                 </span>
-                            </li>
-                            <li>
-                                <span class="btn btn-primary mb-2" id="all_freelance_jobs">
+                                </li>
+                                <li>
+                                    <span class="btn btn-primary mb-2" id="all_freelance_jobs">
                                     <i class="fa fa-folder"> </i>
                                     <strong>All Jobs</strong>
                                 </span>
-                            </li>
-                            <li>
-                                <span class="btn btn-primary mb-2" id="add_freelance_job">
+                                </li>
+                                <li>
+                                    <span class="btn btn-primary mb-2" id="add_freelance_job">
                                     <i class="fas fa-save"> </i>
                                     <strong>Add Mock Jobs</strong>
                                 </span>
-                            </li>
+                                </li>
 
-                      </ul>
-                  </p>
-                  </div>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"> Contact </h3>
-                  </div>
-                  <div class="card-body">
-                  <p class='card-text'>
-                      <!-- Text Here -->
-                      <ul class="unstyled">
-                            <li>
-                                <a href="#">
+                    </div>
+                    <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            <ul class="unstyled">
+                                <li>
+                                    <a href="#">
                                     New Messages
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                                </li>
+                                <li>
+                                    <a href="#">
                                     All Messages
                                 </a>
-                            </li>
-                      </ul>
-                  </p>
-                  </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"> Payments </h3>
-                  </div>
-                  <div class="card-body">
-                  <p class='card-text'>
-                      <!-- Text Here -->
-                      <ul class="unstyled">
-                            <li>
-                                <a href="#">
+                    </div>
+                    <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            <ul class="unstyled">
+                                <li>
+                                    <a href="#">
                                     New Payments
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                                </li>
+                                <li>
+                                    <a href="#">
                                     All Payments
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                                </li>
+                                <li>
+                                    <a href="#">
                                     Search
                                 </a>
-                            </li>
-                        </ul>
-                  </p>
-                  </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="card-header bg-dark">
                         <h3 class="card-title"> Blog </h3>
-                  </div>
-                  <div class="card-body">
-                  <p class='card-text'>
-                      <!-- Text Here -->
-                      <ul class="unstyled">
-                            <li>
-                                <a href="#">
+                    </div>
+                    <div class="card-body">
+                        <p class='card-text'>
+                            <!-- Text Here -->
+                            <ul class="unstyled">
+                                <li>
+                                    <a href="#">
                                     Submit Articles
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                                </li>
+                                <li>
+                                    <a href="#">
                                     Drafts
                                 </a>
-                            </li>
-                            <li>
-                                <a href="#">
+                                </li>
+                                <li>
+                                    <a href="#">
                                     Published Articles
                                 </a>
-                            </li>
-                        </ul>
-                  </p>
-                  </div>
+                                </li>
+                            </ul>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
-{% endblock content %}>
-{% block sidebar %}
-    {% include "layouts/blog/sidebar.html" %}
-{% endblock %}
-{% block header %}
-    {% include "layouts/blog/header.html" %}
-{% endblock header %}
-
-{% block user_scripts_block %}
-    <script src="{{ url_for('static', filename='js/admin/adminbundle.js')}}"></script>
+</div>
+{% endblock content %}> {% block sidebar %} {% include "layouts/blog/sidebar.html" %} {% endblock %} {% block header %} {% include "layouts/blog/header.html" %} {% endblock header %} {% block user_scripts_block %}
+<script src="{{ url_for('static', filename='js/admin/adminbundle.js')}}"></script>
 {% endblock %}

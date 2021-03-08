@@ -1,6 +1,6 @@
 from .. import db
 from flask import current_app
-import time
+import time, uuid
 class FreelanceJobModel(db.Model):
     """
         id = db.Column(db.Integer, primary_key=True)
@@ -9,10 +9,10 @@ class FreelanceJobModel(db.Model):
         Args:
             db ([type]): [description]
     """
-    uid = db.Column(db.String(128),db.ForeignKey('user_model.uid'),unique=False, nullable=False)
-    project_id = db.Column(db.Integer, unique=True, primary_key=True)
+    uid = db.Column(db.String(36),db.ForeignKey('user_model.uid'),unique=False, nullable=False)
+    project_id = db.Column(db.String(36), unique=True, primary_key=True)
     project_name = db.Column(db.String(1048), unique=False, nullable=False)
-    project_category = db.Column(db.String(64), nullable=False)
+    project_category = db.Column(db.String(64), nullable=False, default="webdev")
     description = db.Column(db.String(2096), nullable=False)
     progress = db.Column(db.Integer, nullable=False, default=0)
     status = db.Column(db.String(32), nullable=False, default="active")
@@ -24,6 +24,29 @@ class FreelanceJobModel(db.Model):
     total_paid = db.Column(db.Integer, nullable=False, default=0)
     seen = db.Column(db.Boolean, default=False)
     user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
+
+    def __init__(self,uid,project_name,description,est_hours_to_complete,currency,budget_allocated,project_category="webdev"):
+        self.uid = uid
+        self.project_id = uuid.uuid4()
+        self.project_name = project_name
+        self.description = description
+        self.est_hours_to_complete = est_hours_to_complete
+        self.currency = currency
+        self.budget_allocated = budget_allocated
+        self.link_details = self.create_link_detail(name=project_name,cat=project_category)
+        super(FreelanceJobModel).__init__()
+
+    @staticmethod
+    def create_link_detail(name,cat):
+
+        cat_link = ""
+        for cat in cat.split(" "):
+            cat_link += cat
+        name_link = ""
+        for name in name.split(" "):
+            name_link += name
+
+        return "/{}/{}".format(cat_link,name_link).encode("UTF-8")
 
     def __repr__(self):
         return "<FreelanceJobModel project_name: {}, project_category: {}, description: {}, progress: {}, status: {},\
