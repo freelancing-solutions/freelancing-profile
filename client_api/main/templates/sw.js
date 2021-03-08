@@ -16,6 +16,10 @@
 const OFFLINE_VERSION = 1;
 const CACHE_NAME = 'FREELANCE-PROFILE';
 // Customize this with a different URL if needed.
+
+// TODO- use Flask Assets to bundle some of the adminLTE css files and js files togather,
+// TODO- also bundle adminLTE Files with flask bundler...
+
 const CACHE_URLS = [
   '/','/about','/contact','/blog','/projects','/privacy-policy',
   '/terms-of-service','/learn-more/frontend-development','/learn-more/backend-development',
@@ -37,40 +41,84 @@ let auth_token = "";
 // TODO= Refactor this code-- it must also contain background saving capabilities
 // by syncing to the app.js for access to storage options
 
-let request_struc = {
-  url: "",
-  response : "",
+
+
+let mem_store  ={
+  _cache_store : [],
+  init : function(){
+    // initialize the store
+    this.sync_from_storage(CACHE_NAME).catch(response => {
+      response.forEach(cache_item => {
+        this.add_to_store(cache_item.url,cache_item.response).then(response => {
+          console.log("created new storage item ", response)
+        })
+      })
+    }).catch(error => {
+      console.log("error catching from storage :", error.message);
+    })
+  },
+  is_in_store: async function( url){
+    return this._cache_store.findIndex(store => store.url === url);
+  },
+
+  add_to_store: async function(url,response){
+    this.is_in_store(url).then(index => {
+      if (index < 0){
+        this._cache_store.push({url,response})
+      }
+    })
+  },
+
+  fetch_from_store: async function( url){
+    this.is_in_store(url).then(index => {
+      if (index > 0){
+        return this._cache_store[index]
+      }
+      return ""
+    })
+  },
+
+  sync_to_storage: async function(){
+
+  },
+
+  sync_from_storage: async function(cache){
+
+  },
 }
-let cache_store = [];
 
-let is_in_store = url => {
-  return cache_store.findIndex(store => store.url === url);
-}
+mem_store.init();
 
-let add_to_store = (request,response) => {
-  if (is_in_store(request.url) < 0){
-    cache_store.push({
-      url:request.url,
-      response:response
-    });
-    console.log("pushed to memstore", cache_store.length);
-    return true;
-  }
-  return false;
-};
+// let cache_store = [];
 
-let return_from_store = (url) => {
-  let index = is_in_store(url);
-  if(index > 0){
-    console.log("returning from memstore");
-    let c_store = cache_store[index];
-    console.log("what the hell", c_store);
-    return c_store.response;
-  }
-  return ""
-}
+// let is_in_store = url => {
+//   return cache_store.findIndex(store => store.url === url);
+// }
 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // 
+// let add_to_store = (request,response) => {
+//   if (is_in_store(request.url) < 0){
+//     cache_store.push({
+//       url:request.url,
+//       response:response
+//     });
+//     console.log("pushed to memstore", cache_store.length);
+//     return true;
+//   }
+//   return false;
+// };
+
+// let return_from_store = (url) => {
+//   let index = is_in_store(url);
+//   if(index > 0){
+//     console.log("returning from memstore");
+//     let c_store = cache_store[index];
+//     console.log("what the hell", c_store);
+//     return c_store.response;
+//   }
+//   return ""
+// }
+
+// // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
@@ -98,6 +146,19 @@ self.addEventListener('fetch', (event) => {
   // We only want to call event.respondWith() if this is a navigation request
   // for an HTML page.
 
+  let check_cache_hit = async event => {
+    await caches.match(event.request).then(matched_response => {
+      if (matched_response){return matched_response};
+    });
+
+    await mem_store.fetch_from_store(event.request.url).then(response => {
+      return response
+    });
+
+    // console.log("matched response", matched_response);
+  }
+
+  // TODO- LOTS OF RESTRUCTURING CALLED FOR
   if (event.request.method == "POST"){
     console.log("post request");
     // TODO- add authorization
@@ -106,52 +167,40 @@ self.addEventListener('fetch', (event) => {
 
       return response;
     })())
-  };
-
-  let check_cache_hit = event => {
-    caches.match(event.request).then(matched_response => {
-      if (matched_response){
-        console.log("matched :", event.request.url)
-        return matched_response
-      }
-
-      return return_from_store(event.request.url);
-    });
-    // console.log("matched response", matched_response);
-  }
-
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-          // NOTE: its important to handle Auth here as the user is navigating to another page
-          let cache_hit = check_cache_hit(event);
-          if (cache_hit){return cache_hit}
-
-          let response =  await handle_auth(event);
-          add_to_store(event.request,response);
-          return response;
-        } catch (error) {
-          // an error occured
-          console.log("errors ", error.message)
-          return await fetch(event.request);
-        }
-
-      })());
-
   }else{
-      event.respondWith((async () => {
-        try{
-          let cache_hit = check_cache_hit(event);
-          if (cache_hit){return cache_hit}
 
-          let response = await fetch(event.request);
-          add_to_store(event.request,response);
-          return response;
-        }catch(error){
-          console.log("errors ", error.message)
-          return await fetch(event.request);
-        }
-      })());
+    if (event.request.mode === 'navigate') {
+      event.respondWith((async () => {
+        try {
+            // NOTE: its important to handle Auth here as the user is navigating to another page
+            let cache_hit = await check_cache_hit(event);
+            if (cache_hit){return cache_hit}
+
+            let response =  await handle_auth(event);
+            await mem_store.add_to_store(event.request.url,response);
+            return response;
+          } catch (error) {
+            // an error occured
+            return await fetch(event.request);
+          }
+
+        })());
+
+    }else{
+        event.respondWith((async () => {
+          try{
+            let cache_hit = await check_cache_hit(event);
+            if (cache_hit){return cache_hit}
+
+            let response = await fetch(event.request);
+            await mem_store.add_to_store(event.request.url,response);
+            return response;
+          }catch(error){
+            console.log("errors ", error.message)
+            return await fetch(event.request);
+          }
+        })());
+    }
   }
 
   // If our if() condition is false, then this fetch handler won't intercept the
@@ -181,9 +230,6 @@ let handle_auth_headers = async event => {
     bodyUsed: event.request.bodyUsed,
     context: event.request.context
   });
-
-  console.log("sending this request", request);
-
   return await fetch(request);
 }
 
