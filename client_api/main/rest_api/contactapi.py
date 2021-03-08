@@ -3,7 +3,7 @@ from flask_restful import Api, Resource, marshal_with, reqparse, fields, abort
 import requests
 from ..main.models import ContactModel
 from .. import db
-from ..library import token_required
+from ..library import token_required, authenticated_user
 
 
 
@@ -28,32 +28,29 @@ class ContactAPI(Resource):
     def __init__(self):
         super(ContactAPI, self).__init__()
         self.contact_req_parse = reqparse.RequestParser(bundle_errors=True,trim=True)
-        self.contact_req_parse.add_argument('Authentication', type=str, location='headers')
+        self.contact_req_parse.add_argument('x-access-token', type=str, location='headers')
 
     def parse_contact_args(self):
-        self.contact_req_parse.add_argument('contact_id', type=str, location='json')
-        self.contact_req_parse.add_argument('uid', type=str, location='json')
-        self.contact_req_parse.add_argument('names', type=str, location='json', required=True,
-                                            help='Names should be specified')
-        self.contact_req_parse.add_argument('email', type=str, location='json', required=True,
-                                            help='Email Address is required')
-        self.contact_req_parse.add_argument('cell', type=str, location='json', required=True,
-                                            help='Cell Number is required')
-        self.contact_req_parse.add_argument('reason', type=str, location='json', required=True,
-                                            help='Contact Reason is required')
-        self.contact_req_parse.add_argument('subject', type=str, location='json', required=True,
-                                            help='Subject is required')
-        self.contact_req_parse.add_argument('body', type=str, location='json', required=True,
-                                            help='Message body is required')
-        return self.contact_req_parse.parse_args(strict=True)
+        print("parsing")
+        self.contact_req_parse.add_argument('names', type=str, location='json')
+        self.contact_req_parse.add_argument('email', type=str, location='json')
+        self.contact_req_parse.add_argument('cell', type=str, location='json')
+        self.contact_req_parse.add_argument('reason', type=str, location='json')
+        self.contact_req_parse.add_argument('subject', type=str, location='json')
+        self.contact_req_parse.add_argument('body', type=str, location='json')
+        return self.contact_req_parse.parse_args()
 
 
     def post(self):
         """
             create new contact from details and save to backend
         """
+
         contact_form = self.parse_contact_args()
-        contact = ContactModel(uid=contact_form['uid'],
+        print(contact_form)
+        current_user = authenticated_user(token=contact_form['x-access-token'])
+        print(current_user)
+        contact = ContactModel(uid=current_user.uid,
                               names=contact_form['names'],
                               email=contact_form['email'],
                               cell=contact_form['cell'],
@@ -62,6 +59,7 @@ class ContactAPI(Resource):
                               reason=contact_form['reason'])
         db.session.add(contact)
         db.session.commit()
+
         response = {
             'uid': contact.uid,
             'contact_id': contact.contact_id,

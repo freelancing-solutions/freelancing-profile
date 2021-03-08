@@ -116,12 +116,12 @@
           method : "POST",
           headers: {'Content-Type': 'application/json','x-access-token' : localStorage.getItem('x-access-token')},
           body: message,
-          mode: "cors",
+          mode: "no-cors",
           credentials: "same-origin",
           cache: "no-cache",
         }
         console.log('headers :', init)
-        let request = new Request('/api/v1/contact',init);
+        let request = new Request('/contact',init);
         await fetch(request).then(response => {
           if (!response.ok){
             throw new Error('There was an error communicating with backend')

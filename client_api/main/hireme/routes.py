@@ -17,6 +17,7 @@ def freelancer():
 @hireme.route('/hire-freelancer/<path:path>', methods=['GET', 'POST'])
 @token_required
 def hire(current_user,path):
+    print("Current User", current_user)
     if (path == "freelance-jobs") and current_user:
         freelance_jobs = FreelanceJobModel.query.filter_by(uid=current_user.uid).all()
         return render_template('hireme/gigs.html',

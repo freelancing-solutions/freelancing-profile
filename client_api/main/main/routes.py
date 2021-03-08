@@ -1,5 +1,5 @@
 
-from flask import render_template, request, make_response, Blueprint
+from flask import render_template, request, make_response, Blueprint, jsonify
 from ..library import Metatags, token_required
 from .models import ContactModel
 from .. import db
@@ -23,8 +23,9 @@ def contact():
 
     elif request.method == "POST":
         # TODO- handle post request here
-        return render_template('contact.html', heading="Contact",
-                               menu_open=True, meta_tags=Metatags().set_contact())
+        contact_details = request.get_json()
+        print(contact_details)
+        return jsonify({"message": "Successfully created new messafe"})
 
 @main.route('/about', methods=['GET'])
 def about():

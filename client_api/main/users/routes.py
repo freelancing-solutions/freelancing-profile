@@ -17,20 +17,18 @@ def login():
                                 meta_tags=Metatags().set_login())
     elif request.method == 'POST':
         auth = request.get_json()
-        if not auth or not auth['username'] or not auth['password']:
-            return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+        if not auth or not auth['email'] or not auth['password']:
+            return jsonify({"message": "Email and Password are required"}), 401
 
-        user_model = UserModel.query.filter_by(username=auth['username']).first()
+        user_model = UserModel.query.filter_by(email=auth['email']).first()
         if not user_model:
-            return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+            return jsonify({"message": "User not found"}), 401
 
         if check_password_hash(user_model.password,auth['password']):
             token = encode_auth_token(uid=user_model.uid)
-            # print('----------')
-            # print('token : {}'.format(token))
-            return jsonify({'token': token})
+            return jsonify({'token': token,'message':"you have successfully logged in"}), 200
         else:
-            return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+            return jsonify({"message": "Passwords do not match"}), 401
 
 
 @users.route('/logout', methods=['GET', 'POST'])

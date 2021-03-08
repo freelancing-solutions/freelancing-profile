@@ -152,7 +152,7 @@ this.addEventListener('load', () => {
                 "budget": budget_allocated_dom.value
             });
 
-            console.log(json_data);
+            // console.log(json_data);
             let init_post = {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('x-access-token') },
