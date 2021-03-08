@@ -1,4 +1,4 @@
-
+from flask import url_for
 class Metatags():
     """
         Default Application Meta Tags
@@ -13,19 +13,18 @@ class Metatags():
     path = ""
     image_filename = ""
     image_alt = ""
+    _url = ""
+    def __init__(self, url=""):
+        self._url = url
 
-    def __init__(self, title=None, twitter_title=None, og_title=None, description=None, twitter_description=None,
-                 og_description=None, page=None,path=None, image_filename=None, image_alt=None):
-        self.title = title
-        self.twitter_title = twitter_title
-        self.og_title = og_title
-        self.description = description
-        self.twitter_description = twitter_description
-        self.og_description = og_description
-        self.page = page
-        self.path = path
-        self.image_filename = image_filename
-        self.image_alt = image_alt
+    def selector(self,endpoint):
+        return {
+            "main.home": self.set_home,
+            "main.about": self.set_about,
+            "main.contact": self.set_contact,
+            "main.blog":  self.set_blog
+        }.get(endpoint)
+
 
     def set_home(self):
         self.title = "Professional & Freelance Profile of Justice Ndou- Web Development Profile"
@@ -196,7 +195,6 @@ class Metatags():
         self.image_alt = "Create Account - Freelance Profile"
 
         return self
-
 
     def set_social_twitter(self):
         # TODO - update login frontend metatags to be relevant

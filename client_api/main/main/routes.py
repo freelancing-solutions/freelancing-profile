@@ -1,5 +1,5 @@
 
-from flask import render_template, request, make_response, Blueprint, jsonify
+from flask import render_template, request, make_response, Blueprint, jsonify,flash,get_flashed_messages
 from ..library import Metatags, token_required, logged_user
 from .models import ContactModel
 from .. import db
@@ -11,6 +11,7 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 @logged_user
 def home(current_user):
+    get_flashed_messages()
     return render_template('index.html', heading="Home",current_user=current_user,
                            menu_open=True, meta_tags=Metatags().set_home())
 
@@ -18,6 +19,7 @@ def home(current_user):
 @main.route('/contact', methods=['GET', 'POST'])
 @logged_user
 def contact(current_user):
+    get_flashed_messages()
     if request.method == "GET":
         return render_template('contact.html', heading="Contact",current_user=current_user,
                                menu_open=True, meta_tags=Metatags().set_contact())
@@ -31,11 +33,13 @@ def contact(current_user):
 @main.route('/about', methods=['GET'])
 @logged_user
 def about(current_user):
+    get_flashed_messages()
     return render_template('about.html', heading="About", menu_open=True,current_user=current_user, meta_tags=Metatags().set_about())
 
 @main.route('/social/<path:path>', methods=['GET'])
 @logged_user
 def social(current_user,path):
+    get_flashed_messages()
     if path == "twitter":
         return render_template('social/twitter.html', heading="On Twitter",current_user=current_user,
         menu_open=True,meta_tags=Metatags().set_social_twitter())
@@ -50,16 +54,19 @@ def social(current_user,path):
 @main.route('/payments', methods=['GET', 'POST'])
 @token_required
 def payments(current_user):
+    get_flashed_messages()
     pass
 
 @main.route('/payment', methods=['GET', 'POST'])
 @token_required
 def make_payment(current_user):
+    get_flashed_messages()
     pass
 
 @main.route('/balances', methods=['GET', 'POST'])
 @token_required
 def balances(current_ser):
+    get_flashed_messages()
     pass
 
 ###########################################################################################################
@@ -68,16 +75,19 @@ def balances(current_ser):
 @main.route('/terms-of-service')
 @logged_user
 def terms(current_user):
+    get_flashed_messages()
     return render_template('terms.html', heading='Terms of Service',current_user=current_user, menu_open=True, meta_tags=Metatags().set_terms())
 
 @main.route('/privacy-policy')
 @logged_user
 def privacy(current_user):
+    get_flashed_messages()
     return render_template('privacy.html', heading='Privacy Policy', current_user=current_user, menu_open=True, meta_tags=Metatags().set_privacy())
 
 @main.route('/offline')
 @logged_user
 def offline(current_user):
+    get_flashed_messages()
     return render_template('offline.html', heading="Network Connection Lost...",current_user=current_user, menu_open=True, meta_tags=Metatags().set_home())
 
 @main.route('/robots.txt')

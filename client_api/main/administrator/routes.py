@@ -1,4 +1,4 @@
-from flask import render_template, request, make_response, Blueprint, jsonify, current_app
+from flask import render_template, request, make_response, Blueprint, jsonify, current_app,flash,get_flashed_messages
 from ..library import Metatags,token_required
 from .. import db
 from ..hireme.models import FreelanceJobModel
@@ -11,6 +11,7 @@ admin_routes = Blueprint('admin_routes', __name__)
 @admin_routes.route('/admin', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def handle_admin(current_user):
+    get_flashed_messages()
     if current_user and current_user.admin:
         return render_template('/administrator/administrator.html', heading="Freelance Profile Administrator",
         current_user=current_user, menu_open=True,meta_tags=Metatags().set_home()), 200
@@ -19,6 +20,7 @@ def handle_admin(current_user):
 @admin_routes.route('/admin/database/create', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def create_database(current_user):
+    get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         db.drop_all(app=current_app)
@@ -30,6 +32,7 @@ def create_database(current_user):
 @admin_routes.route('/admin/freelance-jobs/recent', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def recent_freelance_jobs(current_user):
+    get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by(seen=False).all()],
@@ -40,6 +43,7 @@ def recent_freelance_jobs(current_user):
 @admin_routes.route('/admin/freelance-jobs/all', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def all_freelance_jobs(current_user):
+    get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by().all()],
@@ -50,6 +54,7 @@ def all_freelance_jobs(current_user):
 @admin_routes.route('/admin/freelance-job', methods=['POST', 'PUT', 'DELETE'])
 @token_required
 def freelance_jobs(current_user):
+    get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         if request.method == "POST":

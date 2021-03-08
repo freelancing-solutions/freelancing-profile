@@ -1,4 +1,4 @@
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint,flash,get_flashed_messages
 from ..library import Metatags,logged_user
 blog_bp = Blueprint('blog', __name__)
 
@@ -7,6 +7,7 @@ blog_bp = Blueprint('blog', __name__)
 @blog_bp.route('/blog', methods=['GET'])
 @logged_user
 def blog(current_user):
+    get_flashed_messages()
     if request.method == "GET":
         return render_template('blog.html',heading="Blog",menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_blog())
@@ -17,6 +18,7 @@ def blog(current_user):
 @blog_bp.route('/blog/categories/<path:path>', methods=['GET'])
 @logged_user
 def blog_categories(current_user,path):
+    get_flashed_messages()
     if path == "front-end":
         return render_template('blog/frontend.html',heading="Front End Development Articles",menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_blog())
@@ -33,6 +35,7 @@ def blog_categories(current_user,path):
 @blog_bp.route('/learn-more/<path:path>', methods=['GET'])
 @logged_user
 def learn_more(current_user,path):
+    get_flashed_messages()
     if path == "backend-development":
         return render_template('learnmore/backend.html',heading="Learn More Back End Development",
         current_user=current_user,menu_open=True,meta_tags=Metatags().set_learn_backend())

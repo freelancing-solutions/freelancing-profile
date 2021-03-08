@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint, request, abort, make_response, jsonify, redirect, url_for, flash
+from flask import (render_template, Blueprint, request, abort, make_response, jsonify,redirect, url_for, flash , get_flashed_messages)
 from flask_login import login_user,logout_user,login_required
 from ..library import Metatags, encode_auth_token, token_required, logged_user
 from .models import UserModel
@@ -12,9 +12,9 @@ users = Blueprint('users', __name__)
 @users.route('/login', methods=['GET', 'POST'])
 @logged_user
 def login(current_user):
-
+    get_flashed_messages()
     if current_user and current_user.uid:
-        #TODO- Redirect to logout page user has already been logged in
+        #TODO- Redirect to logout page user has already been logged in        
         flash(message="you are already logged in", category="warning")
         return redirect(url_for('users.logout'))
 
@@ -42,6 +42,7 @@ def login(current_user):
 @users.route('/logout', methods=['GET', 'POST'])
 @token_required
 def logout(current_user):
+    get_flashed_messages()
     if current_user and current_user.uid:
         return render_template('auth/logout.html', current_user=current_user, heading="Log Out", menu_open=True, meta_tags=Metatags().set_logout())
     else:
@@ -52,6 +53,7 @@ def logout(current_user):
 @users.route('/register', methods=['GET', 'POST'])
 @logged_user
 def register(current_user):
+    get_flashed_messages()
     if current_user and current_user.uid:
         #TODO- Redirect to logout page user has already been logged in
         flash(message="you are already logged in", category="warning")
@@ -95,6 +97,7 @@ def register(current_user):
 @users.route('/forgot-password', methods=['GET', 'POST'])
 @logged_user
 def forgot_password(current_user):
+    get_flashed_messages()
     if current_user and current_user.uid:
         flash(message="you are already logged in", category="warning")
         return redirect(url_for('users.logout'))
@@ -106,6 +109,7 @@ def forgot_password(current_user):
 @users.route('/recover-password/<path:path>', methods=['GET', 'POST'])
 @logged_user
 def recover(current_user,path):
+    get_flashed_messages()
     if current_user and current_user.uid:
         flash(message="you are already logged in", category="warning")
         redirect(url_for('users.logout'))
@@ -121,4 +125,5 @@ def useradmin(current_user):
         Args:
             current_user ([type]): [description]
     """
+    get_flashed_messages()
     return render_template('user-admin.html', heading='Welcome {}'.format(current_user.names), menu_open=True, meta_tags=Metatags().set_home())

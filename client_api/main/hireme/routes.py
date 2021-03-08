@@ -1,5 +1,5 @@
 import time
-from flask import render_template, request, Blueprint
+from flask import render_template, request, Blueprint,flash,get_flashed_messages
 from ..library import Metatags, token_required, logged_user
 from .models import FreelanceJobModel
 hireme = Blueprint('hireme', __name__)
@@ -12,6 +12,7 @@ temp_freelance_jobs = []
 @hireme.route('/hire-freelancer', methods=['GET'])
 @logged_user
 def freelancer(current_user):
+    get_flashed_messages()
     if request.method == "GET":
         return render_template('hireme.html', heading="Hiring a Freelancer", current_user=current_user,
         menu_open=True, meta_tags=Metatags().set_freelancer())
@@ -19,6 +20,7 @@ def freelancer(current_user):
 @hireme.route('/hire-freelancer/<path:path>', methods=['GET', 'POST'])
 @token_required
 def hire(current_user,path):
+    get_flashed_messages()
     print("Current User", current_user)
     if (path == "freelance-jobs") and current_user:
         freelance_jobs = FreelanceJobModel.query.filter_by(uid=current_user.uid).all()
@@ -38,6 +40,7 @@ def hire(current_user,path):
 @hireme.route('/hire-freelancer/freelance-job/<path:path>', methods=['GET', 'POST'])
 @token_required
 def project_details(current_user,path):
+    get_flashed_messages()
     if path is not None:
         freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
         if freelance_job:
@@ -57,6 +60,7 @@ def project_details(current_user,path):
 @hireme.route('/hire-freelancer/freelance-job-editor/<path:path>', methods=['GET', 'POST'])
 @token_required
 def project_editor(current_user,path):
+    get_flashed_messages()
     if path is not None:
         freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
         return render_template('hireme/project-editor.html',
@@ -72,6 +76,7 @@ def project_editor(current_user,path):
 @hireme.route('/hire-freelancer/messages/<path:path>', methods=['GET', 'POST'])
 @token_required
 def project_messages(current_user,path):
+    get_flashed_messages()
     if path is not None:
         project_messages = []
         return render_template('hireme/project-messages.html',
@@ -88,6 +93,7 @@ def project_messages(current_user,path):
 @hireme.route('/hire-freelancer/payments/<path:path>', methods=['GET', 'POST'])
 @token_required
 def project_payments(current_user,path):
+    get_flashed_messages()
     if path is not None:
         # Path holds the project_id use the project_id to obtain project payment information
         project_payments = []
@@ -108,6 +114,7 @@ def project_payments(current_user,path):
 @hireme.route('/hire-freelancer/how-to/<path:path>', methods=['GET'])
 @logged_user
 def how_to_articles(current_user,path):
+    get_flashed_messages()
     """
         How to articles on hiring a freelancer
     """
@@ -147,6 +154,7 @@ def how_to_articles(current_user,path):
 @hireme.route('/hire-freelancer/expectations/<path:path>', methods=['GET'])
 @logged_user
 def expectations(current_user,path):
+    get_flashed_messages()
     """
         Things expected from each client during and on completion of freelance jobs
     """

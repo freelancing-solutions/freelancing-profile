@@ -5,6 +5,7 @@ from flask import current_app, jsonify, request, redirect, url_for
 from functools import wraps
 from ..users.models import UserModel
 
+
 def encode_auth_token(uid):
     """
     Generates the Auth Token
