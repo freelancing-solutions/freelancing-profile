@@ -9,26 +9,43 @@ admin_routes = Blueprint('admin_routes', __name__)
 # TODO- protect this route with login required
 # and a check on the account to see if its admin account
 @admin_routes.route('/admin', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def handle_admin():
-    # TODO- check if current_user is admin user
-    return render_template('/administrator/administrator.html', heading="Freelance Profile Administrator", meta_tags=Metatags().set_home())
-
+@token_required
+def handle_admin(current_user):
+    if current_user and current_user.admin:
+        return render_template('/administrator/administrator.html', heading="Freelance Profile Administrator",
+        current_user=current_user, menu_open=True,meta_tags=Metatags().set_home()), 200
+    else:
+        return jsonify({'message': 'you are not authorized to use this resource'}), 401
 @admin_routes.route('/admin/database/create', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def create_database():
+@token_required
+def create_database(current_user):
     # TODO- check if current_user is admin user
-    db.drop_all(app=current_app)
-    db.create_all(app=current_app)
-    return jsonify({"message": "Successfully created database"})
+    if current_user and current_user.admin:
+        db.drop_all(app=current_app)
+        db.create_all(app=current_app)
+        return jsonify({"message": "Successfully created database"}), 200
+    else:
+        return jsonify({"message": "You are not authorized to execute this command"}), 401
 
 @admin_routes.route('/admin/freelance-jobs/recent', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def recent_freelance_jobs():
+@token_required
+def recent_freelance_jobs(current_user):
     # TODO- check if current_user is admin user
-    return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by(seen=False).all()]})
+    if current_user and current_user.admin:
+        return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by(seen=False).all()],
+        'message':'you have successfully fetched recent freelance jobs'}), 200
+    else:
+        return jsonify({'message': 'you are not authorized to use this resource'}), 401
 
 @admin_routes.route('/admin/freelance-jobs/all', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def all_freelance_jobs():
+@token_required
+def all_freelance_jobs(current_user):
     # TODO- check if current_user is admin user
-    return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by().all()]})
+    if current_user and current_user.admin:
+        return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by().all()],
+        'message': 'you have successfully retrieved all freelance jobs'}), 200
+    else:
+        return jsonify({'message':"you are not authorized to use this resource"}), 401
 
 @admin_routes.route('/admin/freelance-job', methods=['POST', 'PUT', 'DELETE'])
 @token_required
@@ -52,6 +69,6 @@ def freelance_jobs(current_user):
 
             db.session.add(freelance_job)
             db.session.commit()
-            return jsonify({'message': "freelance job successfully created"}), 200
+            return jsonify({'message': "freelance job successfully created"}), 202
     else:
         return jsonify({'message': "you are not authorized to perform this action"}), 401

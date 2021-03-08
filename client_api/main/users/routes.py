@@ -1,6 +1,6 @@
-from flask import render_template, Blueprint, request, abort, make_response, jsonify, redirect, url_for
+from flask import render_template, Blueprint, request, abort, make_response, jsonify, redirect, url_for, flash
 from flask_login import login_user,logout_user,login_required
-from ..library import Metatags, encode_auth_token, token_required
+from ..library import Metatags, encode_auth_token, token_required, logged_user
 from .models import UserModel
 from .. import db
 import uuid
@@ -10,7 +10,15 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/login', methods=['GET', 'POST'])
-def login():
+@logged_user
+def login(current_user):
+
+    if current_user and current_user.uid:
+        #TODO- Redirect to logout page user has already been logged in
+        flash(message="you are already logged in", category="warning")
+        return redirect(url_for('users.logout'))
+
+
     if request.method == "GET":
         return render_template('auth/login.html',
                                 menu_open=True,
@@ -34,11 +42,22 @@ def login():
 @users.route('/logout', methods=['GET', 'POST'])
 @token_required
 def logout(current_user):
-    return render_template('auth/logout.html', current_user=current_user, heading="Log Out", menu_open=True, meta_tags=Metatags().set_logout())
+    if current_user and current_user.uid:
+        return render_template('auth/logout.html', current_user=current_user, heading="Log Out", menu_open=True, meta_tags=Metatags().set_logout())
+    else:
+        flash(message="you are already logged out", category="warning")
+        return redirect(url_for('main.home'))
 
 
 @users.route('/register', methods=['GET', 'POST'])
-def register():
+@logged_user
+def register(current_user):
+    if current_user and current_user.uid:
+        #TODO- Redirect to logout page user has already been logged in
+        flash(message="you are already logged in", category="warning")
+        return redirect(url_for('users.logout'))
+
+
     if request.method == "GET":
         return render_template('auth/register.html', heading="Register", menu_open=True,
                             meta_tags=Metatags().set_register())
@@ -74,13 +93,22 @@ def register():
         return jsonify({'Message':'Successfully created new user', 'token': token})
 
 @users.route('/forgot-password', methods=['GET', 'POST'])
-def forgot_password():
+@logged_user
+def forgot_password(current_user):
+    if current_user and current_user.uid:
+        flash(message="you are already logged in", category="warning")
+        return redirect(url_for('users.logout'))
+
     return render_template('auth/forgot-password.html', heading="Forgot Password", menu_open=True,
                            meta_tags=Metatags().set_register())
 
 
 @users.route('/recover-password/<path:path>', methods=['GET', 'POST'])
-def recover(path):
+@logged_user
+def recover(current_user,path):
+    if current_user and current_user.uid:
+        flash(message="you are already logged in", category="warning")
+        redirect(url_for('users.logout'))
     return render_template('auth/recover-password.html', heading="Recover Password", menu_open=True,
                            meta_tags=Metatags().set_register())
 

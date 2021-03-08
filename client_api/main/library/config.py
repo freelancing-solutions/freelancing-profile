@@ -9,7 +9,7 @@ class Config:
     MAIL_USE_TLS = True
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or config('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or config('MAIL_PASSWORD')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or config('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = config('SQLALCHEMY_DATABASE_URI') or os.environ.get('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.environ.get('SECRET_KEY') or config('SECRET_KEY')
     SENTRY_INIT = os.environ.get('SENTRY_INIT') or config('SENTRY_INIT')

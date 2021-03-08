@@ -2,10 +2,10 @@ this.addEventListener('load', function() {
 
     let message_template = Handlebars.compile(
         `
-            <div class="card-text">
-                <p>{{ _message }}</p>
-            </div>
-        `);
+        <div class="card-text">
+            <p>{{ _message }}</p>
+        </div>
+        `); /* ?  */
 
     let message_dom = document.getElementById('message_content');
 
@@ -36,7 +36,6 @@ this.addEventListener('load', function() {
                 send_auth_to_service_worker(json['token']).then( response => {
 
                 });
-
                 message_dom.innerHTML = message_template({_message : 'Your account was created and you where successfully logged in'})
 
             }).catch(error => {
@@ -52,3 +51,5 @@ this.addEventListener('load', function() {
 
 
 });
+
+

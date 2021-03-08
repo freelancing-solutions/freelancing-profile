@@ -18,12 +18,20 @@ let handle_auth_token_messages = message => {
     }
 };
 
+
+let handle_notification_message = message => {
+    // TODO- get hold of the header notification tab
+    // TODO- send notification to header file
+    
+
+};
 // Listen to messages from service worker;
 let message_listener = e => {
     console.log("Service Worker sent me a message back : ", e.data);
     // call different handlers depending on the message being sent
     switch(e.data.type){
        case "auth-token": handle_auth_token_messages(e.data.message); break;
+       case "notification-message": handle_notification_message(e.data.message);break;
        default : break;
     }
 };

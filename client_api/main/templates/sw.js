@@ -92,7 +92,9 @@ let mem_store  ={
   },
 }
 
-mem_store.init();
+mem_store.init(); 
+
+
 
 
 // NOTE: Installing Service worker

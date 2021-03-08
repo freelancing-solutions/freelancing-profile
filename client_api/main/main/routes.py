@@ -1,6 +1,6 @@
 
 from flask import render_template, request, make_response, Blueprint, jsonify
-from ..library import Metatags, token_required
+from ..library import Metatags, token_required, logged_user
 from .models import ContactModel
 from .. import db
 main = Blueprint('main', __name__)
@@ -9,16 +9,17 @@ main = Blueprint('main', __name__)
 # Basic Home Page Routes
 
 @main.route('/', methods=['GET', 'POST'])
-def home():
-    return render_template('index.html', heading="Home",
+@logged_user
+def home(current_user):
+    return render_template('index.html', heading="Home",current_user=current_user,
                            menu_open=True, meta_tags=Metatags().set_home())
 
 # noinspection PyArgumentList,PyArgumentList
 @main.route('/contact', methods=['GET', 'POST'])
-def contact():
-
+@logged_user
+def contact(current_user):
     if request.method == "GET":
-        return render_template('contact.html', heading="Contact",
+        return render_template('contact.html', heading="Contact",current_user=current_user,
                                menu_open=True, meta_tags=Metatags().set_contact())
 
     elif request.method == "POST":
@@ -28,13 +29,16 @@ def contact():
         return jsonify({"message": "Successfully created new messafe"})
 
 @main.route('/about', methods=['GET'])
-def about():
-    return render_template('about.html', heading="About", menu_open=True, meta_tags=Metatags().set_about())
+@logged_user
+def about(current_user):
+    return render_template('about.html', heading="About", menu_open=True,current_user=current_user, meta_tags=Metatags().set_about())
 
 @main.route('/social/<path:path>', methods=['GET'])
-def social(path):
+@logged_user
+def social(current_user,path):
     if path == "twitter":
-        return render_template('social/twitter.html', heading="On Twitter", menu_open=True,meta_tags=Metatags().set_social_twitter())
+        return render_template('social/twitter.html', heading="On Twitter",current_user=current_user,
+        menu_open=True,meta_tags=Metatags().set_social_twitter())
     elif path == "github":
         return render_template('social/github.html', heading="Github Profile", menu_open=True,meta_tags=Metatags().set_social_github())
     else:
@@ -62,16 +66,19 @@ def balances(current_ser):
 # Basic Website Routes Sitemaps & Robots.txt
 
 @main.route('/terms-of-service')
-def terms():
-    return render_template('terms.html', heading='Terms of Service', menu_open=True, meta_tags=Metatags().set_terms())
+@logged_user
+def terms(current_user):
+    return render_template('terms.html', heading='Terms of Service',current_user=current_user, menu_open=True, meta_tags=Metatags().set_terms())
 
 @main.route('/privacy-policy')
-def privacy():
-    return render_template('privacy.html', heading='Privacy Policy', menu_open=True, meta_tags=Metatags().set_privacy())
+@logged_user
+def privacy(current_user):
+    return render_template('privacy.html', heading='Privacy Policy', current_user=current_user, menu_open=True, meta_tags=Metatags().set_privacy())
 
 @main.route('/offline')
-def offline():
-    return render_template('offline.html', heading="Network Connection Lost...", menu_open=True, meta_tags=Metatags().set_home())
+@logged_user
+def offline(current_user):
+    return render_template('offline.html', heading="Network Connection Lost...",current_user=current_user, menu_open=True, meta_tags=Metatags().set_home())
 
 @main.route('/robots.txt')
 def robots():

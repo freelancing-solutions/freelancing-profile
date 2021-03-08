@@ -55,6 +55,25 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
     return decorated
 
+def logged_user(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        current_user = None
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+            if token:
+                try:
+                    uid = decode_auth_token(auth_token=token)
+                    current_user = UserModel.query.filter_by(uid=uid).first()
+                    return f(current_user, *args,**kwargs)
+                except Exception as error:
+                    pass
+            else:
+                pass
+        return f(current_user, *args, **kwargs)
+    return decorated
+
+
 def is_authenticated(token):
     try:
         uid = decode_auth_token(auth_token=token)
