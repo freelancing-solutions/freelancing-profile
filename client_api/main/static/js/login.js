@@ -16,11 +16,19 @@
         },
         do_login: async function(e){
             e.preventDefault();
+            console.log('using javascript to send details')
+            let new_headers;
+            let auth_token = localStorage.getItem('x-access-token');
+            if (auth_token && (auth_token !== "undefined") && (auth_token !== "")){
+                new_headers = new Headers({ 'content-type': 'application/json','x-access-token': auth_token})
+            }else{
+                new_headers = new Headers({ 'content-type': 'application/json'})
+            }
+            // keep mode as cors in order to be able to modify headers
             let init = {
                 method: "POST",
-                headers: {"Content-Type": "application/json"},
+                headers: new_headers,
                 mode: "cors",
-                credentials: "same-origin",
                 cache: "no-cache",
                 body: JSON.stringify({'email':this.email.value,'password':this.password.value})
               };

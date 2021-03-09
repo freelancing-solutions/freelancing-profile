@@ -111,16 +111,29 @@
           'reason': this.select_reason.value,
           'subject': this.subject.value,
           'body': this.body.value
-        })
+        });
+        let token = localStorage.getItem('x-access-token');
+        let headers = {};
+        if (token && (token !== "undefined") && (token !== "")){
+          headers = new Headers({
+            'Content-Type': 'application/json',
+            'x-access-token' : localStorage.getItem('x-access-token')
+          })
+        }else{
+          headers = new Headers({
+            'Content-Type': 'application/json',
+            'x-access-token' : localStorage.getItem('x-access-token')
+          })
+        }
         let init = {
           method : "POST",
-          headers: {'Content-Type': 'application/json','x-access-token' : localStorage.getItem('x-access-token')},
+          headers: headers,
           body: message,
-          mode: "no-cors",
+          mode: "cors",
           credentials: "same-origin",
           cache: "no-cache",
         }
-        console.log('headers :', init)
+
         let request = new Request('/contact',init);
         await fetch(request).then(response => {
           if (!response.ok){

@@ -15,6 +15,7 @@
 // previously cached resources to be updated from the network.
 const OFFLINE_VERSION = 1;
 const CACHE_NAME = 'FREELANCE-PROFILESS';
+const website_base_url = 'http://localhost';
 // Customize this with a different URL if needed.
 
 // TODO- use Flask Assets to bundle some of the adminLTE css files and js files togather,
@@ -94,13 +95,13 @@ let mem_store  ={
 
 mem_store.init(); 
 
-
+let cache = self.caches;
 
 
 // NOTE: Installing Service worker
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
-    await caches.open(CACHE_NAME).then(cache => cache.addAll(CACHE_URLS));
+    await cache.open(CACHE_NAME).then(cache => cache.addAll(CACHE_URLS));
   })());
 });
 
@@ -124,50 +125,41 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
 
   // Checks if the request is included in our cache if yes returns the cached request
-  let check_cache_hit = async event => {
-    await caches.match(event.request).then(matched_response => {
-      if (matched_response){return matched_response};
-
-    });
-    // await mem_store.fetch_from_store(event.request.url).then(response => {
-    //   return response
-    // });
-    // console.log("matched response", matched_response);
+  let check_cache_hit = async event => {  
+    let matched_response = cache.match(event.request);
+    if (matched_response){return matched_response}else{await cache.add(event.request); return false}
   }
+          // handling fetch events
+          request_url = String(event.request.url);
+          // console.log('request url', request_url);
 
-  // Ussually handling form data- Need to handle PUT, and DELETE
-  if (event.request.method == "POST"){
-    // NOTE- This handles adding auth headers to request
-    event.respondWith((async () => await handle_auth_headers(event))())
-  }else{
-
-    // User Navigation Events
-    if (event.request.mode === 'navigate') {
-      // Handling events that are triggered by user navigating the website
-      event.respondWith((async () => {
-        try {
-              // Return Preload or Cache or Create a fresh response
-              return  await event.preloadResponse || await check_cache_hit(event) || await fetch(event.request);
-              // return await handle_auth_headers(event)
-          } catch (error) {
-            // an error occured
-            return await fetch(event.request);
+          if (event.request.method == "POST"){
+            // NOTE- This handles adding auth headers to request
+            return event.respondWith( (async () => await fetch(event.request))())
           }
-        })());
-    }else{
-        // Handling all other EVENTS - at this point DELETE PUT and etc EVENTS will end up here
-        event.respondWith((async () => {
-          try{
-              // Return Preload or Cache or Create a fresh response
-              // return  await event.preloadResponse || await check_cache_hit(event) || await handle_auth_headers(event)
-              return await handle_auth_headers(event)
-          }catch(error){
-            console.log("errors ", error.message)
-            return await fetch(event.request);
+          if  (event.request.method == "DELETE"){
+            // NOTE- This handles adding auth headers to request
+            return event.respondWith( (async () => await fetch(event.request))())
           }
-        })());
-    }
-  }
+          if (event.request.method == "PUT"){
+            // NOTE- This handles adding auth headers to request
+            return event.respondWith( (async () => await fetch(event.request))())
+          }
+          // if its service worker request fetch a fresh copy
+          if  ((event.request.method == "GET") && (request_url.includes('sw.js'))) {
+            return event.respondWith( (async () => await fetch(event.request))())
+          }
+          // if its for static assets fetch first from cache if failed fetch fresh copy
+          if ((event.request.method == "GET") && (request_url.includes('static'))){
+            return event.respondWith((async () => {return  await event.preloadResponse || await check_cache_hit(event) || await fetch(event.request)})())
+          }
+          // if its a GET request to another domain fetch a fresh copy
+          // if its service worker request fetch a fresh copy
+          if ((event.request.method == "GET") && (!request_url.includes(website_base_url))){
+            return event.respondWith( (async () => await fetch(event.request))())
+          }
+          // all other requests fetch securely from backend
+          return event.respondWith((async () => {return  await handle_auth_headers(event)})())
 });
 
 
@@ -178,13 +170,13 @@ let handle_auth_headers = async event => {
     headers.append(key, val);
   });
   // Add ID token to header.
-  headers.set("x-access-token", auth_token);
-  console.log("Auth-Token Inserted on Headers : ", headers);
-
+  headers.append("x-access-token", auth_token);
+  console.log("Auth-Token Inserted on Headers : ", auth_token);
+  // always user cors in order to enable headers modification
   let request = new Request(event.request.url, {
     method: event.request.method,
     headers: headers,
-    mode: "no-cors",
+    mode: "cors",
     credentials: event.request.credentials,
     cache: event.request.cache,
     redirect:event.request.redirect,
@@ -193,62 +185,58 @@ let handle_auth_headers = async event => {
     bodyUsed: event.request.bodyUsed,
     context: event.request.context
   });
-  console.log("fetching this request");
+  console.log("fetching this request securely", request.url);
   return await fetch(request);
 }
 
-
-
 //********************************************************************************************* */
 // Message Dispatcher
+let messaging = {
 
-let dispatch_message_to_sender = (e, message) =>  e.source.postMessage(message);
+  // This handler should handle all communication from the app to the
+  // service worker -> from the service worker to the outside world
+  messages_handler : function(e){
+    this.dispatch_message_to_sender = function(e, message){e.source.postMessage(message)};
 
-// This handler should handle all communication from the app to the
-// service worker -> from the service worker to the outside world
-
-let messages_handler = function(e){
-  if (e.data && e.data.type === "auth-token"){
-    if (!auth_token){
-      // console.log("setting token", e.data.token);
+    if (e.data && e.data.type === "auth-token"){
+        // console.log("setting token", e.data.token);
       auth_token = e.data.token;
-      dispatch_message_to_sender(e,{type: "auth-token",message: "Token-Received"})
-    }else{
-      dispatch_message_to_sender(e,{type: "auth-token",message: "Token-Already-Set"})
+      if ((auth_token !== "") && (auth_token !== "undefined")){
+        this.dispatch_message_to_sender(e,{type: "auth-token",message: "Token-Received"})
+      }else{
+        auth_token = "";
+        this.dispatch_message_to_sender(e,{type: "auth-token",message: "Not-Logged-IN"})
+      }
     }
+    console.log("Service Worker Receiving this message : ", e.data);
+  },
+
+
+  //********************************************************************************************* *//
+  // PUSH Messages Handler
+  push_handler : function(e){
+    console.log("push dispatching here");
+    // let json_message = e.data.json();
+    // let blob_data = e.data.blob();
+    let text_message = e.data.text();
+    // console.log("json", json_message);
+    // console.log("blob", blob_data);
+    console.log('text message', text_message);
+  },
+
+  // TODO- dispatch PUSH Messages to App.js push message handler
+  // The handler should decipher the message and decide as to where its destined
+  //********************************************************************************************* */
+  // Sync messages handlers
+  sync_handler : function(e){
+    console.log("SYNC DISPATCHER", e);
+  },
+
+  init : function(){
+    self.addEventListener('message', this.messages_handler);
+    self.addEventListener('sync', this.sync_handler);
+    self.addEventListener('push', this.push_handler)
   }
-  console.log("Service Worker Receiving this message : ", e.data);
 }
 
-self.addEventListener('message', messages_handler);
-
-
-//********************************************************************************************* *//
-// PUSH Messages Handler
-
-let push_handler = e => {
-  console.log("push dispatching here");
-  // let json_message = e.data.json();
-  // let blob_data = e.data.blob();
-  let text_message = e.data.text();
-  // console.log("json", json_message);
-  // console.log("blob", blob_data);
-  console.log('text message', text_message);
-};
-
-// TODO- dispatch PUSH Messages to App.js push message handler
-// The handler should decipher the message and decide as to where its destined
-self.addEventListener('push', push_handler);
-
-
-
-//********************************************************************************************* */
-// Sync messages handlers
-
-let sync_handler = e => {
-  console.log("SYNC DISPATCHER", e);
-};
-
-self.addEventListener('sync', sync_handler);
-
-
+messaging.init();

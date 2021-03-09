@@ -14,10 +14,9 @@ users = Blueprint('users', __name__)
 def login(current_user):
     get_flashed_messages()
     if current_user and current_user.uid:
-        #TODO- Redirect to logout page user has already been logged in        
+        #TODO- Redirect to logout page user has already been logged in
         flash(message="you are already logged in", category="warning")
         return redirect(url_for('users.logout'))
-
 
     if request.method == "GET":
         return render_template('auth/login.html',
@@ -25,10 +24,12 @@ def login(current_user):
                                 meta_tags=Metatags().set_login())
     elif request.method == 'POST':
         auth = request.get_json()
+        print("auth record : {}".format(auth['email']))
+        print("auth record : {}".format(auth['password']))
         if not auth or not auth['email'] or not auth['password']:
             return jsonify({"message": "Email and Password are required"}), 401
-
-        user_model = UserModel.query.filter_by(email=auth['email']).first()
+        email = str(auth['email'])
+        user_model = UserModel.query.filter_by(email=email).first()
         if not user_model:
             return jsonify({"message": "User not found"}), 401
 

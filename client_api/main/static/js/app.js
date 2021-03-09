@@ -19,6 +19,7 @@ this.addEventListener('load', () => {
     let handle_auth_token_messages = message => {
         switch(message){
             case "Token-Received": token_sent = true; break;
+            case "Not-Logged-IN": {token_sent = false; }
             default : break;
         }
     };
@@ -32,10 +33,44 @@ this.addEventListener('load', () => {
         document.location = "/login";
     };
 
+    // Listen to messages from service worker;
+    let message_listener = e => {
+        console.log("Service Worker sent me a message back : ", e.data);
+        // call different handlers depending on the message being sent
+        switch(e.data.type){
+        case "auth-token": handle_auth_token_messages(e.data.message); break;
+        case "auth-token-expired": handle_auth_token_expired(e.data.message); break;
+        case "notification-message": handle_notification_message(e.data.message);break;
+        default : break;
+        }
+        // re run notification module
+        notifications.init();
+    };
+
+    let service_registration = async function(){
+        let registered = await navigator.serviceWorker.register('sw.js');
+        navigator.serviceWorker.addEventListener('message', message_listener);
+        return registered;
+    }
+
+    // self.addEventListener('message', e => {
+    //     console.log('Message sent from somewhere else',e);
+    // })
+
+    // initialize login on first load
+    let init_auth_token_send = async function(){
+        let token = localStorage.getItem('x-access-token');
+        // console.log("checking token : ", token);
+        if (token !== "undefined"){
+            if (!token_sent){
+                send_auth_to_service_worker(token).then(() => {})
+            }
+        }
+        return true;
+    };
+
     // ************************************************************************************//
     //  Notification Services
-
-
     let handle_notification_message = message => {
         // TODO- get hold of the header notification tab
         // TODO- send notification to header file
@@ -67,7 +102,6 @@ this.addEventListener('load', () => {
             {{/with}}
         `),
 
-
         notification_template_dom : document.getElementById('notifications_id'),
 
         // initialize this module
@@ -83,7 +117,6 @@ this.addEventListener('load', () => {
                 this.notification_list.push(incoming_notifications_messages.pop())
             }
         },
-
         // fetch notifications from backend server and storage , part of init
         fetch_notifications : async function(){},
 
@@ -93,44 +126,23 @@ this.addEventListener('load', () => {
         // render everything with handlebars
         render : async function (){
             console.log('notifications size',this.notification_list.length);
-            document.getElementById('total_notifications').innerHTML = this.notification_list.length;
-            let notifications_temp = {count : this.notification_list.length, notification_list:this.notification_list}
-            this.notification_template_dom.innerHTML = this.notification_handle_temp({notifications : notifications_temp})
+            try{
+                document.getElementById('total_notifications').innerHTML = this.notification_list.length;
+                let notifications_temp = {count : this.notification_list.length, notification_list:this.notification_list}
+                this.notification_template_dom.innerHTML = this.notification_handle_temp({notifications : notifications_temp})
+            }catch(error){
+                // we are in login pages there is no notifications or headers bars
+            }
         },
     }
 
-    // Listen to messages from service worker;
-    let message_listener = e => {
-        console.log("Service Worker sent me a message back : ", e.data);
-        // call different handlers depending on the message being sent
-        switch(e.data.type){
-        case "auth-token": handle_auth_token_messages(e.data.message); break;
-        case "auth-token-expired": handle_auth_token_expired(e.data.message); break;
-        case "notification-message": handle_notification_message(e.data.message);break;
-        default : break;
+    service_registration().then(registered => {
+        if (registered){
+            init_auth_token_send().then(is_sent => {
+                // NOTE: initializing notification messaging
+                notifications.init()
+                console.log("service worker installed and auth initialized")
+            })
         }
-        // re run notification module
-        notifications.init();
-    };
-
-    navigator.serviceWorker.addEventListener('message', message_listener);
-
-    // self.addEventListener('message', e => {
-    //     console.log('Message sent from somewhere else',e);
-    // })
-
-    // initialize login on first load
-    (function(){
-        let token = localStorage.getItem('x-access-token');
-        // console.log("checking token : ", token);
-        if (token){
-            if (!token_sent){
-                send_auth_to_service_worker(token).then(() => {})
-            }
-        }
-    })();
-
-    // initialize notifications
-    notifications.init()
-
+    });
 })
