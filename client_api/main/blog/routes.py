@@ -15,13 +15,14 @@ def blog(current_user):
         return render_template('404.html',heading="Page Not Found",menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_blog())
 
-@blog_bp.route('/blog/articles/service-workers/custom-service-worker-with-push-notifications')
+@blog_bp.route('/blog/articles/<path:path>')
 @logged_user
-def frontend_articles(current_user):
+def frontend_articles(current_user,path):
     get_flashed_messages()
     if request.method == "GET":
-        return render_template('blog/frontend_articles/service_workers.html', heading="Custom Service Worker with push Notifications",
-        meta_tags=Metatags().set_blog())
+        if path == "service-workers/custom-service-worker-with-push-notifications":
+            return render_template('blog/frontend_articles/service_workers.html',current_user=current_user,
+            heading="Custom Service Worker with push Notifications",meta_tags=Metatags().set_blog())
 
 
 

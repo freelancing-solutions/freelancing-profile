@@ -8,3 +8,4 @@ activate.bat
 *.log
 .env
 .pytest_cache
+demo.log

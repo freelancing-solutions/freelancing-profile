@@ -29,10 +29,121 @@
                             <h3 class="card-title">Writing a Service Worker from Scratch </h3>
                       </div>
                       <div class="card-body">
-                      <p class='card-text'>
-                          <!-- Text Here -->
-                          <script src="https://gist.github.com/freelancing-solutions/8891501dbad18d85568380781d3c50f1.js"></script>
-                      </p>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class='card-title'> What are Service Workers </h3>
+                            </div>  
+                                <p class="card-body">
+                                    A service worker is a javascript script that runs on your browser as part 
+                                    of a website , web application, or single page web apps, service workers are 
+                                    used mainly to handle fetch events, and thereby able to respond to such events 
+                                    with cached files, on the local browser either running on your phone or computer.
+                                    this has several benefits one of which is faster and responsive websites and also 
+                                    saving you data by responding with locally saved files and resources instead of 
+                                    requesting the files from servers on each navigation event.
+                                </p>
+                        </div>
+                        <div class="card">
+                          <div class="card-header">
+                              <h3 class='card-title'> How Service Workers Works </h3>
+                          </div>  
+                              <div class="card-body">
+                                <p>Service Workers runs separately from your main browser thread which is responsible 
+                                with handling your document object model (DOM), this enables the service worker to run 
+                                on the background and thereby allows both your browser window and service worker to run concurrently
+                                in a non blocking fashion.
+                                </p>
+
+                                <p>
+                                  The ability of service workers to run concurrently allows for the service worker to handle fetch events
+                                  without blocking the main thread.
+                                </p>
+
+                                <p>
+                                  Service workers also only ever runs and able to access only the website they where deployed on.
+                                  the other thing is service workers only runs on a website deployed or served over https this increases
+                                  security and it is this feature of service workers which makes them very useful when handling 
+                                  JWT based authentication tokens.
+                                </p>
+                              </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title"> How the service worker in this website works ? </h3>
+                            </div>
+
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    <li>
+                                      <div class='card-header'>
+                                        <h4 class="card-title">JWT Authentication Token Handling through Service Workers </h4>
+                                      </div>
+
+                                      <span>Our service enables the our website to safely attach and handle 
+                                      our JWT Auth-tokens by inserting the auth-token over headers on every 
+                                      request which the backend either need to authenticate or authorize.
+                                    <hr>
+                                    <code>
+                                      let handle_auth_headers = async event => {}
+                                    </code>
+                                    <hr>
+                                     check complete function on the Gist File below, the function allows for the service 
+                                     worker to insert authentication headers on requests which needs authentication
+                                     headers.
+
+                                     Note that in order for the header to be inserted properly the request mode must always be cors
+                                     which is why the mode is set manually in order to insure that headers gets changed.
+                                     no-cors mode etc, will block header modifications on requests.
+                                    </span>
+                                    </li>
+                                    <li>
+                                      <div class="card-header">
+                                        <h4 class="card-title">Using PostMessage and SendMessage Service Workers</h4>
+                                      </div>
+                                      <span class="card-text">
+                                        There are times when you need to send messages between your web app javascript
+                                        files / dom events and service workers, for this instances you should use 
+                                        message events to achieve this.
+
+                                        if you look below you will notice that in order to communicate auth-token between the dom
+                                        and service worker we are making user of 
+                                        <code> self.addEventListener('message', this.messages_handler);</code>
+                                        to listen to incoming messages to the service worker 
+                                        and also 
+                                        <code>e.source.postMessage(message)</code>
+                                        to send responses back to the script which originated the message through the same
+                                        event which sent the message.
+
+                                        The script on the other end needs to listen to message events from the service worker 
+                                        by attaching message event handlers on the <code>navigator.serviceWorker</code> object.
+                                      </span>
+                                    </li>
+                                    <li>
+                                        <div class="card-header">
+                                            <h4 class="card-title">
+                                              Feature Versions and Improvements
+                                            </h4>
+                                            <span class="card-text">
+                                              This service worker is the one running on this website presently 
+                                              and also forms the basis upon which feature versions will be built, 
+                                                Areas of improvements includes
+                                              <ul>
+                                                <li class="card-titke">Integrating Message Handling to support website functionality </li>
+                                                <li class="card-titke">Create background catching support and file uploads and downloads over better connections using sync events.</li>
+                                              </ul>
+
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <!-- Text Here -->
+                        <script src="https://gist.github.com/freelancing-solutions/8891501dbad18d85568380781d3c50f1.js"></script>
+
                       </div>
               </div>
             </div>
