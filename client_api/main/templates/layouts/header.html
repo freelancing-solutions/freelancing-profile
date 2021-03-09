@@ -20,18 +20,18 @@
       </a>
     </span>
 
-
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
-      {% if current_user %}
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell"></i>
-              <span class="badge badge-warning navbar-badge">0</span>
+              <span class="badge badge-info navbar-badge" id="total_notifications"></span>
             </a>
+            <!-- Insert Actual Notifications here -->
+            {% include "layouts/notifications.html" %}
           </li>
-      {% endif %}
+          <!-- TODO - Insert notifications here -->
 
       <li class="nav-item">
         <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button" title="Sign In or Subscribe">
