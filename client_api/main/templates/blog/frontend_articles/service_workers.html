@@ -8,11 +8,11 @@
           {% include "layouts/flash-messages.html" %}
           <div class="row mb-2">
             <div class="col-sm-8">
-              <h1 class="m-0 text-dark">A Blog on Web Development </h1>
+              <h1 class="m-0 text-dark">{{ heading }} </h1>
             </div><!-- /.col -->
             <div class="col-sm-4">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active"><a href="{{ url_for('blog.blog')}}">Home</a></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -26,14 +26,12 @@
             <div class="col-lg-8">
               <div class="card">
                       <div class="card-header bg-dark">
-                            <h3 class="card-title">Articles </h3>
+                            <h3 class="card-title">Writing a Service Worker from Scratch </h3>
                       </div>
                       <div class="card-body">
                       <p class='card-text'>
                           <!-- Text Here -->
-                          <ul>
-                            <li><a href="{{ url_for('blog.frontend_articles')}}">Writing a service worker from scratch </li>
-                          </ul>
+                          <script src="https://gist.github.com/freelancing-solutions/8891501dbad18d85568380781d3c50f1.js"></script>
                       </p>
                       </div>
               </div>
@@ -41,7 +39,7 @@
             <div class="col-lg-4">
                 <div class="card">
                     <div class="card-header bg-dark">
-                        <h3 class="card-title"> Topics </h3>
+                        <h3 class="card-title"> Related </h3>
                   </div>
                   <div class="card-body">
                   <p class='card-text'>

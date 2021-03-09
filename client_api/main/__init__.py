@@ -8,19 +8,26 @@ from .rest_api import UserAPI,ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJob
 from .library.config import Config
 api = Api()
 
+import logging
+
 try:
+    # Sentry based Error Reporting and Logging
     sentry_sdk.init(
         dsn=Config().SENTRY_INIT,
         integrations=[FlaskIntegration()],
         traces_sample_rate=1.0
     )
+
+    # Error Logging
+    # Logging configuration
+    logging.basicConfig(filename='demo.log', level=logging.DEBUG)
+
 except Exception as e:
     pass
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config.from_object(Config)
-
 
     # TODO- find a way to restructure api
     # NOTE that API are mainly used by admin user

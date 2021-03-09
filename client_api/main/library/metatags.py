@@ -17,6 +17,7 @@ class Metatags():
     def __init__(self, url=""):
         self._url = url
 
+    # TODO - FINISH this
     def selector(self,endpoint):
         return {
             "main.home": self.set_home,
@@ -251,7 +252,6 @@ class Metatags():
         self.image_filename = "imgs/privacy.png"
         self.image_alt = "Privacy Policy - Freelance Profile"
         return self
-
 
     def set_how_to_create_freelancing_account(self):
         # TODO - update login frontend metatags to be relevant
