@@ -24,6 +24,9 @@ def frontend_articles(current_user,path):
             return render_template('blog/frontend_articles/service_workers.html',current_user=current_user,
             heading="Custom Service Worker with push Notifications",meta_tags=Metatags().set_blog())
 
+        elif path == "python/testing/using-pytest-for-alchemy-models":
+            return render_template('blog/backend_articles/pytest-alchemy-models.html',current_user=current_user,
+            heading="Using Pytest to test Alchemy Models",meta_tags=Metatags().set_blog())
 
 
 @blog_bp.route('/blog/categories/<path:path>', methods=['GET'])

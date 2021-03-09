@@ -1,0 +1,119 @@
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          {% include "layouts/flash-messages.html" %}
+          <div class="row mb-2">
+            <div class="col-sm-8">
+              <h1 class="m-0 text-dark">{{heading}} </h1>
+            </div><!-- /.col -->
+            <div class="col-sm-4">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                      <div class="card-header bg-dark">
+                            <h3 class="card-title">Python Testing with PyTest </h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="card">
+                            <div class='card-header'>
+                              <h4> Why Test Python Programs </h4>
+                            </div>
+
+                            <div class="card-body">
+                                <p>
+                                  Creating a way to test your modules, units and programs is a very useful thing as it 
+                                  allows you to eliminate most bugs in your programs and can sometimes help you to avoid
+                                  introducing bugs into your program later on.
+                                </p>
+                                <p>
+                                  using a testing framework in python such as PyTest or unittest involves writing test cases
+                                  allowing you to test each aspect of your program with different input scenarios and edge cases 
+                                  in order to see or learn how your code can break, this also allows you to write defensive 
+                                  code, which means your overall code is more likely to have fewer bugs and also unlikely to fail 
+                                  in the future and also when more team members gets introduced into the project.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+                          <div class="card-header">
+                              How to install PyTest and prepare your environment for testing
+                          </div>
+
+                           <ul>
+                             <li> <h4>install PyTest into your environment</h4>
+                              <ol>
+                                <li><code>pip install pytest </code></li></li>
+                              </ol>
+
+                             <li> <h4>Create a module named tests</h4>
+                                <ol>
+                                  <li>Create a folder named tests</li>
+                                  <li>Create a file inside the folder and name it <code>__init__.py</code> in order to turn the folder into a module</li>
+                                </ol>
+                             </li>
+                             <li><h4>Create PyTest Test Cases</h4>
+                                <ol>
+                                  <li>Inside the tests module create test cases </li>
+                                  <li>Test cases are created inside python files with names starting with <code>test_[test-case-name].py</code></li>
+                                  <li>replace [test-case-name] with the name of the test case example <code>test_users_model.py</code></li>
+                                </ol>
+                              </li>
+
+                              <li><h4>How to run tests</h4>
+                                <ol>
+                                  <li>Inside the folder/module for tests execute the following command <code>py.test</code></li>
+                                  <li>All your tests will run</li>
+                                </ol>
+                              </li>
+
+                           </ul> 
+                        </div>
+                        <script src="https://gist.github.com/freelancing-solutions/10edc55038ce2a48c485b16fdbdc69a3.js"></script>
+                      </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"> Topics </h3>
+                  </div>
+                  <div class="card-body">
+                  <p class='card-text'>
+                      <!-- Text Here -->
+                  </p>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+{% endblock content %}>
+
+{% block sidebar %}
+    {% include "layouts/blog/sidebar.html" %}
+{% endblock %}
+
+{% block header %}
+    {% include "layouts/blog/header.html" %}
+{% endblock header %}
