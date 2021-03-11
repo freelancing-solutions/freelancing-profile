@@ -50,7 +50,11 @@ class ContactAPI(Resource):
         print(contact_form)
         current_user = authenticated_user(token=contact_form['x-access-token'])
         print(current_user)
-        contact = ContactModel(uid=current_user.uid,
+        if current_user:
+            uid = current_user.uid
+        else:
+            uid = None
+        contact = ContactModel(uid=uid,
                               names=contact_form['names'],
                               email=contact_form['email'],
                               cell=contact_form['cell'],

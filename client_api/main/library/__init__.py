@@ -45,7 +45,7 @@ def token_required(f):
         print('token headers: {}'.format(request.headers))
         if 'x-access-token' in request.headers:
             token = request.headers['x-access-token']
-            print('token found : {}'.format(token))
+            # print('token found : {}'.format(token))
         if not token:
             return redirect(url_for('users.login'))
         try:

@@ -80,10 +80,11 @@
       cachedDom: async function(){
         this.names = document.getElementById('names');
         this.email = document.getElementById('email');
-        this.reason = document.getElementById('reason');
+        this.select_reason = document.getElementById('select_reason');
         this.subject = document.getElementById('subject')
         this.body = document.getElementById('body');
         this.message = document.getElementById('message')
+
         return this
     }, // end cachedDom
     attach_handlers: async function(){
@@ -143,8 +144,7 @@
         }).then(json => {
             // Data has been sent inform the user
             console.log(json)
-            message = "Successfully created message"
-            // this.reset_form(message).then(response => console.log(response))
+            document.getElementById('message').innerHTML = json.message;
         })
       }catch(e){
           console.log('error : ', e.message)
@@ -173,7 +173,7 @@
           </select>
         </div>`;
 
-        console.log('switching dom', e.target.value);
+        // console.log('switching dom', e.target.value);
 
         this.additional_content_dom = document.getElementById('additional_content');
         this.additional_content_dom.innerHTML = '';
