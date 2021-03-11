@@ -27,8 +27,23 @@ def contact(current_user):
     elif request.method == "POST":
         # TODO- handle post request here
         contact_details = request.get_json()
-        print(contact_details)
-        return jsonify({"message": "Successfully created new messafe"})
+
+        if current_user:
+            uid = current_user.uid
+        else:
+            uid = ""
+        names = contact_details['names']
+        email = contact_details['email']
+        cell = contact_details['cell']
+        subject = contact_details['subject']
+        body = contact_details['body']
+        reason = contact_details['reason']
+        contact_instance = ContactModel(names=names,email=email,cell=cell,subject=subject,body=body,reason=reason,uid=uid)
+        if contact_instance:
+            return jsonify({"message": "Message Successfully sent, I will get back to you"}), 200
+        else:
+            return jsonify({'message': "Error Sending message"}), 500
+
 
 @main.route('/about', methods=['GET'])
 @logged_user
@@ -113,4 +128,3 @@ def service_worker():
     response = make_response(render_template('sw.js'))
     response.headers['content-type'] = 'application/javascript'
     return response
-# TODO- add a 404 handler here incase no URL was matched
