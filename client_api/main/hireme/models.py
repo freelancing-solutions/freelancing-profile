@@ -25,6 +25,7 @@ class FreelanceJobModel(db.Model):
     _seen = db.Column(db.Boolean, default=False)
     _user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
 
+
     @property
     def uid (self) -> str:
         return self._uid
@@ -133,6 +134,7 @@ class FreelanceJobModel(db.Model):
 
     @time_created.setter
     def time_created(self,time_created):
+        assert(time_created)
         if time_created is None:
             raise ValueError('Time Created can not be Null')
 
@@ -141,8 +143,69 @@ class FreelanceJobModel(db.Model):
 
         self._time_created = time_created
 
-    
 
+    @property
+    def est_hours_to_complete(self) -> int:
+        return self._est_hours_to_complete
+
+    @est_hours_to_complete.setter
+    def est_hours_to_complete(self,est_hours_to_complete):
+        if est_hours_to_complete is None:
+            raise ValueError('Estimated Hours to Completion cannot be Null')
+
+        if not isinstance(est_hours_to_complete,int):
+            raise TypeError('Estimate hours to Completion can only be an integer')
+
+        self._est_hours_to_complete = est_hours_to_complete
+
+    @property
+    def currency (self) -> str:
+        return self._currency
+
+    @currency.setter
+    def currency(self,currency):
+        if currency is None:
+            raise ValueError('Currency cannot be Null')
+
+        if currency in ['$', "R"]:
+            raise ValueError('That currency is not supported')
+
+        self._currency = currency
+
+    @property
+    def budget_allocated(self) -> int:
+        return self._budget_allocated
+
+    @budget_allocated.setter
+    def budget_allocated(self,budget_allocated):
+        if budget_allocated is None:
+            raise ValueError('Budget allocated cannot be Null')
+        if not isinstance(budget_allocated,int):
+            raise TypeError('Budget Allocated is not an Integer')
+
+        self._budget_allocated = budget_allocated
+
+    @property
+    def total_paid(self):
+        return self._total_paid
+
+    @total_paid.setter
+    def total_paid(self,total_paid):
+        if total_paid is None:
+            raise ValueError('Total Paid is not None')
+
+        if not isinstance(total_paid, int):
+            raise TypeError
+
+    @property
+    def seen(self) -> bool:
+        return self._seen
+
+    @seen.setter
+    def seen(self,seen):
+        if not isinstance(seen,bool):
+            raise TypeError('Seen can only be a boolean')
+        self._seen = seen
 
 
 
@@ -179,4 +242,6 @@ class FreelanceJobModel(db.Model):
         if (value.uid == self.uid) and (value.project_id == self.project_id) and (value.project_name == self.project_name) and (value.project_category == self.project_category) and (value.description == self.description) and (value.progress == self.progress) and (value.status == self.status) and (value.link_details == self.link_details) and (value.time_created == self.time_created) and (value.est_hours_to_complete == self.est_hours_to_complete) and (value.currency == self.currency) and (value.budget_allocated == self.budget_allocated) and (value.total_paid == self.total_paid):
             return True
         return False
+
+
 
