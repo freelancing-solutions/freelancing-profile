@@ -44,7 +44,7 @@ def test_add_user_through_rest_api():
         assert user_model_instance.admin == admin, "Admin not set correctly"
         assert user_model_instance.img_link == img_link, "img_link not set correctly"
 
-        user_model_recalled = UserModel.query.filter_by(email=email).first()
+        user_model_recalled = UserModel.query.filter_by(_email=email).first()
         assert user_model_recalled, "Unable to recall user model from database"
         assert user_model_recalled == user_model_instance, "UserModel from database is being modified"
 

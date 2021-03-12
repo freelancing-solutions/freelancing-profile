@@ -6,6 +6,7 @@ from ..library import config
 
 def test_main_contact_model():
     from ..main.models import ContactModel
+    # TODO fetch uid from UserModel
     uid = str(uuid.uuid4())
     names = "justice"
     email = "mobius-{}@gmail.com".format(uid)

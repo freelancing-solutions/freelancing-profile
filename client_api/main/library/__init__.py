@@ -50,7 +50,7 @@ def token_required(f):
             return redirect(url_for('users.login'))
         try:
             uid = decode_auth_token(auth_token=token)
-            current_user = UserModel.query.filter_by(uid=uid).first()
+            current_user = UserModel.query.filter_by(_uid=uid).first()
         except Exception as error:
             return redirect(url_for('users.login'))
         return f(current_user, *args, **kwargs)
@@ -65,7 +65,7 @@ def logged_user(f):
             if token:
                 try:
                     uid = decode_auth_token(auth_token=token)
-                    current_user = UserModel.query.filter_by(uid=uid).first()
+                    current_user = UserModel.query.filter_by(_uid=uid).first()
                     return f(current_user, *args,**kwargs)
                 except Exception as error:
                     pass
@@ -78,7 +78,7 @@ def logged_user(f):
 def is_authenticated(token):
     try:
         uid = decode_auth_token(auth_token=token)
-        current_user = UserModel.query.filter_by(uid=uid).first()
+        current_user = UserModel.query.filter_by(_uid=uid).first()
         return True
     except Exception as error:
         return False
@@ -86,7 +86,7 @@ def is_authenticated(token):
 def authenticated_user(token):
     try:
         uid = decode_auth_token(auth_token=token)
-        current_user = UserModel.query.filter_by(uid=uid).first()
+        current_user = UserModel.query.filter_by(_uid=uid).first()
         return current_user
     except Exception as error:
         return None

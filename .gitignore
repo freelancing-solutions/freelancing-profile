@@ -9,3 +9,10 @@ activate.bat
 .env
 .pytest_cache
 demo.log
+*.pyc
+*.pyc
+*.pyc
+*.pyc
+client_api/main/main/__pycache__/routes.cpython-38.pyc
+*.pyc
+*.pyc

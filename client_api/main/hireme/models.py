@@ -1,5 +1,5 @@
 from .. import db
-from flask import current_app
+from flask import current_app,escape
 import time, uuid
 class FreelanceJobModel(db.Model):
     """
@@ -9,21 +9,142 @@ class FreelanceJobModel(db.Model):
         Args:
             db ([type]): [description]
     """
-    uid = db.Column(db.String(36),db.ForeignKey('user_model.uid'),unique=False, nullable=False)
-    project_id = db.Column(db.String(36), unique=True, primary_key=True)
-    project_name = db.Column(db.String(1048), unique=False, nullable=False)
-    project_category = db.Column(db.String(64), nullable=False, default="webdev")
-    description = db.Column(db.String(2096), nullable=False)
-    progress = db.Column(db.Integer, nullable=False, default=0)
-    status = db.Column(db.String(32), nullable=False, default="active")
-    link_details = db.Column(db.String(256), nullable=False)
-    time_created = db.Column(db.Integer, nullable=False,default=int(float(time.time()) * 1000))
-    est_hours_to_complete = db.Column(db.Integer, nullable=False, default=7*24)
-    currency = db.Column(db.String(32), nullable=False, default="$")
-    budget_allocated = db.Column(db.Integer, nullable=False)
-    total_paid = db.Column(db.Integer, nullable=False, default=0)
-    seen = db.Column(db.Boolean, default=False)
-    user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
+    _uid = db.Column(db.String(36),db.ForeignKey('user_model._uid'),unique=False, nullable=False)
+    _project_id = db.Column(db.String(36), unique=True, primary_key=True)
+    _project_name = db.Column(db.String(1048), unique=False, nullable=False)
+    _project_category = db.Column(db.String(64), nullable=False, default="webdev")
+    _description = db.Column(db.String(2096), nullable=False)
+    _progress = db.Column(db.Integer, nullable=False, default=0)
+    _status = db.Column(db.String(32), nullable=False, default="active")
+    _link_details = db.Column(db.String(256), nullable=False)
+    _time_created = db.Column(db.Integer, nullable=False,default=int(float(time.time()) * 1000))
+    _est_hours_to_complete = db.Column(db.Integer, nullable=False, default=7*24)
+    _currency = db.Column(db.String(32), nullable=False, default="$")
+    _budget_allocated = db.Column(db.Integer, nullable=False)
+    _total_paid = db.Column(db.Integer, nullable=False, default=0)
+    _seen = db.Column(db.Boolean, default=False)
+    _user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
+
+    @property
+    def uid (self) -> str:
+        return self._uid
+
+    @uid.setter
+    def uid(self,uid):
+        if uid is None:
+            raise ValueError('UID cannot be null')
+        if not isinstance(uid, str):
+            raise TypeError('UID can only be a string')
+        if len(uid) > 36:
+            raise ValueError('UID should only be uuid.uuidv4() token')
+        self._uid = uid
+
+    @property
+    def project_id(self) -> str:
+        return self._project_id
+
+    @project_id.setter
+    def project_id(self,project_id):
+        if project_id is None:
+            raise ValueError('Project ID cannot be null')
+        if not isinstance(project_id, str):
+            raise TypeError('Project ID can only be a string')
+        if len(project_id) > 36:
+            raise ValueError('Project ID should only be uuid.uuidv4() token')
+        self._project_id = project_id
+
+    @property
+    def project_name(self) -> str:
+        return self._project_name
+
+    @project_name.setter
+    def project_name(self,project_name):
+        if project_name is None:
+            raise ValueError('Project Name cannot be null')
+        if not isinstance(project_name, str):
+            raise TypeError('Project Name can only be a string')
+
+        self._project_name = escape(project_name)
+
+    @property
+    def project_category(self) -> str:
+        return self._project_category
+
+    @project_category.setter
+    def project_category(self,project_category):
+        if project_category not in ['webdev','apidev','webapp']:
+            raise ValueError('Unknown freelance job category')
+        self._project_category = project_category
+
+    @property
+    def description(self) -> str:
+        return self._description
+
+    @description.setter
+    def description(self,description):
+        if description is None:
+            raise ValueError('Description cannot be null')
+
+        if not isinstance(description, str):
+            raise TypeError('Description can only be a str')
+
+        self._description = escape(description)
+
+    @property
+    def progress(self) -> int:
+        return self._progress
+
+    @progress.setter
+    def progress(self,progress):
+        if not isinstance(progress, int):
+            raise TypeError('Progress can only be an integer')
+
+        if 0 <= progress <= 100:
+            raise ValueError('Progress out of bounds can only be between 0 and 100')
+
+        self._progress = progress
+
+    @property
+    def status(self) -> str:
+        return self._status
+
+    @status.setter
+    def status(self,status):
+        if status not in ['active','pending','in-progress','completed','suspended']:
+            raise ValueError('Status unknown')
+        self._status = status
+
+    @property
+    def link_details(self) -> str:
+        return self._link_details
+
+    @link_details.setter
+    def link_details(self,link_details):
+        if link_details is None:
+            raise ValueError('Freelance Job SEO Link cannot be Null')
+        if not isinstance(link_details,str):
+            raise TypeError('Freelance Job Link can only be a str')
+
+        self._link_details = link_details
+
+    @property
+    def time_created(self) -> int:
+        return self._time_created
+
+    @time_created.setter
+    def time_created(self,time_created):
+        if time_created is None:
+            raise ValueError('Time Created can not be Null')
+
+        if not isinstance(time_created,int):
+            raise TypeError('Time created can only be an integer')
+
+        self._time_created = time_created
+
+    
+
+
+
 
     def __init__(self,uid,project_name,description,est_hours_to_complete,currency,budget_allocated,project_category="webdev"):
         self.uid = uid

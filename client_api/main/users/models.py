@@ -18,6 +18,8 @@ class UserModel(db.Model):
     _email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     _cell_is_verified = db.Column(db.Boolean, nullable=False, default=False)
 
+
+
     @property
     def uid(self):
         if (len(self._uid) == 36) and isinstance(self._uid,str):
@@ -175,6 +177,71 @@ class UserModel(db.Model):
 
         self._img_link = img_link
 
+    @property
+    def time_registered(self) -> int:
+        return self._time_registered
+
+    @time_registered.setter
+    def time_registered(self,time_registered):
+        if time_registered is None:
+            raise ValueError('Time registered can only be an integer')
+        if not isinstance(time_registered,int):
+            raise TypeError('Time registered can only be an integer')
+
+        self._time_registered = time_registered
+
+    @property
+    def time_email_verified(self) -> bool:
+        return self._time_email_verified
+
+    @time_email_verified.setter
+    def time_email_verified(self,time_email_verified):
+        if time_email_verified is None:
+            raise ValueError('Time email verified is Null')
+
+        if not isinstance(time_email_verified, int):
+            raise TypeError('Time email verified can only be integer')
+
+        self._time_email_verified = time_email_verified
+
+    @property
+    def time_cell_verified(self) -> int:
+        return self._time_cell_verified
+
+    @time_cell_verified.setter
+    def time_cell_verified(self, time_cell_verified):
+        if time_cell_verified is None:
+            raise ValueError('Time cell verified is null')
+
+        if not isinstance(time_cell_verified, int):
+            raise TypeError('Time cell verified')
+
+        self._time_cell_verified = time_cell_verified
+
+    @property
+    def email_is_verified(self) -> bool:
+        return self._email_is_verified
+
+    @email_is_verified.setter
+    def email_is_verified(self,email_is_verified):
+        if not isinstance(email_is_verified,bool):
+            raise TypeError('Email is verified can only be a boolean')
+
+        self._email_is_verified = email_is_verified
+
+    @property
+    def cell_is_verified(self) -> bool:
+        return self._cell_is_verified
+
+    @cell_is_verified.setter
+    def cell_is_verified(self,cell_is_verified):
+        if not isinstance(cell_is_verified,bool):
+            raise TypeError('Cell is verified can only be a boolean')
+
+        self._cell_is_verified = cell_is_verified
+
+
+    # NOTE ACTIONS
     def compare_password(self,password) -> bool:
         """
         Args:
@@ -194,9 +261,6 @@ class UserModel(db.Model):
 
         return check_password_hash(self.password,password)
 
-
-    # NOTE ACTIONS
-
     def is_admin(self) -> bool:
         return self.admin
 
@@ -215,7 +279,6 @@ class UserModel(db.Model):
 
     def __init__(self, username,email,password,names,surname,cell,admin=False,img_link=None):
         self.uid = str(uuid.uuid4())
-
         if username:
             self.username = username
         else:
@@ -226,7 +289,8 @@ class UserModel(db.Model):
         self.surname = surname
         self.cell = cell
         self.admin = admin
-        self.img_link = img_link
+        if img_link:
+            self.img_link = img_link
         super(UserModel,self).__init__()
 
     def __repr__(self):
@@ -243,7 +307,7 @@ class UserModel(db.Model):
         return False
 
     @staticmethod
-    def add_user(uid,email,username=None,names=None,surname=None,cell=None):
+    def add_user(email,username=None,names=None,surname=None,cell=None):
         user = UserModel(uid=uid,email=email,username=username,names=names,surname=surname,cell=cell)
         db.session.add(user)
         db.session.commit()
