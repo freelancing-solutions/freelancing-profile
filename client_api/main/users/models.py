@@ -1,6 +1,7 @@
 from .. import db
 from flask import current_app
-
+from werkzeug.security import generate_password_hash
+import uuid
 class UserModel(db.Model):
     uid = db.Column(db.String(36),unique=True,primary_key=True) # Public ID
     username = db.Column(db.String(128), unique=True, nullable=True)
@@ -11,6 +12,22 @@ class UserModel(db.Model):
     cell = db.Column(db.String(13), nullable=True)
     admin = db.Column(db.Boolean, default=False)
     img_link = db.Column(db.String(256), nullable=True)
+
+    def __init__(self, username,email,password,names,surname,cell,admin=False,img_link=None):
+        self.uid = str(uuid.uuid4())
+        self.img_link = img_link
+        if username:
+            self.username = username
+        else:
+            self.username = email
+        self.email = email
+        self.password = generate_password_hash(password,method='sha256')
+        self.names = names
+        self.surname = surname
+        self.cell = cell
+        self.admin = admin
+        self.img_link = img_link
+        super(UserModel,self).__init__()
 
     def __repr__(self):
         return '<User {}> <Email {}>'.format(self.username,self.email)

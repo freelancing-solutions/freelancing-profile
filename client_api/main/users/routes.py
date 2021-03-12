@@ -57,7 +57,7 @@ def register(current_user):
     get_flashed_messages()
     if current_user and current_user.uid:
         #TODO- Redirect to logout page user has already been logged in
-        flash(message="you are already logged in", category="warning")
+        flash(message="You are already logged in", category="warning")
         return redirect(url_for('users.logout'))
 
 
@@ -69,27 +69,36 @@ def register(current_user):
         if user_details and 'email' in user_details:
             email = user_details['email']
         else:
-            return jsonify({'message': 'email address is required'})
+            return jsonify({'message': 'Email address is required'})
+
+        if user_details and 'cell' in user_details:
+            cell = user_details['cell']
+        else:
+            return jsonify({'message': 'Cell Number is required'})
 
         if user_details and 'password' in user_details:
             password = user_details['password']
         else:
-            return jsonify({'message': 'password is required'})
+            return jsonify({'message': 'Password is required'})
 
         if user_details and 'names' in user_details:
             names = user_details['names']
-            # NOTE : attempt names surname detection and resolution
+
         else:
-            return jsonify({'message': 'names is required'})
+            return jsonify({'message': 'Names is required'})
+
+        if user_details and 'surname' in user_details:
+            surname = user_details['surname']
+        else:
+            return jsonify({'message': 'Surname is required'})
 
         user_model = UserModel.query.filter_by(email=email).first()
         if user_model:
             return jsonify({'message': 'User already exists'})
 
-        password_hash = generate_password_hash(password=password,method='sha256')
-        uid = str(uuid.uuid4())
+
         # TODO check if uid is not present right now
-        user_model = UserModel(uid=uid ,username=email,email=email,password=password_hash,names=names,admin=False)
+        user_model = UserModel(username=email,email=email,cell=cell,password=password,names=names,surname=surname)
         db.session.add(user_model)
         db.session.commit()
         token = encode_auth_token(uid=user_model.uid)

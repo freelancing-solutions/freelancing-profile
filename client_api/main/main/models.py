@@ -136,7 +136,7 @@ class ContactModel(db.Model):
         self.reason = reason
         self.subject = subject
         self.body = body
-
+        super(ContactModel,self).__init__()
 
     def __repr__(self):
         return '<ContactModel names : {}, email: {}, cell: {}, subject: {}, body: {}, reason: {}>'.format(self.names,self.email,self.cell,self.subject,self.body,self.reason)

@@ -12,9 +12,11 @@ this.addEventListener('load', function() {
     let message_dom = document.getElementById('message_content');
 
     document.getElementById('register_form').addEventListener('submit', e => {
-        e.preventDefault();
+        // e.preventDefault();
+        let surname_dom = document.getElementById('surname')
         let names_dom = document.getElementById('names');
         let email_dom = document.getElementById('email');
+        let cell_dom = document.getElementById('cell');
         let password_dom = document.getElementById('password');
         let match_password_dom = document.getElementById('password_match');
 
@@ -28,7 +30,7 @@ this.addEventListener('load', function() {
                 new_headers = new Headers({ 'content-type': 'application/json'})
             }
             // keep mode as cors in order to be able to modify headers
-            let json_data = JSON.stringify({'email':email_dom.value,'names':names_dom.value,'password':password_dom.value});
+            let json_data = JSON.stringify({'surname': surname_dom.value,'names':names_dom.value,'email':email_dom.value,'cell':cell_dom.value,'password':password_dom.value});
             let init_post = {
                 method: "POST",
                 headers: new_headers,
@@ -52,7 +54,6 @@ this.addEventListener('load', function() {
             }).catch(error => {
                 message_dom.innerHTML = message_template({_message : 'There was an error creating an account',_category:'danger'})
             })
-
 
         } else {
             alert('passwords do not match');
