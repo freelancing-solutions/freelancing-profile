@@ -1,5 +1,7 @@
 from flask import url_for
-class Metatags():
+
+
+class Metatags:
     """
         Default Application Meta Tags
     """
@@ -14,6 +16,7 @@ class Metatags():
     image_filename = ""
     image_alt = ""
     _url = ""
+
     def __init__(self, url=""):
         self._url = url
 
@@ -25,7 +28,6 @@ class Metatags():
             "main.contact": self.set_contact,
             "main.blog":  self.set_blog
         }.get(endpoint)
-
 
     def set_home(self):
         self.title = "Professional & Freelance Profile of Justice Ndou- Web Development Profile"

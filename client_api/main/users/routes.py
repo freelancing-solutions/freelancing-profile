@@ -6,7 +6,7 @@ from .. import db
 import uuid
 from werkzeug.security import check_password_hash, generate_password_hash
 
-users = Blueprint('users', __name__)
+users = Blueprint('users', __name__, static_folder="../static", template_folder="../templates")
 
 
 @users.route('/login', methods=['GET', 'POST'])
@@ -24,8 +24,8 @@ def login(current_user):
                                 meta_tags=Metatags().set_login())
     elif request.method == 'POST':
         auth = request.get_json()
-        print("auth record : {}".format(auth['email']))
-        print("auth record : {}".format(auth['password']))
+        # print("auth record : {}".format(auth['email']))
+        # print("auth record : {}".format(auth['password']))
         if not auth or not auth['email'] or not auth['password']:
             return jsonify({"message": "Email and Password are required"}), 401
         email = str(auth['email'])
@@ -60,49 +60,52 @@ def register(current_user):
         flash(message="You are already logged in", category="warning")
         return redirect(url_for('users.logout'))
 
-
     if request.method == "GET":
         return render_template('auth/register.html', heading="Register", menu_open=True,
                             meta_tags=Metatags().set_register())
     elif request.method == "POST":
         user_details = request.get_json()
-        if user_details and 'email' in user_details:
+        print('USER DETAILS : {}'.format(user_details))
+        if user_details and ('email' in user_details):
             email = user_details['email']
         else:
-            return jsonify({'message': 'Email address is required'})
+            return jsonify({'message': 'Email address is required'}), 401
 
-        if user_details and 'cell' in user_details:
+        if 'cell' in user_details:
             cell = user_details['cell']
         else:
-            return jsonify({'message': 'Cell Number is required'})
+            return jsonify({'message': 'Cell Number is required'}), 401
 
-        if user_details and 'password' in user_details:
+        if 'password' in user_details:
             password = user_details['password']
         else:
-            return jsonify({'message': 'Password is required'})
+            return jsonify({'message': 'Password is required'}), 401
 
-        if user_details and 'names' in user_details:
+        if 'names' in user_details:
             names = user_details['names']
 
         else:
-            return jsonify({'message': 'Names is required'})
+            return jsonify({'message': 'Names is required'}), 401
 
-        if user_details and 'surname' in user_details:
+        if 'surname' in user_details:
             surname = user_details['surname']
         else:
-            return jsonify({'message': 'Surname is required'})
+            return jsonify({'message': 'Surname is required'}), 401
 
         user_model = UserModel.query.filter_by(email=email).first()
         if user_model:
-            return jsonify({'message': 'User already exists'})
+            return jsonify({'message': 'Email address already used to register an account Please Login'}), 500
 
 
-        # TODO check if uid is not present right now
-        user_model = UserModel(username=email,email=email,cell=cell,password=password,names=names,surname=surname)
-        db.session.add(user_model)
-        db.session.commit()
-        token = encode_auth_token(uid=user_model.uid)
-        return jsonify({'Message':'Successfully created new user', 'token': token})
+        try:
+            user_model = UserModel(username=email,email=email,cell=cell,password=password,names=names,surname=surname)
+            db.session.add(user_model)
+            db.session.commit()
+            token = encode_auth_token(uid=user_model.uid)
+        except Exception as error:
+            return jsonify({'message':'There was an error creating user'}), 500
+        return jsonify({'Message':'Successfully created new user', 'token': token}), 200
+
 
 @users.route('/forgot-password', methods=['GET', 'POST'])
 @logged_user

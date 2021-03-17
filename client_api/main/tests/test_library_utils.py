@@ -5,6 +5,7 @@ from ..library import config
 # def test_metatags():
 #     pass
 
+
 def test_encode_decode_auth():
     from ..library import encode_auth_token, decode_auth_token
     from ..users.models import UserModel

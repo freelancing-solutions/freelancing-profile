@@ -1,16 +1,54 @@
 from .. import db
-from flask import current_app
 import uuid
 
 
 class ContactModel(db.Model):
     _contact_id = db.Column(db.String(36), primary_key=True, unique=True)
-    _uid = db.Column(db.String(36), unique=True, nullable=True)
+    _uid = db.Column(db.String(36), unique=False, nullable=True)
     _names = db.Column(db.String(128), unique=False, nullable=False)
     _email = db.Column(db.String(128), unique=False, nullable=False)
     _subject = db.Column(db.String(256), unique=False, nullable=False)
     _body = db.Column(db.String(2048), unique=False, nullable=False)
     _reason = db.Column(db.String(128), unique=False, nullable=False)
+    _time_created = db.Column(db.Integer, default=int(float(time.time() * 1000)))
+    _is_read = db.Column(db.Boolean, default=False)
+    _time_read = db.Column(db.Integer, default=0)
+
+    @property
+    def time_created(self) -> int:
+        return self._time_created
+
+    @time_created.setter
+    def time_created(self, time_created):
+        if time_created is None:
+            raise ValueError('Time created cannot be null')
+        if not isinstance(time_created, int):
+            raise TypeError('Time Created can only be an integer')
+
+        self._time_created = time_created
+
+    @property
+    def is_read(self) -> bool:
+        return self._is_read
+
+    @is_read.setter
+    def is_read(self, is_read):
+        if not isinstance(is_read, bool):
+            raise TypeError('Is_read can only be a Boolean')
+        self._is_read = is_read
+
+    @property
+    def time_read(self) -> int:
+        return self._time_read
+
+    @time_read.setter
+    def time_read(self, time_read):
+        if time_read is None:
+            raise ValueError('Time is read cannot be Null')
+        if not isinstance(time_read, int):
+            raise TypeError('Time read can only be an integer')
+
+        self._time_read = time_read
 
     @property
     def contact_id(self):
@@ -18,7 +56,7 @@ class ContactModel(db.Model):
 
     @contact_id.setter
     def contact_id(self, contact_id):
-        if (contact_id is None):
+        if contact_id is None:
             raise ValueError('contact_id can only be a uuid string')
 
         if not isinstance(contact_id, str):
@@ -36,11 +74,11 @@ class ContactModel(db.Model):
         return self._uid
 
     @uid.setter
-    def uid(self,uid):
-        if (uid is None):
+    def uid(self, uid):
+        if uid is None:
             raise ValueError('uid cannot be null')
 
-        if not isinstance(uid,str):
+        if not isinstance(uid, str):
             raise TypeError('uid is not a string')
 
         if len(uid) > 36:
@@ -48,14 +86,13 @@ class ContactModel(db.Model):
 
         self._uid = uid
 
-
     @property
     def names(self):
         return self._names
 
     @names.setter
     def names(self, names):
-        if (names is None):
+        if names is None:
             raise ValueError('names cannot be null')
 
         if not isinstance(names, str):
@@ -71,8 +108,8 @@ class ContactModel(db.Model):
         return self._email
 
     @email.setter
-    def email(self,email):
-        if (email is None):
+    def email(self, email):
+        if email is None:
             raise ValueError('Email cannot be None')
         if not isinstance(email, str):
             raise TypeError("Email can only be a string")
@@ -89,10 +126,10 @@ class ContactModel(db.Model):
         return self._subject
 
     @subject.setter
-    def subject(self,subject):
-        if (subject is None):
+    def subject(self, subject):
+        if subject is None:
             raise ValueError("Subject cannot be null")
-        if not isinstance(subject,str):
+        if not isinstance(subject, str):
             raise TypeError("Subject can only be a string")
 
         self._subject = subject
@@ -102,10 +139,10 @@ class ContactModel(db.Model):
         return self._body
 
     @body.setter
-    def body(self,body):
-        if (body is None):
+    def body(self, body):
+        if body is None:
             raise ValueError("Body cannot be null")
-        if not isinstance(body,str):
+        if not isinstance(body, str):
             raise TypeError("Body can only be a string")
 
         self._body = body
@@ -115,18 +152,16 @@ class ContactModel(db.Model):
         return self._reason
 
     @reason.setter
-    def reason(self,reason):
+    def reason(self, reason):
         if reason is None:
             raise ValueError("Reason cannot be null")
 
-        if not isinstance(reason,str):
+        if not isinstance(reason, str):
             raise TypeError("Reason can only be a string")
 
         self._reason = reason
 
-
-
-    def __init__(self,  names, email, cell, subject, body, reason,uid=None):
+    def __init__(self,  names, email, cell, subject, body, reason, uid=None):
         self.contact_id = str(uuid.uuid4())
         if uid:
             self.uid = uid
@@ -136,13 +171,14 @@ class ContactModel(db.Model):
         self.reason = reason
         self.subject = subject
         self.body = body
-        super(ContactModel,self).__init__()
+        super(ContactModel, self).__init__()
 
     def __repr__(self):
         return '<ContactModel names : {}, email: {}, cell: {}, subject: {}, body: {}, reason: {}>'.format(self.names,self.email,self.cell,self.subject,self.body,self.reason)
 
     def __eq__(self, value):
-        if (value.uid == self.uid) and (value.names == self.names) and  (value.email == self.email) and (value.cell == self.cell) and (value.subject == self.subject) and (value.body == self.body) and (value.reason == self.reason):
+        if (value.uid == self.uid) and (value.names == self.names) and  (value.email == self.email) and \
+                (value.cell == self.cell) and (value.subject == self.subject) and (value.body == self.body)\
+                and (value.reason == self.reason):
             return True
         return False
-

@@ -4,6 +4,7 @@ from .. import db, create_app
 from flask import current_app
 from ..library import config
 
+
 def test_hireme_freelance_job_model():
     from ..hireme.models import FreelanceJobModel
     from ..users.models import UserModel

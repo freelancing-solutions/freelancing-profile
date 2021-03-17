@@ -1,10 +1,13 @@
-from flask import render_template, request, make_response, Blueprint, jsonify, current_app,flash,get_flashed_messages
-from ..library import Metatags,token_required
+from flask import (render_template, request, make_response, Blueprint, jsonify,
+                   current_app, flash, get_flashed_messages)
+from ..library import Metatags, token_required
 from .. import db
 from ..hireme.models import FreelanceJobModel
+from ..main.models import ContactModel
 
 
-admin_routes = Blueprint('admin_routes', __name__)
+admin_routes = Blueprint('admin_routes', __name__, static_folder="static", template_folder="templates")
+
 
 # TODO- protect this route with login required
 # and a check on the account to see if its admin account
@@ -14,9 +17,11 @@ def handle_admin(current_user):
     get_flashed_messages()
     if current_user and current_user.admin:
         return render_template('/administrator/administrator.html', heading="Freelance Profile Administrator",
-        current_user=current_user, menu_open=True,meta_tags=Metatags().set_home()), 200
+                               current_user=current_user, menu_open=True, meta_tags=Metatags().set_home()), 200
     else:
         return jsonify({'message': 'you are not authorized to use this resource'}), 401
+
+
 @admin_routes.route('/admin/database/create', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def create_database(current_user):
@@ -29,6 +34,7 @@ def create_database(current_user):
     else:
         return jsonify({"message": "You are not authorized to execute this command"}), 401
 
+
 @admin_routes.route('/admin/freelance-jobs/recent', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
 def recent_freelance_jobs(current_user):
@@ -36,9 +42,10 @@ def recent_freelance_jobs(current_user):
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by(seen=False).all()],
-        'message':'you have successfully fetched recent freelance jobs'}), 200
+                        'message': 'you have successfully fetched recent freelance jobs'}), 200
     else:
         return jsonify({'message': 'you are not authorized to use this resource'}), 401
+
 
 @admin_routes.route('/admin/freelance-jobs/all', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
@@ -47,9 +54,10 @@ def all_freelance_jobs(current_user):
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
         return jsonify({'freelance_jobs': [dict(job) for job in FreelanceJobModel.query.filter_by().all()],
-        'message': 'you have successfully retrieved all freelance jobs'}), 200
+                        'message': 'you have successfully retrieved all freelance jobs'}), 200
     else:
         return jsonify({'message':"you are not authorized to use this resource"}), 401
+
 
 @admin_routes.route('/admin/freelance-job', methods=['POST', 'PUT', 'DELETE'])
 @token_required
@@ -61,19 +69,53 @@ def freelance_jobs(current_user):
             freelance_job_data = request.get_json()
             # TODO- obtain user id from current_user
             uid = current_user.uid
-
-            link_details="webdev/webdevelopmentmock"
+            link_details = "webdev/webdevelopmentmock"
             project_name = freelance_job_data['project_name']
             description = freelance_job_data['description']
             est_hours_to_complete = int(freelance_job_data['est_hours_to_complete'])
             currency = freelance_job_data['currency']
             budget = int(freelance_job_data['budget'])
 
-            freelance_job = FreelanceJobModel(uid=uid,project_name=project_name,project_category="webdev",description=description,budget_allocated=budget,
-            est_hours_to_complete=est_hours_to_complete,currency=currency)
+            freelance_job = FreelanceJobModel(uid=uid, project_name=project_name, project_category="webdev",
+                                              description=description, budget_allocated=budget,
+                                              est_hours_to_complete=est_hours_to_complete, currency=currency)
 
             db.session.add(freelance_job)
             db.session.commit()
             return jsonify({'message': "freelance job successfully created"}), 202
     else:
         return jsonify({'message': "you are not authorized to perform this action"}), 401
+
+@admin_routes.route('/admin/messages', methods=['GET'])
+@token_required
+def messages(current_user):
+    if current_user and current_user.admin:
+        messages = [dict(message) for message in ContactModel.query.filter_by(_is_read=False).sort(_time_created).all()]
+        return jsonify({'message':'Successfully fetched messages','messages': messages}), 200
+    else:
+        return jsonify({'message': 'You are not authorized to perform this action'}), 401
+
+@admin_routes.route('/admin/messages/all', methods=['GET'])
+@token_required
+def messages(current_user):
+    if current_user and current_user.admin:
+        messages = [dict(message) for message in ContactModel.query.filter_by().sort(_time_created).all()]
+        return jsonify({'message':'Successfully fetched messages','messages': messages}), 200
+    else:
+        return jsonify({'message': 'You are not authorized to perform this action'}), 401
+
+@admin_routes.route('/admin/message/:<path:path>', methods=['POST','GET'])
+@token_required
+def message(current_user,path):
+    if current_user and current_user.admin:
+        if request.method == "GET":
+            message = ContactModel.query.filter_by(_contact_id=path).first()
+            return jsonify({'message': 'Successfully fetched Message', 'response': dict(message)}), 200
+        elif request.method == "POST":
+            response_details = request.get_json()
+            # TODO - Create ResponseModel
+            # TODO - fetch details of response message from response_details and store on ResponseModel
+        else:
+            return jsonify({'message': 'Invalid Method'}), 401
+    else:
+        return jsonify({'message': 'You are not authorized to perform this action'}), 401

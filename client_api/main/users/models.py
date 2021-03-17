@@ -3,6 +3,10 @@ from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid, time
 class UserModel(db.Model):
+    """
+        to access freelance jobs use relationship freelancejobs a list[]
+        to access payments use relationship = payments a list[]
+    """
     _uid = db.Column(db.String(36),unique=True,primary_key=True) # Public ID
     _username = db.Column(db.String(128), unique=True, nullable=True)
     _email = db.Column(db.String(128), unique=True, nullable=False)
@@ -17,8 +21,8 @@ class UserModel(db.Model):
     _time_cell_verified = db.Column(db.Integer, nullable=False, default=0)
     _email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     _cell_is_verified = db.Column(db.Boolean, nullable=False, default=False)
-
-
+    _freelancejobs = db.relationship('FreelanceJobModel', backref=db.backref('user', lazy=True))
+    _payments = db.relationship('PaymentModel', backref=db.backref('user', lazy=True))
 
     @property
     def uid(self):
@@ -265,6 +269,7 @@ class UserModel(db.Model):
         return self.admin
 
     def send_email_verification(self):
+        # TODO- Use Flask-Email
         pass
 
     def verify_email(self):
@@ -313,7 +318,16 @@ class UserModel(db.Model):
         db.session.commit()
         return True
 
+    @cls
+    def add_freelance_job(cls,uid, freelance_job):
+        user_instance = UserModel.query.filter_by(_uid=uid).first()
+        user_instance._freelancejobs.push(freelance_job)
+        db.session.update(user_instance)
+        db.session.commit()
 
-
-
-
+    @cls
+    def add_payment(cls,uid,payment):
+        user_instance = UserModel.query.filter_by(_uid=uid).first()
+        user_instance._payments.push(payment)
+        db.session.update(user_instance)
+        db.session.commit()

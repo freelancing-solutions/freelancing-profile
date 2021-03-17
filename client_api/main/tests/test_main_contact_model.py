@@ -4,6 +4,7 @@ from .. import db, create_app
 from flask import current_app
 from ..library import config
 
+
 def test_main_contact_model():
     from ..main.models import ContactModel
     # TODO fetch uid from UserModel

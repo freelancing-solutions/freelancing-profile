@@ -14,8 +14,9 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or config('SECRET_KEY')
     SENTRY_INIT = os.environ.get('SENTRY_INIT') or config('SENTRY_INIT')
     TEMPLATES_AUTO_RELOAD = True
-    DEBUG = False
+    DEBUG = True
     TESTING = False
+    # Find a way to set Debug to False on production
 class ProductionConfig(Config):
     TEMPLATES_AUTO_RELOAD = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI') or config('SQLALCHEMY_DATABASE_URI')

@@ -2,14 +2,33 @@ import time
 from flask import render_template, request, Blueprint,flash,get_flashed_messages
 from ..library import Metatags, token_required, logged_user
 from .models import FreelanceJobModel
-hireme = Blueprint('hireme', __name__)
+hireme = Blueprint('hireme', __name__, static_folder="static", template_folder="templates")
 
 #  Temporary Data Models
 temp_freelance_jobs = []
 
+# Routes Mappings
+path_routes = {
+    'freelancer': '/hire-freelancer',
+    'hire': '/hire-freelancer/<path:path>',
+    'project_details' : '/hire-freelancer/freelance-job<path:path>',
+    'project_editor' : '/hire-freelancer/freelance-job-editor/<path:path>',
+    'project_messages' : '/hire-freelancer/messages/<path:path>',
+    'project_payments' : '/hire-freelancer/payments/<path:path>',
+    'how_to_articles' : '/freelance-articles/how-to/<path:path>',
+    'expectations' : '/freelance-articles/expectations/<path:path>'
+}
+
+expect_paths = {
+    'communication':'communication-channels-procedures',
+    'payments':'payments-procedures-methods',
+    'due-diligence':'due-diligence',
+    'handingover':'handing-over-procedures',
+    'maintenance':'maintenance-procedures'
+}
 ###########################################################################################################
 # Freelance and Hire Routes
-@hireme.route('/hire-freelancer', methods=['GET'])
+@hireme.route(path_routes['freelancer'], methods=['GET'])
 @logged_user
 def freelancer(current_user):
     get_flashed_messages()
@@ -17,13 +36,13 @@ def freelancer(current_user):
         return render_template('hireme.html', heading="Hiring a Freelancer", current_user=current_user,
         menu_open=True, meta_tags=Metatags().set_freelancer())
 
-@hireme.route('/hire-freelancer/<path:path>', methods=['GET', 'POST'])
+@hireme.route(path_routes['hire'], methods=['GET', 'POST'])
 @token_required
 def hire(current_user,path):
     get_flashed_messages()
     print("Current User", current_user)
     if (path == "freelance-jobs") and current_user:
-        freelance_jobs = FreelanceJobModel.query.filter_by(uid=current_user.uid).all()
+        freelance_jobs = FreelanceJobModel.query.filter_by(_uid=current_user.uid).all()
         return render_template('hireme/gigs.html',
                                 freelance_jobs=freelance_jobs,
                                 heading="My Freelance Jobs",
@@ -37,12 +56,12 @@ def hire(current_user,path):
         return render_template('404.html', heading="Not Found",menu_open=True,current_user=current_user,
          meta_tags=Metatags().set_home())
 
-@hireme.route('/hire-freelancer/freelance-job/<path:path>', methods=['GET', 'POST'])
+@hireme.route(path_routes['project_details'], methods=['GET', 'POST'])
 @token_required
 def project_details(current_user,path):
     get_flashed_messages()
     if path is not None:
-        freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
+        freelance_job = FreelanceJobModel.query.filter_by(_project_id=path).first()
         if freelance_job:
             return render_template('hireme/project-details.html',
                                     freelance_job=freelance_job,
@@ -57,12 +76,12 @@ def project_details(current_user,path):
         return render_template('hireme/gigs.html', heading="My Freelance Jobs",menu_open=True, 
         current_user=current_user,meta_tags=Metatags().set_freelancer())
 
-@hireme.route('/hire-freelancer/freelance-job-editor/<path:path>', methods=['GET', 'POST'])
+@hireme.route(path_routes['project_messages'], methods=['GET', 'POST'])
 @token_required
 def project_editor(current_user,path):
     get_flashed_messages()
     if path is not None:
-        freelance_job = FreelanceJobModel.query.filter_by(project_id=path).first()
+        freelance_job = FreelanceJobModel.query.filter_by(_project_id=path).first()
         return render_template('hireme/project-editor.html',
                                 freelance_job=freelance_job,
                                 heading='Freelance Job Editor',
@@ -73,7 +92,7 @@ def project_editor(current_user,path):
         return render_template('404.html', heading="Not Found",menu_open=True,
         current_user=current_user, meta_tags=Metatags().set_home())
 
-@hireme.route('/hire-freelancer/messages/<path:path>', methods=['GET', 'POST'])
+@hireme.route(path_routes['project_payments'], methods=['GET', 'POST'])
 @token_required
 def project_messages(current_user,path):
     get_flashed_messages()
@@ -90,7 +109,7 @@ def project_messages(current_user,path):
         return render_template('404.html', heading="Not Found",menu_open=True,
         current_user=current_user, meta_tags=Metatags().set_home())
 
-@hireme.route('/hire-freelancer/payments/<path:path>', methods=['GET', 'POST'])
+@hireme.route(path_routes['project_payments'], methods=['GET', 'POST'])
 @token_required
 def project_payments(current_user,path):
     get_flashed_messages()
@@ -111,7 +130,7 @@ def project_payments(current_user,path):
 ####################################################################################
 # How to Articles
 
-@hireme.route('/hire-freelancer/how-to/<path:path>', methods=['GET'])
+@hireme.route(path_routes['how_to_articles'], methods=['GET'])
 @logged_user
 def how_to_articles(current_user,path):
     get_flashed_messages()
@@ -151,30 +170,30 @@ def how_to_articles(current_user,path):
         current_user=current_user,meta_tags=Metatags().set_home())
 
 
-@hireme.route('/hire-freelancer/expectations/<path:path>', methods=['GET'])
+@hireme.route(path_routes['expectations'], methods=['GET'])
 @logged_user
 def expectations(current_user,path):
     get_flashed_messages()
     """
         Things expected from each client during and on completion of freelance jobs
     """
-    if path == "communication-channels-procedures":
+    if path == expect_paths['communication']:
         title = "Communication Channels and Procedures"
         return render_template('hireme/expectations/communication.html', heading=title, menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_communications())
-    elif path == "payments-procedures-methods":
+    elif path == expect_paths['payments']:
         title = "Payments Procedures and Methods"
         return render_template('hireme/expectations/payments.html', heading=title, menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_payments())
-    elif path == "due-diligence":
+    elif path == expect_paths['due-diligence']:
         title = "Due Diligence and Legal Expectations"
         return render_template('hireme/expectations/diligence.html', heading=title, menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_diligence())
-    elif path == "handing-over-procedures":
+    elif path == expect_paths['handingover']:
         title = "Handing Over Procedure & Production Deployment"
         return render_template('hireme/expectations/handing-over.html', heading=title, menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_handinqover())
-    elif path == "maintenance-procedures":
+    elif path == expect_paths['maintenance']:
         title = "Maintenance Procedures & Agreements"
         return render_template('hireme/expectations/maintenance.html', heading=title, menu_open=True,
         current_user=current_user,meta_tags=Metatags().set_maintenance())

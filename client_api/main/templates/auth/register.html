@@ -9,7 +9,7 @@
         <div class="card-body register-card-body">
             <p class="login-box-msg">You have to create an account in order to submit freelance jobs</p>
 
-            <form action="{{ url_for('users.register')}}" method="post" id="register_form">
+            <form id="register_form">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="names" placeholder="Names ">
                     <div class="input-group-append ">
@@ -87,7 +87,14 @@
 
             <a href="{{ url_for( 'users.login') }} " class="text-center ">I already have a membership</a>
         </div>
-        <div id="message_content"></div>
+
+        {% raw %}
+            <div id="message_content">
+                <div class="card-header bg-{{ _category }}">
+                    <span class="alert">{{ _message }}</span>
+                </div>
+            </div>
+        {% endraw %}
         <!-- /.form-box -->
     </div>
     <!-- /.card -->

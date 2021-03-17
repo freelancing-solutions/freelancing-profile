@@ -1,4 +1,11 @@
 this.addEventListener('load', () => {
+  let init_get = {
+      method: "GET",
+      headers: { 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('x-access-token') },
+      mode: "cors",
+      credentials: "same-origin",
+      cache: "no-cache",
+  }
 
     // Where to place the content
     let content_html = document.getElementById('main_content');
@@ -74,14 +81,73 @@ this.addEventListener('load', () => {
         </div>
     `);
 
-    // initializing request
-    let init_get = {
-        method: "GET",
-        headers: { 'Content-Type': 'application/json', 'x-access-token': localStorage.getItem('x-access-token') },
-        mode: "cors",
-        credentials: "same-origin",
-        cache: "no-cache",
+    // Display Message Template
+    // TODO Add formatting for inbox message on the template
+    let display_message_template = Handlebars.compile(`
+        <div class="card-body">
+          <div class="card-header bd-dark">
+            <h3 class="card-title"> User Message</h3>
+          </div>
+
+          <form class="form-horizontal">
+
+          </form>
+        </div>
+      `)
+    // Handler to display Specific Message
+    let showMessage = async e => {
+      const contact_id = e.target.id;
+      const url = `/admin/message/${contact_id}`;
+      const request = new Request(url,init_get);
+      try{
+        const response = await fetch(request);
+        const json_data = await response.json();
+      if (json_data && json_data.response) {
+        content_html.innerHTML = display_message_template({message : json_data.response })
+      }else{
+        content_html.innerHTML = message_template({_message: json_data.message })
+      }
+    }catch(error){
+      content_html.innerHTML = message_template({_message: error.message })
     }
+  };
+    // Messages List template
+    // TODO- this template lacks CSS Classes Add Classes for a responsive table
+  let show_messages_template = Handlebars.compile(`
+        <div class="card-body">
+            <div class="card-header bg-dark">
+              <h3 class="box-title"> Messages </h3>
+            </div>
+            <table>
+              <theader>
+                <tr>
+                  <td> Names </td>
+                  <td> Email </td>
+                  <td> Reason </td>
+                  <td> Subject </td>
+                  <td> Time Sent </td>
+                </tr>
+              </theader>
+              <tbody>
+                {{#each messages }}
+                  <tr>
+                    <td>
+                      <button class='btn btn-default btn-sm' id={{ this.contact_id}} click={e => showMessage(e)}>
+                        {{ this.names }}
+                      </button>
+                    </td>
+                    <td>{{ this.email }}</td>
+                    <td>{{ this.reason }}</td>
+                    <td>{{ this.subject }}</td>
+                    <td>{{ this.time_created }}</td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+        </div>
+      `)
+    // initializing request
+
 
     // Creating new databases
     document.getElementById('create_database').addEventListener('click', function(e) {
@@ -107,6 +173,7 @@ this.addEventListener('load', () => {
         content_html.innerHTML = message_template({ _message: "Handle bars rocks - reset" });
     });
 
+    // Freelance Jobs
     document.getElementById('new_freelance_jobs').addEventListener('click', function(e) {
         let request = new Request('/admin/freelance-jobs/recent', init_get);
         fetch(request).then(response => {
@@ -171,5 +238,43 @@ this.addEventListener('load', () => {
             })
         });
     });
+    // messages
 
+    document.getElementById('new_messages').addEventListener('click', function(e){
+        e.preventDefault();
+        // TODO- Attach Event Handlers to open messages on Message Titles
+
+        let request = new Request('/admin/messages', init_get);
+        fetch(request).then(response => {
+          return response.json()
+        }).then(json_data => {
+            if (json_data && json_data.messages){
+                content_html.innerHTML = show_messages_template({messages : json_data.messages })
+            }else{
+                // This means there was an error on the server
+                content_html.innerHTML = message_template({ _message: json_data.message });
+            }
+        }).catch(error => {
+          content_html.innerHTML = message_template({ _message: error.message });
+        });
+
+    });
+
+    document.getElementById('all_messages').addEventListener('click', function(e){
+      e.preventDefault();
+      const request = new Request('/admin/messages/all', init_get);
+      fetch(request).then(response => {
+        return response.json()
+      }).then(json_data => {
+          if (json_data && json_data.messages){
+              content_html.innerHTML = show_messages_template({messages : json_data.messages })
+          }else{
+              // This means there was an error on the server
+              content_html.innerHTML = message_template({ _message: json_data.message });
+          }
+      }).catch(error => {
+        content_html.innerHTML = message_template({ _message: error.message });
+      });
+
+    })
 });

@@ -1,16 +1,16 @@
-import sentry_sdk
+
 from flask import Flask
-from sentry_sdk.integrations.flask import FlaskIntegration
+
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from flask_restful import Api
-from .rest_api import UserAPI,ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
+from .rest_api import UserAPI, ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
 from .library.config import Config
-api = Api()
-
 import logging
-
+api = Api()
 try:
+    import sentry_sdk
+    from sentry_sdk.integrations.flask import FlaskIntegration
     # Sentry based Error Reporting and Logging
     sentry_sdk.init(
         dsn=Config().SENTRY_INIT,
@@ -24,6 +24,7 @@ try:
 
 except Exception as e:
     pass
+
 
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")

@@ -3,10 +3,11 @@ from flask import render_template, request, make_response, Blueprint, jsonify,fl
 from ..library import Metatags, token_required, logged_user
 from .models import ContactModel
 from .. import db
-main = Blueprint('main', __name__)
+main = Blueprint('main', __name__, static_folder="../static", template_folder="../templates")
 
 ###########################################################################################################
 # Basic Home Page Routes
+
 
 @main.route('/', methods=['GET', 'POST'])
 @logged_user
@@ -15,7 +16,7 @@ def home(current_user):
     return render_template('index.html', heading="Home",current_user=current_user,
                            menu_open=True, meta_tags=Metatags().set_home())
 
-# noinspection PyArgumentList,PyArgumentList
+
 @main.route('/contact', methods=['GET', 'POST'])
 @logged_user
 def contact(current_user):
@@ -38,7 +39,11 @@ def contact(current_user):
         subject = contact_details['subject']
         body = contact_details['body']
         reason = contact_details['reason']
-        contact_instance = ContactModel(names=names,email=email,cell=cell,subject=subject,body=body,reason=reason,uid=uid)
+        try:
+            contact_instance = ContactModel(names=names,email=email,cell=cell,subject=subject,body=body,reason=reason,uid=uid)
+        except Exception as error:
+            return jsonify({"message": error}), 500
+
         if contact_instance:
             return jsonify({"message": "Message Successfully sent, I will get back to you"}), 200
         else:
@@ -50,6 +55,7 @@ def contact(current_user):
 def about(current_user):
     get_flashed_messages()
     return render_template('about.html', heading="About", menu_open=True,current_user=current_user, meta_tags=Metatags().set_about())
+
 
 @main.route('/social/<path:path>', methods=['GET'])
 @logged_user
