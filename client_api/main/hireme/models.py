@@ -16,7 +16,7 @@ class FreelanceJobModel(db.Model):
         to access payment information use relationship = payment a record
         to access user backref is user
     """
-    _uid = db.Column(db.String(36),db.ForeignKey('user_model._uid'),unique=False, nullable=False)
+    _uid = db.Column(db.String(36), db.ForeignKey('user_model._uid'), unique=False, nullable=False)
     _project_id = db.Column(db.String(36), unique=True, primary_key=True)
     _project_name = db.Column(db.String(1048), unique=False, nullable=False)
     _project_category = db.Column(db.String(64), nullable=False, default="webdev")
@@ -25,8 +25,8 @@ class FreelanceJobModel(db.Model):
     _progress = db.Column(db.Integer, nullable=False, default=0)
     _status = db.Column(db.String(32), nullable=False, default="active")
     _link_details = db.Column(db.String(256), nullable=False)
-    _time_created = db.Column(db.Integer, nullable=False, default=int(float(time.time()) * 1000))
-    _est_hours_to_complete = db.Column(db.Integer, nullable=False, default=7*24)
+    _time_created = db.Column(db.Integer, nullable=False, default=int(float(time.time() * 1000)))
+    _est_hours_to_complete = db.Column(db.Integer, nullable=False, default=int(7*24))
     _currency = db.Column(db.String(32), nullable=False, default="$")
     _budget_allocated = db.Column(db.Integer, nullable=False)
     _total_paid = db.Column(db.Integer, nullable=False, default=0)
@@ -213,7 +213,7 @@ class FreelanceJobModel(db.Model):
 
         if not isinstance(total_paid, int):
             raise TypeError
-
+            
     @property
     def seen(self) -> bool:
         return self._seen
@@ -267,10 +267,9 @@ class FreelanceJobModel(db.Model):
                 if (value.est_hours_to_complete == self.est_hours_to_complete) and (value.currency == self.currency) \
                         and (value.budget_allocated == self.budget_allocated) and (value.total_paid == self.total_paid):
                     return True
-
         return False
 
-    @cls
+    @classmethod
     def add_payment(cls,project_id,payment):
         freelance_job_instance = FreelanceJobModel.query.filter_by(_project_id=project_id).first()
         freelance_job_instance._payment = payment

@@ -1,8 +1,21 @@
 this.addEventListener('load', function() {
 
     const message_dom = document.getElementById('message_content');
-    let message_template = Handlebars.compile(message_dom.innerHTML); /* ?  */
-    document.getElementById('register_form').addEventListener('submit',submit_handler);
+    // jshint ignore:line
+    let message_template = Handlebars.compile(`                 
+                <div class="card-header bg-{{ _category }}">
+                    <span class="alert">{{ _message }}</span>
+                </div>                
+    `);
+    let send_auth_to_service_worker = async (message )=> {
+        navigator.serviceWorker.ready.then(registration => {
+            registration.active.postMessage({
+                type: "auth-token",
+                token: message
+            });
+        });
+        return true;
+    };
 
     const submit_handler = async e => {
         e.preventDefault();
@@ -13,7 +26,7 @@ this.addEventListener('load', function() {
         const password_dom = document.getElementById('password');
         const match_password_dom = document.getElementById('password_match');
 
-        if (password_dom.value == match_password_dom.value) {
+        if (password_dom.value === match_password_dom.value) {
             auth_token = localStorage.getItem('x-access-token');
             let new_headers;
             if ((auth_token !== "undefined") && (auth_token !== "")){
@@ -22,7 +35,7 @@ this.addEventListener('load', function() {
                 new_headers = new Headers({ 'content-type': 'application/json'})
             }
             // keep mode as cors in order to be able to modify headers
-            const json_data = JSON.stringify({'surname': surname_dom.value,
+            let json_data = JSON.stringify({'surname': surname_dom.value,
                                             'names':names_dom.value,
                                             'email':email_dom.value,
                                             'cell':cell_dom.value,
@@ -37,15 +50,18 @@ this.addEventListener('load', function() {
             };
             const request = new Request('/register',init_post);
             const response = await fetch(request);
-            const json_data = await response.json()
-            message_dom.innerHTML = message_template({_message : json_data['message']});
-            if (response.ok && response['token']){
+            const response_data = await response.json()
+            message_dom.innerHTML = message_template({_message : response_data['message']});
+            if (response.ok && response_data['token']){
                 localStorage.removeItem('x-access-token');
-                localStorage.setItem('x-access-token', json['token']);
-                const service_worker_response = await send_auth_to_service_worker(json['token']);
+                localStorage.setItem('x-access-token', response_data['token']);
+                const service_worker_response = await send_auth_to_service_worker(response_data['token']);
             }
     }
     }
+
+    document.getElementById('register_button').addEventListener('click',submit_handler);
+
 });
 
 

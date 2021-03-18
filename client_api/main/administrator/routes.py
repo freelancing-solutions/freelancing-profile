@@ -6,17 +6,17 @@ from ..hireme.models import FreelanceJobModel
 from ..main.models import ContactModel
 
 
-admin_routes = Blueprint('admin_routes', __name__, static_folder="static", template_folder="templates")
+admin_routes = Blueprint('admin_routes', __name__, static_folder="../static", template_folder="../templates")
 
 
 # TODO- protect this route with login required
 # and a check on the account to see if its admin account
 @admin_routes.route('/admin', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
-def handle_admin(current_user):
+def handle_admin(current_user) -> any:
     get_flashed_messages()
     if current_user and current_user.admin:
-        return render_template('/administrator/administrator.html', heading="Freelance Profile Administrator",
+        return render_template('administrator/administrator.html', heading="Freelance Profile Administrator",
                                current_user=current_user, menu_open=True, meta_tags=Metatags().set_home()), 200
     else:
         return jsonify({'message': 'you are not authorized to use this resource'}), 401
@@ -24,7 +24,7 @@ def handle_admin(current_user):
 
 @admin_routes.route('/admin/database/create', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
-def create_database(current_user):
+def create_database(current_user) -> any:
     get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
@@ -37,7 +37,7 @@ def create_database(current_user):
 
 @admin_routes.route('/admin/freelance-jobs/recent', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
-def recent_freelance_jobs(current_user):
+def recent_freelance_jobs(current_user) -> any:
     get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
@@ -49,7 +49,7 @@ def recent_freelance_jobs(current_user):
 
 @admin_routes.route('/admin/freelance-jobs/all', methods=['GET', 'POST', 'PUT', 'DELETE'])
 @token_required
-def all_freelance_jobs(current_user):
+def all_freelance_jobs(current_user) -> any:
     get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
@@ -61,7 +61,7 @@ def all_freelance_jobs(current_user):
 
 @admin_routes.route('/admin/freelance-job', methods=['POST', 'PUT', 'DELETE'])
 @token_required
-def freelance_jobs(current_user):
+def freelance_jobs(current_user) -> any:
     get_flashed_messages()
     # TODO- check if current_user is admin user
     if current_user and current_user.admin:
@@ -86,31 +86,34 @@ def freelance_jobs(current_user):
     else:
         return jsonify({'message': "you are not authorized to perform this action"}), 401
 
+
 @admin_routes.route('/admin/messages', methods=['GET'])
 @token_required
-def messages(current_user):
+def user_messages(current_user) -> any:
     if current_user and current_user.admin:
-        messages = [dict(message) for message in ContactModel.query.filter_by(_is_read=False).sort(_time_created).all()]
-        return jsonify({'message':'Successfully fetched messages','messages': messages}), 200
+        messages = [dict(message_) for message_ in ContactModel.query.filter_by(_is_read=False).all()]
+        return jsonify({'message': 'Successfully fetched messages', 'messages': messages}), 200
     else:
         return jsonify({'message': 'You are not authorized to perform this action'}), 401
+
 
 @admin_routes.route('/admin/messages/all', methods=['GET'])
 @token_required
-def messages(current_user):
+def all_messages(current_user) -> any:
     if current_user and current_user.admin:
-        messages = [dict(message) for message in ContactModel.query.filter_by().sort(_time_created).all()]
-        return jsonify({'message':'Successfully fetched messages','messages': messages}), 200
+        messages = [dict(message_) for message_ in ContactModel.query.filter_by().all()]
+        return jsonify({'message': 'Successfully fetched messages', 'messages': messages}), 200
     else:
         return jsonify({'message': 'You are not authorized to perform this action'}), 401
 
-@admin_routes.route('/admin/message/:<path:path>', methods=['POST','GET'])
+
+@admin_routes.route('/admin/message/:<path:path>', methods=['POST', 'GET'])
 @token_required
-def message(current_user,path):
+def message(current_user, path) -> any:
     if current_user and current_user.admin:
         if request.method == "GET":
-            message = ContactModel.query.filter_by(_contact_id=path).first()
-            return jsonify({'message': 'Successfully fetched Message', 'response': dict(message)}), 200
+            message_ = ContactModel.query.filter_by(_contact_id=path).first()
+            return jsonify({'message': 'Successfully fetched Message', 'response': dict(message_)}), 200
         elif request.method == "POST":
             response_details = request.get_json()
             # TODO - Create ResponseModel

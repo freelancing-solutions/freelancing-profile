@@ -6,7 +6,10 @@ app = create_app()
 app.app_context().push()
 
 if Config().DEBUG:
-    db.create_all(app=app)
+    try:
+        db.create_all(app=app)
+    except Exception as e:
+        print('db error: {}'.format(e))
 
 if __name__ == '__main__':
     app.run(debug=Config().DEBUG, use_reloader=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

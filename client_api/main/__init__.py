@@ -6,9 +6,10 @@ db = SQLAlchemy()
 from flask_restful import Api
 from .rest_api import UserAPI, ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
 from .library.config import Config
-import logging
 api = Api()
+
 try:
+    import logging
     import sentry_sdk
     from sentry_sdk.integrations.flask import FlaskIntegration
     # Sentry based Error Reporting and Logging
@@ -17,13 +18,12 @@ try:
         integrations=[FlaskIntegration()],
         traces_sample_rate=1.0
     )
-
     # Error Logging
     # Logging configuration
-    logging.basicConfig(filename='demo.log', level=logging.DEBUG)
+    logging.basicConfig(filename='demo.log', level=logging.ERROR)
 
 except Exception as e:
-    pass
+    print('sentry error : {}'.format(e))
 
 
 def create_app(config_class=Config):
@@ -44,8 +44,8 @@ def create_app(config_class=Config):
     api.add_resource(FreelanceJobAPI, '/api/v1/freelance-jobs/<string:project_id>', endpoint='update_freelance_job',methods=['PUT']) # Method PUT Update Freelance Job
     api.add_resource(ListFreelanceJobs, '/api/v1/freelance-jobs', endpoint="list_freelance_jobs",methods=['GET']) # Method Get use x-access-token header for access
 
-    db.init_app(app)
     api.init_app(app)
+    db.init_app(app)
 
     # importing blue prints
     from .users.routes import users
@@ -55,6 +55,7 @@ def create_app(config_class=Config):
     from .projects.routes import projects_bp
     from .errorhandlers.routes import error_blueprint
     from .administrator.routes import admin_routes
+    from .payments.routes import payments_bp
 
     app.register_blueprint(error_blueprint)
     app.register_blueprint(users)
@@ -63,4 +64,5 @@ def create_app(config_class=Config):
     app.register_blueprint(hireme)
     app.register_blueprint(projects_bp)
     app.register_blueprint(admin_routes)
+    app.register_blueprint(payments_bp)
     return app

@@ -1,5 +1,8 @@
 from .. import db
 from flask import current_app
+import time
+import uuid
+
 
 class PaymentModel(db.Model):
     """
@@ -12,10 +15,9 @@ class PaymentModel(db.Model):
     _is_fully_paid = db.Column(db.Boolean, nullable=False, default=False)
     _time_fully_paid = db.Column(db.Integer, nullable=False, default=0)
     _time_created = db.Column(db.Integer, nullable=False, default=int(float(time.time() * 1000)))
-    # _user = db.relationship('UserModel', backref=db.backref('freelancejobs', lazy=True))
-    _uid = db.Column(db.String(36),db.ForeignKey('user_model._uid'),unique=False, nullable=False)
-    _project_id = db.Column(db.String(36),db.ForeignKey('freelance_job_model._project_id'),unique=True, nullable=False)
-    _transactions = db.relationship('TransactionModel', backref=db.backref('payment', lazy=True)
+    _uid = db.Column(db.String(36), db.ForeignKey('user_model._uid'), unique=False, nullable=False)
+    _project_id = db.Column(db.String(36), db.ForeignKey('freelance_job_model._project_id'), unique=True, nullable=False)
+    _transactions = db.relationship('TransactionModel', backref=db.backref('payment', lazy=True))
 
     @property
     def payment_id(self) -> str:
@@ -99,7 +101,7 @@ class PaymentModel(db.Model):
     def time_fully_paid(self) -> int:
         return self._time_fully_paid
 
-    @time_fully_paid
+    @time_fully_paid.setter
     def time_fully_paid(self, time_fully_paid):
         if time_fully_paid is None:
             raise ValueError('Time Fully Paid cannot be Null')
@@ -118,30 +120,31 @@ class PaymentModel(db.Model):
         # NOTE: transactions array should be empty at initializing
         super(PaymentModel).__init__()
 
-    def __eq__(self,payment):
+    def __eq__(self, payment):
         """
             if payment_id are equal then consider the entire thing to be equal
         """
-        if (payment.payment_id == self.payment_id):
+        if payment.payment_id == self.payment_id:
             return True
         return False
 
-    @cls
+    @classmethod
     def add_transaction(cls, payment_id,transaction):
         payment_instance = PaymentModel.query.filter_by(_payment_id=payment_id).first()
-        payment_instance._transactions.push(transaction)
+        payment_instance._transactions.append(transaction)
         db.session.update(payment_instance)
         db.session.commit()
 
+
 class TransactionModel(db.Model):
+    # NOTE Payment Method paypal, credit-card, eft, crypto-currency
     _transaction_id = db.Column(db.String(36), primary_key=True, unique=True)
     _payment_id = db.Column(db.String(36),db.ForeignKey('payment_model._payment_id'),unique=False, nullable=False)
-    #NOTE Payment Method paypal, credit-card, eft, crypto-currency
     _method = db.Column(db.String(16), unique=False, nullable=False, default="paypal")
     _amount = db.Column(db.Integer, unique=False, nullable=False, default=0)
     _time_paid = db.Column(db.Integer, nullable=False, default=0)
     _is_verified = db.Column(db.Boolean, nullable=False, default=False)
-    _payment = db.relationship('PaymentModel', backref=('transactions', lazy=True))
+    _payment = db.relationship('PaymentModel', backref=db.backref('transactions', lazy=True))
 
     @property
     def transaction_id(self) -> str:
@@ -192,5 +195,3 @@ class TransactionModel(db.Model):
         if not isinstance(amount, int):
             raise TypeError('Amount can only be an integer')
         self._amount = amount
-
-        

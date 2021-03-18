@@ -1,13 +1,15 @@
+import uuid
+import time
 from .. import db
-from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
-import uuid, time
+
+
 class UserModel(db.Model):
     """
         to access freelance jobs use relationship freelancejobs a list[]
         to access payments use relationship = payments a list[]
     """
-    _uid = db.Column(db.String(36),unique=True,primary_key=True) # Public ID
+    _uid = db.Column(db.String(36), unique=True, primary_key=True)
     _username = db.Column(db.String(128), unique=True, nullable=True)
     _email = db.Column(db.String(128), unique=True, nullable=False)
     _password = db.Column(db.String(120))
@@ -26,16 +28,16 @@ class UserModel(db.Model):
 
     @property
     def uid(self):
-        if (len(self._uid) == 36) and isinstance(self._uid,str):
+        if (len(self._uid) == 36) and isinstance(self._uid, str):
             return self._uid
         else:
             return None
 
     @uid.setter
-    def uid(self,uid):
+    def uid(self, uid):
         if uid is None:
             raise ValueError('uid cannot be Null')
-        if not isinstance(uid,str):
+        if not isinstance(uid, str):
             raise TypeError("uid can only be a string")
         if len(uid) != 36:
             raise ValueError('invalid uid format')
@@ -44,18 +46,18 @@ class UserModel(db.Model):
 
     @property
     def username(self):
-        if (self._username) is None and (self._email is not None):
+        if self._username is None and (self._email is not None):
             return self._email
-        elif (self._username):
+        elif self._username:
             return self._username
         else:
             return None
 
     @username.setter
-    def username(self,username):
+    def username(self, username):
         if username is None:
             raise ValueError('Username cannot be Null')
-        if not isinstance(username,str):
+        if not isinstance(username, str):
             raise TypeError('Username can only be a string')
         if len(username) > 128:
             raise ValueError('Invalid username format character length exceed 128')
@@ -64,14 +66,14 @@ class UserModel(db.Model):
 
     @property
     def email(self):
-        #TODO- check if its valid email
+        # TODO- check if its valid email
         return self._email
 
     @email.setter
-    def email(self,email):
+    def email(self, email):
         if email is None:
             raise ValueError("Email address cannot be null")
-        if not isinstance(email,str):
+        if not isinstance(email, str):
             raise TypeError('Email can only be a string')
 
         if len(email) > 128:
@@ -89,7 +91,7 @@ class UserModel(db.Model):
         return self._password
 
     @password.setter
-    def password(self,password):
+    def password(self, password):
         """
             Given a plain password convert to password hash and store
         Args:
@@ -100,18 +102,18 @@ class UserModel(db.Model):
         """
         if password is None:
             raise ValueError('Password cannot be empty')
-        if not isinstance(password,str):
+        if not isinstance(password, str):
             raise TypeError("password can only be a string")
 
-        self._password = generate_password_hash(password,method='sha256',salt_length=8)
+        self._password = generate_password_hash(password, method='sha256', salt_length=8)
 
     @property
     def names(self) -> str:
         return self._names
 
     @names.setter
-    def names(self,names):
-        if (names is None):
+    def names(self, names):
+        if names is None:
             raise ValueError('Names cannot be Null')
         if not isinstance(names, str):
             raise TypeError('Names can only be a string')
@@ -126,8 +128,8 @@ class UserModel(db.Model):
         return self._surname
 
     @surname.setter
-    def surname(self,surname):
-        if (surname is None):
+    def surname(self, surname):
+        if surname is None:
             raise ValueError('Surname cannot be Null')
         if not isinstance(surname, str):
             raise TypeError('Surname can only be a string')
@@ -142,7 +144,7 @@ class UserModel(db.Model):
         return self._cell
 
     @cell.setter
-    def cell(self,cell):
+    def cell(self, cell):
         if cell is None:
             raise ValueError('Cell Number can not be null')
         if not isinstance(cell, str):
@@ -162,8 +164,8 @@ class UserModel(db.Model):
         return self._admin
 
     @admin.setter
-    def admin(self,admin):
-        if not isinstance(admin,bool):
+    def admin(self, admin):
+        if not isinstance(admin, bool):
             raise TypeError('admin can only be a boolean')
         self._admin = admin
 
@@ -172,11 +174,11 @@ class UserModel(db.Model):
         return self._img_link
 
     @img_link.setter
-    def img_link(self,img_link):
+    def img_link(self, img_link):
         if img_link is None:
             raise ValueError('Image Link cannot be null')
 
-        if not isinstance(img_link,str):
+        if not isinstance(img_link, str):
             raise TypeError('Image link cannot be null')
 
         self._img_link = img_link
@@ -186,16 +188,16 @@ class UserModel(db.Model):
         return self._time_registered
 
     @time_registered.setter
-    def time_registered(self,time_registered):
+    def time_registered(self, time_registered):
         if time_registered is None:
             raise ValueError('Time registered can only be an integer')
-        if not isinstance(time_registered,int):
+        if not isinstance(time_registered, int):
             raise TypeError('Time registered can only be an integer')
 
         self._time_registered = time_registered
 
     @property
-    def time_email_verified(self) -> bool:
+    def time_email_verified(self) -> int:
         return self._time_email_verified
 
     @time_email_verified.setter
@@ -227,8 +229,8 @@ class UserModel(db.Model):
         return self._email_is_verified
 
     @email_is_verified.setter
-    def email_is_verified(self,email_is_verified):
-        if not isinstance(email_is_verified,bool):
+    def email_is_verified(self, email_is_verified):
+        if not isinstance(email_is_verified, bool):
             raise TypeError('Email is verified can only be a boolean')
 
         self._email_is_verified = email_is_verified
@@ -238,15 +240,14 @@ class UserModel(db.Model):
         return self._cell_is_verified
 
     @cell_is_verified.setter
-    def cell_is_verified(self,cell_is_verified):
-        if not isinstance(cell_is_verified,bool):
+    def cell_is_verified(self, cell_is_verified):
+        if not isinstance(cell_is_verified, bool):
             raise TypeError('Cell is verified can only be a boolean')
 
         self._cell_is_verified = cell_is_verified
 
-
     # NOTE ACTIONS
-    def compare_password(self,password) -> bool:
+    def compare_password(self, password) -> bool:
         """
         Args:
             password ([str]): [password string to test]
@@ -263,7 +264,7 @@ class UserModel(db.Model):
         if not isinstance(password, str):
             raise TypeError('Password can only be a string')
 
-        return check_password_hash(self.password,password)
+        return check_password_hash(self.password, password)
 
     def is_admin(self) -> bool:
         return self.admin
@@ -278,11 +279,10 @@ class UserModel(db.Model):
     def send_cell_verification(self):
         pass
 
-    def verify_cell(self,cell):
+    def verify_cell(self, cell):
         pass
 
-
-    def __init__(self, username,email,password,names,surname,cell,admin=False,img_link=None):
+    def __init__(self, username, email, password, names, surname, cell, admin=False, img_link=None):
         self.uid = str(uuid.uuid4())
         if username:
             self.username = username
@@ -296,11 +296,10 @@ class UserModel(db.Model):
         self.admin = admin
         if img_link:
             self.img_link = img_link
-        super(UserModel,self).__init__()
+        super(UserModel, self).__init__()
 
     def __repr__(self):
         return '<User {}> <Email {}>'.format(self.username,self.email)
-
 
     def __eq__(self, value):
         if value is None:
@@ -312,22 +311,22 @@ class UserModel(db.Model):
         return False
 
     @staticmethod
-    def add_user(email,username=None,names=None,surname=None,cell=None):
-        user = UserModel(uid=uid,email=email,username=username,names=names,surname=surname,cell=cell)
+    def add_user(email, username=None, names=None, surname=None, cell=None):
+        user = UserModel(email=email, username=username, names=names, surname=surname, cell=cell)
         db.session.add(user)
         db.session.commit()
         return True
 
-    @cls
-    def add_freelance_job(cls,uid, freelance_job):
+    @classmethod
+    def add_freelance_job(cls, uid, freelance_job):
         user_instance = UserModel.query.filter_by(_uid=uid).first()
-        user_instance._freelancejobs.push(freelance_job)
+        user_instance._freelancejobs.append(freelance_job)
         db.session.update(user_instance)
         db.session.commit()
 
-    @cls
-    def add_payment(cls,uid,payment):
+    @classmethod
+    def add_payment(cls, uid, payment):
         user_instance = UserModel.query.filter_by(_uid=uid).first()
-        user_instance._payments.push(payment)
+        user_instance._payments.append(payment)
         db.session.update(user_instance)
         db.session.commit()

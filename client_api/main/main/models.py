@@ -1,5 +1,6 @@
-from .. import db
+import time
 import uuid
+from .. import db
 
 
 class ContactModel(db.Model):
@@ -13,6 +14,7 @@ class ContactModel(db.Model):
     _time_created = db.Column(db.Integer, default=int(float(time.time() * 1000)))
     _is_read = db.Column(db.Boolean, default=False)
     _time_read = db.Column(db.Integer, default=0)
+    _responses = db.relationship('ResponseModel', backref=db.backref('contact_message', lazy=True))
 
     @property
     def time_created(self) -> int:
@@ -182,3 +184,158 @@ class ContactModel(db.Model):
                 and (value.reason == self.reason):
             return True
         return False
+
+
+class ResponseModel(db.Model):
+    _contact_id = db.Column(db.String(36), db.ForeignKey('contact_model._contact_id'), unique=False, nullable=False)
+    _response_id = db.Column(db.String(36),  primary_key=True, unique=True)
+    _subject = db.Column(db.String(256), nullable=False)
+    _response = db.Column(db.String(2048), nullable=False)
+    _time_created = db.Column(db.Integer, nullable=False, default=int(float(time.time() * 1000)))
+    _is_sent_by_email = db.Column(db.Boolean, default=False)
+    _is_issue_resolved = db.Column(db.Boolean, default=False)
+
+    @property
+    def contact_id(self) -> str:
+        """
+            :return contact_id:
+        """
+        return self._contact_id
+    
+    @contact_id.setter
+    def contact_id(self, contact_id):
+        """
+            :param contact_id:
+            :return Null:
+        """
+        if contact_id is None:
+            raise ValueError('Contact ID is Null')
+
+        if not isinstance(contact_id, str):
+            raise TypeError('Contact ID can only be a string')
+
+        self._contact_id = contact_id
+
+    @property
+    def response_id(self) -> str:
+        """
+            :return response_id:
+        """
+        return self._response_id
+    
+    @response_id.setter
+    def response_id(self, response_id):
+        """
+            :param response_id:
+            :return Null:
+        """
+        if response_id is None:
+            raise ValueError('Response ID is Null')
+        if not isinstance(response_id, str):
+            raise TypeError('Response ID can only ')
+
+    @property
+    def subject(self) -> str:
+        """
+            :return subject:
+        """
+        return self._subject
+
+    @subject.setter
+    def subject(self, subject):
+        """
+            :param subject:
+            :return Null:
+        """
+        if subject is None:
+            raise ValueError('Subject is Null')
+        if not isinstance(subject, str):
+            raise TypeError('Subject can only be a string')
+        self._subject = subject
+
+    @property
+    def response(self) -> str:
+        """
+            :return response:
+        """
+        return self._response
+    
+    @response.setter
+    def response(self, response):
+        """
+            :param response:
+            :return Null:
+        """
+        if response is None:
+            raise ValueError('Response is Null')
+        if not isinstance(response, str):
+            raise TypeError('Response can only be a string')
+        self._response = response
+
+    @property
+    def time_created(self) -> int:
+        """
+            :return time_created:
+        """
+        return self._time_created
+
+    @time_created.setter
+    def time_created(self, time_created):
+        """
+            :param time_created:
+            :return Null:
+        """
+        if time_created is None:
+            raise ValueError('Time Created is Null')
+            
+        if not isinstance(time_created, int):
+            raise TypeError('Time Created can only be a string')
+        self._time_created = time_created
+
+    @property
+    def is_sent_by_email(self) -> bool:
+        """
+            :return is_sent_by_email:
+        """
+        return self._is_sent_by_email
+
+    @is_sent_by_email.setter
+    def is_sent_by_email(self, is_sent_by_email):
+        """
+            :param is_sent_by_email:
+            :return Null:
+        """
+        if not isinstance(is_sent_by_email, bool):
+            raise TypeError('is sent by email can only be a boolean')
+        self._is_sent_by_email = is_sent_by_email
+
+    @property
+    def is_issue_resolved(self) -> bool:
+        """
+            :return issue_resolved:
+        """
+        return self._is_issue_resolved
+
+    @is_issue_resolved.setter
+    def is_issue_resolved(self, is_issue_resolved):
+        if not isinstance(is_issue_resolved, bool):
+            raise TypeError('Is Issue Resolved can only be a Boolean')
+
+        self._is_issue_resolved = is_issue_resolved
+
+    def __init__(self, subject, response, contact_id):
+        self.contact_id = contact_id
+        self.response_id = str(uuid.uuid4())
+        self.subject = subject
+        self.response = response
+        super(ResponseModel, self).__init__()
+
+    def __eq__(self, response):
+        if (response.subject == self.subject) and (response.response == self.response) and \
+                (response.contact_id == self.contact_id):
+            return True
+        return False
+
+    def __repr__(self) -> str:
+        return "<Response Subject : {}, Response: {}>".format(self.subject, self.response)
+
