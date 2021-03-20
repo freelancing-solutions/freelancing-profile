@@ -19,7 +19,7 @@ def home(current_user) -> str:
 
 @main.route('/contact', methods=['GET', 'POST'])
 @logged_user
-def contact(current_user) -> str:
+def contact(current_user) -> any:
     get_flashed_messages()
     if request.method == "GET":
         return render_template('contact.html', heading="Contact",current_user=current_user,
@@ -48,7 +48,8 @@ def contact(current_user) -> str:
             return jsonify({"message": "Message Successfully sent, I will get back to you"}), 200
         else:
             return jsonify({'message': "Error Sending message"}), 500
-
+    else:
+        return
 
 @main.route('/about', methods=['GET'])
 @logged_user
@@ -70,30 +71,7 @@ def social(current_user, path) -> str:
     else:
         pass
 
-###########################################################################################################
-# Payment Processing Modules
-# TODO : Move to payments module
 
-
-@main.route('/payments', methods=['GET', 'POST'])
-@token_required
-def payments(current_user) -> str:
-    get_flashed_messages()
-    pass
-
-
-@main.route('/payment', methods=['GET', 'POST'])
-@token_required
-def make_payment(current_user) -> str:
-    get_flashed_messages()
-    pass
-
-
-@main.route('/balances', methods=['GET', 'POST'])
-@token_required
-def balances(current_ser) -> str:
-    get_flashed_messages()
-    pass
 
 ###########################################################################################################
 # Basic Website Routes Sitemaps & Robots.txt
@@ -138,6 +116,7 @@ def sitemap() -> str:
         render_template('sitemap.xml', github_repos=github_repos, codepen_repos=codepen_repos, blog_posts=blog_posts))
     response.headers['content-type'] = 'text/xml'
     return response
+
 
 @main.route('/sw.js')
 def service_worker() -> str:

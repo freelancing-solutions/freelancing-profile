@@ -37,6 +37,7 @@
                 return response.json()
             }).then(json => {
                 try{
+                    /* TODO- send message to clear service worker caches */
                     localStorage.removeItem('x-access-token');
                     localStorage.setItem('x-access-token', json['token'])
                 }catch(err){
@@ -45,7 +46,7 @@
                 document.getElementById('message').innerHTML =json['message'];
 
             }).catch(error => {
-
+                    localStorage.removeItem('x-access-token');
             })
         },
     };

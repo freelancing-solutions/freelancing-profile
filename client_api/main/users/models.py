@@ -2,6 +2,7 @@ import uuid
 import time
 from .. import db
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..library.utils import const, create_id, timestamp
 
 
 class UserModel(db.Model):
@@ -9,26 +10,28 @@ class UserModel(db.Model):
         to access freelance jobs use relationship freelancejobs a list[]
         to access payments use relationship = payments a list[]
     """
-    _uid = db.Column(db.String(36), unique=True, primary_key=True)
-    _username = db.Column(db.String(128), unique=True, nullable=True)
-    _email = db.Column(db.String(128), unique=True, nullable=False)
-    _password = db.Column(db.String(120))
-    _names = db.Column(db.String(128), nullable=True)
-    _surname = db.Column(db.String(128), nullable=True)
-    _cell = db.Column(db.String(13), nullable=True)
+    _uid = db.Column(db.String(const.uuid_len), unique=True, primary_key=True)
+    _username = db.Column(db.String(const.username_len), unique=True, nullable=True)
+    _email = db.Column(db.String(const.username_len), unique=True, nullable=False)
+    _password = db.Column(db.String(const.password_len))
+    _names = db.Column(db.String(const.names_len), nullable=True)
+    _surname = db.Column(db.String(const.names_len), nullable=True)
+    _cell = db.Column(db.String(const.cell_len), nullable=True)
     _admin = db.Column(db.Boolean, default=False)
-    _img_link = db.Column(db.String(256), nullable=True)
-    _time_registered = db.Column(db.Integer, nullable=False, default=int(float(time.time() * 1000)))
+    _img_link = db.Column(db.String(const.link_len), nullable=True)
+    _time_registered = db.Column(db.Integer, nullable=False, default=timestamp())
     _time_email_verified = db.Column(db.Integer, nullable=False, default=0)
     _time_cell_verified = db.Column(db.Integer, nullable=False, default=0)
     _email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     _cell_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     _freelancejobs = db.relationship('FreelanceJobModel', backref=db.backref('user', lazy=True))
     _payments = db.relationship('PaymentModel', backref=db.backref('user', lazy=True))
+    _verification_token = db.Column(db.String(const.id_len), unique=True, nullable=True,
+                                    default=create_id(size=const.id_len))
 
     @property
     def uid(self):
-        if (len(self._uid) == 36) and isinstance(self._uid, str):
+        if (len(self._uid) == const.uuid_len) and isinstance(self._uid, str):
             return self._uid
         else:
             return None
@@ -201,7 +204,7 @@ class UserModel(db.Model):
         return self._time_email_verified
 
     @time_email_verified.setter
-    def time_email_verified(self,time_email_verified):
+    def time_email_verified(self, time_email_verified):
         if time_email_verified is None:
             raise ValueError('Time email verified is Null')
 
@@ -245,6 +248,14 @@ class UserModel(db.Model):
             raise TypeError('Cell is verified can only be a boolean')
 
         self._cell_is_verified = cell_is_verified
+
+    @property
+    def verification_token(self):
+        return self._verification_token
+
+    @verification_token.setter
+    def verification_token(self):
+        self._verification_token = create_id()
 
     # NOTE ACTIONS
     def compare_password(self, password) -> bool:
@@ -299,13 +310,15 @@ class UserModel(db.Model):
         super(UserModel, self).__init__()
 
     def __repr__(self):
-        return '<User {}> <Email {}>'.format(self.username,self.email)
+        return '<User {}> <Email {}>'.format(self.username, self.email)
 
     def __eq__(self, value):
         if value is None:
             return False
-        if (self.uid == value.uid) and (self.username == value.username) and (self.email == value.email) and (self.password == value.password) and (self.names == value.names) and \
-        (self.surname == value.surname) and (self.cell == value.cell) and (self.admin == value.admin) and (self.img_link == value.img_link):
+        if (self.uid == value.uid) and (self.username == value.username) and (self.email == value.email) and (
+                self.password == value.password) and (self.names == value.names) and \
+                (self.surname == value.surname) and (self.cell == value.cell) and (self.admin == value.admin) and (
+                self.img_link == value.img_link):
             return True
 
         return False

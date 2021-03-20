@@ -1,0 +1,18 @@
+
+<div class="card">
+    {% for transaction in transactions_list %}
+        <div class="card bg-dark">
+            <div class="card-header text-light border-bottom-0">
+                <h3 class="card-title"> Transaction Date: {{ transaction.time_paid }} </h3>
+            </div>
+                <div class="card-body pt-0">
+                    <p class="text-light text-sm"> Amount Paid : {{ transaction.currency }} {{ transaction.amount }}</p>
+                    <p class="text-light text-sm"> Payment Method: {{ transaction.method }}</p>
+                    <p class="text-light text-sm"> Payment Verified: {{ transaction.is_verified }}</p>
+                    {% if transaction.is_verified %}
+                        <p class="text-light text-sm"> Date Verified : {{ transaction.time_verified }}</p>
+                    {% endif %}
+                </div>
+        </div>
+    {% endfor %}
+</div>

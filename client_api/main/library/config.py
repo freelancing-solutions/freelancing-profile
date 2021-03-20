@@ -19,6 +19,7 @@ class Config:
     DEBUG = True
     TESTING = False
     # Find a way to set Debug to False on production
+    INSTALL = os.environ.get('INSTALL') or config('INSTALL')
 
 
 class ProductionConfig(Config):

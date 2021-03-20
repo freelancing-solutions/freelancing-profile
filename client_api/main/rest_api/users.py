@@ -18,6 +18,7 @@ user_fields = {
         'admin': fields.Boolean
 }
 
+
 class UserAPI(Resource):
     """
         Args:

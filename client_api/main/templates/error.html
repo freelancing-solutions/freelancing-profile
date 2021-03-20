@@ -28,7 +28,9 @@
           <h3><i class="fas fa-exclamation-triangle text-warning"></i> Something went horribly wrong.</h3>
 
           <p>
-            This isn't your mistake please try again later 
+            {% if message %}
+                {{  message }}
+            {% endif %}
             or consider reporting this error here <a href="{{ url_for('main.contact')}}">Report error</a>
           </p>
         </div>

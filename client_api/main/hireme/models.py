@@ -1,7 +1,10 @@
 from .. import db
 from flask import current_app, escape
+from ..library.utils import timestamp, create_id, Const
 import time
 import uuid
+
+const = Const()
 
 
 # noinspection DuplicatedCode,PyArgumentList
@@ -16,18 +19,18 @@ class FreelanceJobModel(db.Model):
         to access payment information use relationship = payment a record
         to access user backref is user
     """
-    _uid = db.Column(db.String(36), db.ForeignKey('user_model._uid'), unique=False, nullable=False)
-    _project_id = db.Column(db.String(36), unique=True, primary_key=True)
-    _project_name = db.Column(db.String(1048), unique=False, nullable=False)
-    _project_category = db.Column(db.String(64), nullable=False, default="webdev")
+    _uid = db.Column(db.String(const.uuid_len), db.ForeignKey('user_model._uid'), unique=False, nullable=False)
+    _project_id = db.Column(db.String(const.uuid_len), unique=True, primary_key=True)
+    _project_name = db.Column(db.String(const.project_name_len), unique=False, nullable=False)
+    _project_category = db.Column(db.String(const.project_cat_len), nullable=False, default="webdev")
     # TODO- consider revising description into a TEXT Field
-    _description = db.Column(db.String(2096), nullable=False)
+    _description = db.Column(db.String(const.description_len), nullable=False)
     _progress = db.Column(db.Integer, nullable=False, default=0)
-    _status = db.Column(db.String(32), nullable=False, default="active")
-    _link_details = db.Column(db.String(256), nullable=False)
-    _time_created = db.Column(db.Integer, nullable=False, default=int(float(time.time() * 1000)))
-    _est_hours_to_complete = db.Column(db.Integer, nullable=False, default=int(7*24))
-    _currency = db.Column(db.String(32), nullable=False, default="$")
+    _status = db.Column(db.String(const.project_status_len), nullable=False, default="active")
+    _link_details = db.Column(db.String(const.link_len), nullable=False)
+    _time_created = db.Column(db.Integer, nullable=False, default=timestamp())
+    _est_hours_to_complete = db.Column(db.Integer, nullable=False, default=const.default_project_hours)
+    _currency = db.Column(db.String(const.currency_len), nullable=False, default="$")
     _budget_allocated = db.Column(db.Integer, nullable=False)
     _total_paid = db.Column(db.Integer, nullable=False, default=0)
     _seen = db.Column(db.Boolean, default=False)
@@ -54,7 +57,7 @@ class FreelanceJobModel(db.Model):
             raise ValueError('UID cannot be null')
         if not isinstance(uid, str):
             raise TypeError('UID can only be a string')
-        if len(uid) > 36:
+        if len(uid) > const.uuid_len:
             raise ValueError('UID should only be uuid.uuidv4() token')
         self._uid = uid
 
@@ -68,7 +71,7 @@ class FreelanceJobModel(db.Model):
             raise ValueError('Project ID cannot be null')
         if not isinstance(project_id, str):
             raise TypeError('Project ID can only be a string')
-        if len(project_id) > 36:
+        if len(project_id) > const.uuid_len:
             raise ValueError('Project ID should only be uuid.uuidv4() token')
         self._project_id = project_id
 
@@ -77,7 +80,7 @@ class FreelanceJobModel(db.Model):
         return self._project_name
 
     @project_name.setter
-    def project_name(self,project_name):
+    def project_name(self, project_name):
         if project_name is None:
             raise ValueError('Project Name cannot be null')
         if not isinstance(project_name, str):
@@ -90,8 +93,8 @@ class FreelanceJobModel(db.Model):
         return self._project_category
 
     @project_category.setter
-    def project_category(self,project_category):
-        if project_category not in ['webdev','apidev','webapp']:
+    def project_category(self, project_category):
+        if project_category not in ['webdev', 'apidev', 'webapp']:
             raise ValueError('Unknown freelance job category')
         self._project_category = project_category
 
@@ -100,7 +103,7 @@ class FreelanceJobModel(db.Model):
         return self._description
 
     @description.setter
-    def description(self,description):
+    def description(self, description):
         if description is None:
             raise ValueError('Description cannot be null')
 
@@ -114,7 +117,7 @@ class FreelanceJobModel(db.Model):
         return self._progress
 
     @progress.setter
-    def progress(self,progress):
+    def progress(self, progress):
         if not isinstance(progress, int):
             raise TypeError('Progress can only be an integer')
 
@@ -152,12 +155,16 @@ class FreelanceJobModel(db.Model):
 
     @time_created.setter
     def time_created(self, time_created):
-        assert(time_created)
+                        
         if time_created is None:
             raise ValueError('Time Created can not be Null')
 
         if not isinstance(time_created, int):
             raise TypeError('Time created can only be an integer')
+
+        # time created is less than right now this has to be invalid, it has to be a little higher
+        if 0 > time_created > timestamp() + 5:
+            raise ValueError('Invalid time')
 
         self._time_created = time_created
 
@@ -234,7 +241,7 @@ class FreelanceJobModel(db.Model):
         self.currency = currency
         self.budget_allocated = budget_allocated
         self.link_details = str(self.create_link_detail(name=project_name, cat=project_category))
-        super(FreelanceJobModel).__init__()
+        super(FreelanceJobModel, self).__init__()
 
     @staticmethod
     def create_link_detail(name, cat):
@@ -257,7 +264,7 @@ class FreelanceJobModel(db.Model):
 
     def __eq__(self, value) -> bool:
         """
-            :type value:bool
+            :type value:self
         """
         if (value.uid == self.uid) and (value.project_id == self.project_id) and \
                 (value.project_name == self.project_name) and (value.project_category == self.project_category) \
@@ -270,7 +277,7 @@ class FreelanceJobModel(db.Model):
         return False
 
     @classmethod
-    def add_payment(cls,project_id,payment):
+    def add_payment(cls, project_id, payment):
         freelance_job_instance = FreelanceJobModel.query.filter_by(_project_id=project_id).first()
         freelance_job_instance._payment = payment
         db.session.update(freelance_job_instance)

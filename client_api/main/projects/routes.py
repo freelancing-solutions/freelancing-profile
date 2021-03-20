@@ -10,7 +10,7 @@ projects_bp = Blueprint('projects', __name__, static_folder="../static", templat
 def projects(current_user):
     get_flashed_messages()
     if request.method == "GET":
-        return render_template('projects.html', heading="Web Development Projects",current_user=current_user,
+        return render_template('projects.html', heading="Web Development Projects",  current_user=current_user,
                                menu_open=True, meta_tags=Metatags().set_projects())
     else:
         pass
@@ -18,7 +18,7 @@ def projects(current_user):
 
 @projects_bp.route('/projects/repos/<path:path>', methods=['GET'])
 @logged_user
-def projects_repos(current_user,path):
+def projects_repos(current_user, path):
     get_flashed_messages()
     if path == "github":
         return render_template('projects/github.html', menu_open=True, heading="Github Repositories",
