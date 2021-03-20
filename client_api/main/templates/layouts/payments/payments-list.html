@@ -1,0 +1,29 @@
+
+<div class="card-body pb-0">
+    <div class="row flex align-items-center">
+
+        {% for payment in payments  %}
+            <div class="col-12 col-sm-6 col-md-4 align-items-stretch">
+                <div class="card bg-dark">
+                    <div class="card-header text-light border-bottom-0">
+                        <h3 class="card-title"> Payment Details </h3>
+                    </div>
+                    <div class="card-body pt-0">
+                        <p class="text-light text-sm"> Amount: {{ payment.currency }} {{ payment.amount }}</p>
+                        <p class="text-light text-sm"> Total Paid: {{ payment.currency }} {{ payment.total_paid }}</p>
+                        <p class="text-light text-sm"> Balance : {{ payment.currency }} {{ payment.balance }}</p>
+                        <p class="text-muted text-sm"> Date Created : {{ payment.time_created }} </p>
+                        <p class="text-muted text-sm"> Last Transaction Date: {{ payment.last_transaction_date }}</p>
+                        <p class="text-light text-sm"> Is Fully Paid : {{ payment.is_fully_paid }}</p>
+                            {% if payment.is_fully_paid %}
+                            <p class="text-muted text-sm"> Time Fully Paid : {{ payment.time_fully_paid }}</p>
+                            {% endif %}
+                        <p class="text-light text-sm"> Project Details :
+                            <a href="{{ url_for('hireme.project_details', path=payment.project_id)}}"> Open Project </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {%  endfor %}
+    </div>
+</div>
