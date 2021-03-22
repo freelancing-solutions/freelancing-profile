@@ -9,4 +9,4 @@ class ProjectRepos(db.Model):
     Args:
         db ([type]): [description]
     """
-    pass
+    __bind_key__ = "app"

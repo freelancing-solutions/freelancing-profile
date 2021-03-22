@@ -5,6 +5,7 @@ from ..library.utils import timestamp, create_id, const
 
 
 class ContactModel(db.Model):
+    __bind_key__ = "app"
     _contact_id = db.Column(db.String(const.uuid_len), primary_key=True, unique=True)
     _uid = db.Column(db.String(const.uuid_len), unique=False, nullable=True)
     _names = db.Column(db.String(const.names_len), unique=False, nullable=False)

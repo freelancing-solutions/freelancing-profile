@@ -1,5 +1,5 @@
 from .. import db
-from flask import current_app, escape
+from flask import escape
 from ..library.utils import timestamp, create_id, Const
 import time
 import uuid
@@ -19,6 +19,7 @@ class FreelanceJobModel(db.Model):
         to access payment information use relationship = payment a record
         to access user backref is user
     """
+    __bind_key__ = "app"
     _uid = db.Column(db.String(const.uuid_len), db.ForeignKey('user_model._uid'), unique=False, nullable=False)
     _project_id = db.Column(db.String(const.uuid_len), unique=True, primary_key=True)
     _project_name = db.Column(db.String(const.project_name_len), unique=False, nullable=False)

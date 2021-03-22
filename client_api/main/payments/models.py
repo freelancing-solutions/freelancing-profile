@@ -37,10 +37,11 @@ class AmountMixin(object):
 # TODO try using mixin for amount and currency
 class PaymentModel(AmountMixin, db.Model):
     """
-        to access transactions use backref : transactions -> a list
-        to access the freelancejob this refers to use backref : freelancejob
+        to access transactions use relationship : transactions -> a list
+        to access the freelance_job this refers to use backref : freelancejob
         to access user use backref : user
     """
+    __bind_key__ = "app"
     _payment_id = db.Column(db.String(const.uuid_len), primary_key=True, unique=True)
     _total_paid = db.Column(db.Integer, nullable=False, default=0)
     _balance = db.Column(db.Integer, nullable=False, default=0)
@@ -129,7 +130,6 @@ class PaymentModel(AmountMixin, db.Model):
             raise ValueError('UID cannot be null')
         if not isinstance(uid, str):
             raise TypeError('UID can only be a string')
-
         self._uid = uid
 
     @property
@@ -209,6 +209,7 @@ class TransactionModel(AmountMixin, db.Model):
         the transaction succeeded and comes from here
     """
     # NOTE Payment Method paypal, credit-card, eft, crypto-currency
+    __bind_key__ = "app"
     _transaction_id = db.Column(db.String(const.uuid_len), primary_key=True, unique=True)
     _payment_id = db.Column(db.String(const.uuid_len), db.ForeignKey('payment_model._payment_id'), unique=False,
                             nullable=False)
@@ -299,7 +300,16 @@ class TransactionModel(AmountMixin, db.Model):
         self.amount = int(amount)
         self.currency = currency
         self.time_paid = timestamp()
+        self.add_transaction_to_payment_list()
         super(TransactionModel, self).__init__()
+
+    def add_transaction_to_payment_list(self) -> bool:
+        payment_instance = PaymentModel.query.filter_by(_payment_id=self.payment_id).first()
+        if payment_instance:
+            # TODO- check if this will effectively add the transaction to the payment._transactions
+            self._payment = payment_instance
+            return True
+        return False
 
     def __eq__(self, value) -> bool:
         """

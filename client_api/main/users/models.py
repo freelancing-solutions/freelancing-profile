@@ -10,6 +10,7 @@ class UserModel(db.Model):
         to access freelance jobs use relationship freelancejobs a list[]
         to access payments use relationship = payments a list[]
     """
+    __bind_key__ = "app"
     _uid = db.Column(db.String(const.uuid_len), unique=True, primary_key=True)
     _username = db.Column(db.String(const.username_len), unique=True, nullable=True)
     _email = db.Column(db.String(const.username_len), unique=True, nullable=False)
@@ -312,6 +313,9 @@ class UserModel(db.Model):
     def __repr__(self):
         return '<User {}> <Email {}>'.format(self.username, self.email)
 
+    def __str__(self):
+        return '<User {}>'.format(self.username)
+
     def __eq__(self, value):
         if value is None:
             return False
@@ -343,3 +347,6 @@ class UserModel(db.Model):
         user_instance._payments.append(payment)
         db.session.update(user_instance)
         db.session.commit()
+
+    def get(self, uid):
+        return self.query.filter_by(_uid=uid).first()

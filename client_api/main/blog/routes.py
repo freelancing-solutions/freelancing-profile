@@ -1,11 +1,54 @@
-from flask import render_template, request, Blueprint, flash, get_flashed_messages
+from flask import  render_template, request, Blueprint, get_flashed_messages, url_for
 from ..library import Metatags, logged_user
+from flask_blogging.sqlastorage import Post, Tag
+
 blog_bp = Blueprint('blog', __name__, static_folder="static", template_folder="templates")
 
-
 ###########################################################################################################
+
+
+@blog_bp.route('/blog/home', methods=['GET'])
+def blog_index():
+    return render_template(url_for('blogging.index'))
+
+
+@blog_bp.route('/blog/post/<path:post_id>', methods=['GET'])
+def blog_page_by_id(post_id):
+    return render_template(url_for('blogging.page_by_id', post_id=post_id))
+
+
+@blog_bp.route('/blog/posts/tag/<path:tag_name>', methods=['GET'])
+def blog_posts_by_tag(tag_name):
+    return render_template(url_for('blogging.posts_by_tag', tag=tag_name))
+
+
+@blog_bp.route('/blog/posts/author/<path:user_id>', methods=['GET'])
+def blog_posts_by_author(user_id):
+    return render_template(url_for('blogging.posts_by_tag', user_id=user_id))
+
+
+@blog_bp.route('/blog/editor', methods=['GET', 'POST'])
+def blog_post_editor():
+    return render_template(url_for('blogging.editor'))
+
+
+@blog_bp.route('/blog/post/delete/<path:post_id>', methods=['POST'])
+def blog_post_delete(post_id):
+    return render_template(url_for('blogging.delete', post_id=post_id))
+
+
+@blog_bp.route('/blog/sitemap.xml', methods=['GET'])
+def blog_sitemap():
+    return render_template(url_for('blogging.sitemap'))
+
+
+@blog_bp.route('/blog/feed', methods=['GET'])
+def blog_feed():
+    return render_template(url_for('blogging.feed'))
+
+
 # Blog Routes
-@blog_bp.route('/blog', methods=['GET'])
+@blog_bp.route('/tech-articles', methods=['GET'])
 @logged_user
 def blog(current_user):
     get_flashed_messages()
@@ -17,9 +60,9 @@ def blog(current_user):
                                current_user=current_user, meta_tags=Metatags().set_blog())
 
 
-@blog_bp.route('/blog/articles/<path:path>')
+@blog_bp.route('/tech-articles/articles/<path:path>')
 @logged_user
-def frontend_articles(current_user,path):
+def frontend_articles(current_user, path):
     get_flashed_messages()
     if request.method == "GET":
         if path == "service-workers/custom-service-worker-with-push-notifications":
@@ -33,7 +76,7 @@ def frontend_articles(current_user,path):
             return render_template(template, current_user=current_user, heading=title, meta_tags=Metatags().set_blog())
 
 
-@blog_bp.route('/blog/categories/<path:path>', methods=['GET'])
+@blog_bp.route('/tech-articles/categories/<path:path>', methods=['GET'])
 @logged_user
 def blog_categories(current_user, path):
     get_flashed_messages()
@@ -59,7 +102,7 @@ def blog_categories(current_user, path):
 
 @blog_bp.route('/learn-more/<path:path>', methods=['GET'])
 @logged_user
-def learn_more(current_user,path):
+def learn_more(current_user, path):
     get_flashed_messages()
     if path == "backend-development":
         title = 'Learn More Back End Development'

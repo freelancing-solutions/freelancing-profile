@@ -1,14 +1,15 @@
 
 from flask import Flask
-
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 from flask_restful import Api
 # from .rest_api import UserAPI, ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
 from .library.config import Config, ProductionConfig, DevelopmentConfig
-api = Api()
 
+
+api = Api()
 try:
+    # TODO- Properly Implement Logging Support
     import logging
     import sentry_sdk
     from sentry_sdk.integrations.flask import FlaskIntegration

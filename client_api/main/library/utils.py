@@ -24,6 +24,9 @@ class Const:
     currency_list = ['$', 'R', 'r']
     payment_methods = ['eft', 'paypal', 'direct-deposit', 'crypto-currency']
 
+    title_len = 256
+    article_len = 65536
+
 
 const = Const()
 

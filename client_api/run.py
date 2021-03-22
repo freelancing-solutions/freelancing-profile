@@ -2,6 +2,8 @@ import os, logging
 from main import create_app, db
 from main.library.utils import is_development
 from main.library.config import Config, DevelopmentConfig, ProductionConfig
+from flask_caching import Cache
+from flask_blogging import BloggingEngine, SQLAStorage
 
 # TODO- properly configure logging
 logging.basicConfig(filename='logs.log', level='INFO')
@@ -52,6 +54,17 @@ else:
     log_message = 'Not in debug mode'
     print(log_message)
     logging.info(log_message)
+
+storage = SQLAStorage(db=db, bind="blog")
+
+try:
+    blogging_engine = BloggingEngine(app=app, storage=storage, cache=Cache)
+
+    @blogging_engine.user_loader
+    def load_user(userid):
+        return User.get(userid)
+except Exception as e:
+    pass
 
 if __name__ == '__main__':
     app.run(debug=is_debug, use_reloader=is_debug, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

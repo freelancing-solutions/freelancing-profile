@@ -22,7 +22,7 @@ def home(current_user) -> str:
 def contact(current_user) -> any:
     get_flashed_messages()
     if request.method == "GET":
-        return render_template('contact.html', heading="Contact",current_user=current_user,
+        return render_template('contact.html', heading="Contact", current_user=current_user,
                                menu_open=True, meta_tags=Metatags().set_contact())
 
     elif request.method == "POST":
@@ -51,6 +51,7 @@ def contact(current_user) -> any:
     else:
         return
 
+
 @main.route('/about', methods=['GET'])
 @logged_user
 def about(current_user) -> str:
@@ -70,8 +71,6 @@ def social(current_user, path) -> str:
                                meta_tags=Metatags().set_social_github())
     else:
         pass
-
-
 
 ###########################################################################################################
 # Basic Website Routes Sitemaps & Robots.txt
