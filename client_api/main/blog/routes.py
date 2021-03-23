@@ -1,50 +1,52 @@
-from flask import  render_template, request, Blueprint, get_flashed_messages, url_for
+from flask import render_template, request, Blueprint, get_flashed_messages, url_for, current_app
 from ..library import Metatags, logged_user
-from flask_blogging.sqlastorage import Post, Tag
-
+from flask_blogging import BloggingEngine, SQLAStorage
+blogging_engine = BloggingEngine()
+from ..users.models import UserModel
 blog_bp = Blueprint('blog', __name__, static_folder="static", template_folder="templates")
+
 
 ###########################################################################################################
 
-
-@blog_bp.route('/blog/home', methods=['GET'])
-def blog_index():
-    return render_template(url_for('blogging.index'))
-
-
-@blog_bp.route('/blog/post/<path:post_id>', methods=['GET'])
-def blog_page_by_id(post_id):
-    return render_template(url_for('blogging.page_by_id', post_id=post_id))
-
-
-@blog_bp.route('/blog/posts/tag/<path:tag_name>', methods=['GET'])
-def blog_posts_by_tag(tag_name):
-    return render_template(url_for('blogging.posts_by_tag', tag=tag_name))
-
-
-@blog_bp.route('/blog/posts/author/<path:user_id>', methods=['GET'])
-def blog_posts_by_author(user_id):
-    return render_template(url_for('blogging.posts_by_tag', user_id=user_id))
-
-
-@blog_bp.route('/blog/editor', methods=['GET', 'POST'])
-def blog_post_editor():
-    return render_template(url_for('blogging.editor'))
-
-
-@blog_bp.route('/blog/post/delete/<path:post_id>', methods=['POST'])
-def blog_post_delete(post_id):
-    return render_template(url_for('blogging.delete', post_id=post_id))
-
-
-@blog_bp.route('/blog/sitemap.xml', methods=['GET'])
-def blog_sitemap():
-    return render_template(url_for('blogging.sitemap'))
-
-
-@blog_bp.route('/blog/feed', methods=['GET'])
-def blog_feed():
-    return render_template(url_for('blogging.feed'))
+#
+# @blog_bp.route('/blog/home', methods=['GET'])
+# def blog_index():
+#     return render_template(url_for('blogging.index'))
+#
+#
+# @blog_bp.route('/blog/post/<path:post_id>', methods=['GET'])
+# def blog_page_by_id(post_id):
+#     return render_template(url_for('blogging.page_by_id', post_id=post_id))
+#
+#
+# @blog_bp.route('/blog/posts/tag/<path:tag_name>', methods=['GET'])
+# def blog_posts_by_tag(tag_name):
+#     return render_template(url_for('blogging.posts_by_tag', tag=tag_name))
+#
+#
+# @blog_bp.route('/blog/posts/author/<path:user_id>', methods=['GET'])
+# def blog_posts_by_author(user_id):
+#     return render_template(url_for('blogging.posts_by_tag', user_id=user_id))
+#
+#
+# @blog_bp.route('/blog/editor', methods=['GET', 'POST'])
+# def blog_post_editor():
+#     return render_template(url_for('blogging.editor'))
+#
+#
+# @blog_bp.route('/blog/post/delete/<path:post_id>', methods=['POST'])
+# def blog_post_delete(post_id):
+#     return render_template(url_for('blogging.delete', post_id=post_id))
+#
+#
+# @blog_bp.route('/blog/sitemap.xml', methods=['GET'])
+# def blog_sitemap():
+#     return render_template(url_for('blogging.sitemap'))
+#
+#
+# @blog_bp.route('/blog/feed', methods=['GET'])
+# def blog_feed():
+#     return render_template(url_for('blogging.feed'))
 
 
 # Blog Routes
@@ -115,5 +117,5 @@ def learn_more(current_user, path):
         return render_template(template, heading=title, current_user=current_user, menu_open=True,
                                meta_tags=Metatags().set_learn_frontend())
     else:
-        return render_template("404.html", heading="Page Not Found", 
-        current_user=current_user,meta_tags=Metatags().set_home())
+        return render_template("404.html", heading="Page Not Found",
+                               current_user=current_user, meta_tags=Metatags().set_home())

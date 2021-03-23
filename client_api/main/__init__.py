@@ -5,12 +5,14 @@ db = SQLAlchemy()
 from flask_restful import Api
 # from .rest_api import UserAPI, ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
 from .library.config import Config, ProductionConfig, DevelopmentConfig
-
-
+from flask_blogging import SQLAStorage
+from flask_caching import Cache
+from flask_login import LoginManager
+from .blog.routes import blogging_engine
 api = Api()
+cache = Cache()
 try:
     # TODO- Properly Implement Logging Support
-    import logging
     import sentry_sdk
     from sentry_sdk.integrations.flask import FlaskIntegration
     # Sentry based Error Reporting and Logging
@@ -21,7 +23,7 @@ try:
     )
     # Error Logging
     # Logging configuration
-    logging.basicConfig(filename='demo.log', level=logging.ERROR)
+
 
 except Exception as e:
     print('sentry error : {}'.format(e))
@@ -30,7 +32,18 @@ except Exception as e:
 def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")
     app.config.from_object(Config)
-    db.init_app(app)
+    with app.app_context():
+        cache.init_app(app=app)
+        db.init_app(app)
+        storage = SQLAStorage(db=db, bind="blog")
+        blogging_engine.init_app(app=app, storage=storage, cache=cache)
+        login_manager = LoginManager(app=app)
+        from .users.models import UserModel
+
+        @login_manager.user_loader
+        @blogging_engine.user_loader
+        def load_user(userid):
+            return UserModel.get(uid=userid)
 
     # importing blue prints
     from .users.routes import users
@@ -50,4 +63,6 @@ def create_app(config_class=Config):
     app.register_blueprint(projects_bp)
     app.register_blueprint(admin_routes)
     app.register_blueprint(payments_bp)
+
+
     return app

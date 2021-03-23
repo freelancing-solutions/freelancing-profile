@@ -26,6 +26,7 @@ class Const:
 
     title_len = 256
     article_len = 65536
+    draft_len = 128
 
 
 const = Const()
