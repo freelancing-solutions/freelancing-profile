@@ -2,6 +2,7 @@
     let login_form = {
         email : '',
         password : '',
+        remember: '',
         url : '/login',
         init : async function(){
                 await this.cacheDom();
@@ -13,6 +14,7 @@
         cacheDom: async function(){
             this.email = $('#email');
             this.password = $('#password');
+            this.remember = $('remember')
         },
         do_login: async function(e){
             e.preventDefault();
@@ -30,7 +32,7 @@
                 headers: new_headers,
                 mode: "cors",
                 cache: "no-cache",
-                body: JSON.stringify({'email':this.email.value,'password':this.password.value})
+                body: JSON.stringify({'email':this.email.value,'password':this.password.value, 'remember': this.remember.value})
               };
             let request = new Request('/login',init);
             await fetch(request).then(response => {
@@ -44,7 +46,6 @@
                     localStorage.setItem('x-access-token', json['token'])
                 }
                 document.getElementById('message').innerHTML =json['message'];
-
             }).catch(error => {
                     localStorage.removeItem('x-access-token');
             })

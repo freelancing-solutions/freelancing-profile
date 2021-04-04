@@ -6,16 +6,14 @@
       <h5>Freelance Admin</h5>
       <h6>{{ current_user.username }}</h6>
       <ul class="navbar-nav ml-auto">
-        <li><a href="{{ url_for('projects.projects') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Freelance Jobs </a></li>
-        <li><a href="{{ url_for('payments.payments') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
-        <li><a href="{{ url_for('payments.balances') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
-        <li><a href="{{ url_for('payments.make_payment', path='ss') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Payments </a></li>
+        <li><a href="{{ url_for('hireme.hire', path='freelance-jobs') }}" class="nav-item btn btn-primary btn-sm mb-2 text-bold"><i class="nav-icon fas fa-business-time"> </i> Freelance Jobs </a></li>
+        <li><a href="{{ url_for('payments.payments') }}" class="nav-item btn btn-primary btn-sm mb-2 text-bold"><i class="nav-icon fas fa-credit-card"> </i> Payments </a></li>
       </ul>
-      <a href="{{ url_for('users.logout') }}" class="text-light"><i class="nav-icon fas fa-user"> </i> Log Out </a>
+      <a href="{{ url_for('users.logout') }}" class="btn btn-danger btn-sm"><i class="nav-icon fas fa-user"> </i> Log Out </a>
       {% else %}
       <ul class="navbar-nav ml-auto">
-        <li><a href="{{ url_for('users.login') }}" class="nav-item btn btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Sign In </a></li>
-        <li><a href="{{ url_for('users.register') }}" class="nav-item  btn btn-warning text-bold"><i class="nav-icon fas fa-user-plus"> </i> Register </a></li>
+        <li><a href="{{ url_for('users.login') }}" class="nav-item btn btn-sm btn-primary mb-2 text-bold"><i class="nav-icon fas fa-sign-in-alt"> </i> Sign In </a></li>
+        <li><a href="{{ url_for('users.register') }}" class="nav-item  btn btn-sm btn-info text-bold"><i class="nav-icon fas fa-user-plus"> </i> Register </a></li>
       </ul>
       {% endif %}
     </div>

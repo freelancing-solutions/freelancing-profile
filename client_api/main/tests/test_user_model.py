@@ -1,7 +1,10 @@
 import uuid, time
+
+from sqlalchemy.exc import OperationalError
+
 from .. import db, create_app
 from flask import current_app
-from ..library import config
+from ..library.utils import create_id
 
 
 def test_add_user_through_rest_api():
@@ -14,27 +17,26 @@ def test_add_user_through_rest_api():
     else:
         app = current_app
 
-
-    username = "mobius-crypt{}".format(str(uuid.uuid1()))
-    email = "mobius-crypt{}@gmail.com".format(str(uuid.uuid1()))
+    username = "{}@gmail.com".format(str(create_id()))
+    email = "{}@gmail.com".format(str(create_id()))
     password = "mobius"
-    names="mobius"
-    surname="crypt"
-    admin=True
-    img_link="https://justice-ndou.appspot.com/static/dist/img/justice.jpg"
+    names = "mobius"
+    surname = "crypt"
+    admin = True
+    img_link = "https://justice-ndou.appspot.com/static/dist/img/justice.jpg"
 
     cell = "0764567890"
     with app.app_context():
-        user_model_instance = UserModel(username=username,email=email,password=password, names=names,surname=surname,cell=cell,admin=admin,img_link=img_link)
+        user_model_instance = UserModel(username=username, email=email, password=password, names=names, surname=surname,
+                                        cell=cell, admin=admin, img_link=img_link)
         try:
             db.session.add(user_model_instance)
             db.session.commit()
-        except Exception as error:
+        except OperationalError as error:
             db.session.rollback()
             db.session.commit()
 
-
-        assert isinstance(user_model_instance,UserModel), "User model not instantiating correctly"
+        assert isinstance(user_model_instance, UserModel), "User model not instantiating correctly"
         assert user_model_instance.uid, "UID not set correctly"
         assert user_model_instance.username == username, "Username not set correctly"
         assert user_model_instance.email == email, "Email not set Correctly"

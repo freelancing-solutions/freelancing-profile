@@ -1,5 +1,8 @@
 # import unittest
 import uuid, time
+
+from sqlalchemy.exc import OperationalError
+
 from .. import db, create_app
 from flask import current_app
 from ..library import config
@@ -37,7 +40,7 @@ def test_main_contact_model():
         try:
             db.session.add(contact_model_instance)
             db.session.commit()
-        except Exception as error:
+        except OperationalError as error:
             db.session.rollback()
             db.session.commit()
             assert False, "Failed to add contact model to database"

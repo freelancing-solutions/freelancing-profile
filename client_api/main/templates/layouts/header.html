@@ -13,16 +13,24 @@
     </a>
     <span class="nav-item d-none d-sm-inline-block ml-auto">
       <a href="{{ url_for('main.social', path='twitter') }}" class="text-blue">
-        <i class="navicon fab fa-twitter"> </i>  Twitter
+        <i class="nav-icon fab fa-twitter"> </i>  Twitter
       </a>
       <a href="{{ url_for('main.social', path='github')}}" class="tex-blue ml-auto">
-        <i class="navicon fab fa-github"> </i> Github
+        <i class="nav-icon fab fa-github"> </i> Github
       </a>
     </span>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Notifications Dropdown Menu -->
+
+          <li class="nav-item">
+
+              <a href="{{ url_for('main.logger') }}" class="nav-link">
+                <i class="nav-icon fas fa-server"> </i>
+                <span class="badge badge-info navbar-badge"></span>
+              </a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
               <i class="far fa-bell"></i>

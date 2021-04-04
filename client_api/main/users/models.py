@@ -1,8 +1,9 @@
 import uuid
-import time
 from .. import db
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..library.utils import const, create_id, timestamp
+from sqlalchemy.event import listen
+from sqlalchemy.exc import OperationalError, DisconnectionError, IntegrityError
 
 
 class UserModel(db.Model):
@@ -25,62 +26,56 @@ class UserModel(db.Model):
     _time_cell_verified = db.Column(db.Integer, nullable=False, default=0)
     _email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
     _cell_is_verified = db.Column(db.Boolean, nullable=False, default=False)
-    _freelancejobs = db.relationship('FreelanceJobModel', backref=db.backref('user', lazy=True))
-    _payments = db.relationship('PaymentModel', backref=db.backref('user', lazy=True))
     _verification_token = db.Column(db.String(const.id_len), unique=True, nullable=True,
                                     default=create_id(size=const.id_len))
+    _cell_verification_token = db.Column(db.String(const.cell_token_len), unique=True, nullable=True,
+                                         default=create_id(size=const.cell_token_len))
+    _freelancejobs = db.relationship('FreelanceJobModel', backref=db.backref('user', lazy=True))
+    _payments = db.relationship('PaymentModel', backref=db.backref('user', lazy=True))
 
     @property
-    def uid(self):
-        if (len(self._uid) == const.uuid_len) and isinstance(self._uid, str):
-            return self._uid
-        else:
-            return None
+    def uid(self) -> str:
+        return self._uid
 
     @uid.setter
-    def uid(self, uid):
+    def uid(self, uid: str) -> None:
         if uid is None:
             raise ValueError('uid cannot be Null')
         if not isinstance(uid, str):
             raise TypeError("uid can only be a string")
-        if len(uid) != 36:
+        if len(uid) != const.uuid_len:
             raise ValueError('invalid uid format')
 
         self._uid = uid
 
     @property
-    def username(self):
-        if self._username is None and (self._email is not None):
-            return self._email
-        elif self._username:
-            return self._username
-        else:
-            return None
+    def username(self) -> str:
+        return self._username
 
     @username.setter
-    def username(self, username):
+    def username(self, username: str) -> None:
         if username is None:
             raise ValueError('Username cannot be Null')
         if not isinstance(username, str):
             raise TypeError('Username can only be a string')
-        if len(username) > 128:
+        if len(username) > const.username_len:
             raise ValueError('Invalid username format character length exceed 128')
-
+        print('Storing username ', username)
         self._username = username
 
     @property
-    def email(self):
+    def email(self) -> str:
         # TODO- check if its valid email
         return self._email
 
     @email.setter
-    def email(self, email):
+    def email(self, email: str) -> None:
         if email is None:
             raise ValueError("Email address cannot be null")
         if not isinstance(email, str):
             raise TypeError('Email can only be a string')
 
-        if len(email) > 128:
+        if len(email) > const.email_len:
             raise ValueError("Invalid Email format character length exceed 128")
 
         self._email = email
@@ -95,7 +90,7 @@ class UserModel(db.Model):
         return self._password
 
     @password.setter
-    def password(self, password):
+    def password(self, password: str) -> None:
         """
             Given a plain password convert to password hash and store
         Args:
@@ -116,13 +111,13 @@ class UserModel(db.Model):
         return self._names
 
     @names.setter
-    def names(self, names):
+    def names(self, names: str) -> None:
         if names is None:
             raise ValueError('Names cannot be Null')
         if not isinstance(names, str):
             raise TypeError('Names can only be a string')
 
-        if len(names) > 128:
+        if len(names) > const.names_len:
             raise ValueError('Invalid names format names length exceeds 128')
 
         self._names = names
@@ -132,13 +127,13 @@ class UserModel(db.Model):
         return self._surname
 
     @surname.setter
-    def surname(self, surname):
+    def surname(self, surname: str) -> None:
         if surname is None:
             raise ValueError('Surname cannot be Null')
         if not isinstance(surname, str):
             raise TypeError('Surname can only be a string')
 
-        if len(surname) > 128:
+        if len(surname) > const.names_len:
             raise ValueError('Invalid Surname format names length exceeds 128')
 
         self._surname = surname
@@ -148,13 +143,13 @@ class UserModel(db.Model):
         return self._cell
 
     @cell.setter
-    def cell(self, cell):
+    def cell(self, cell: str) -> None:
         if cell is None:
             raise ValueError('Cell Number can not be null')
         if not isinstance(cell, str):
             raise TypeError('Cell Can only be a string')
 
-        if len(cell) > 13:
+        if len(cell) > const.cell_len:
             raise ValueError('Cell Number can not exceed 13 characters')
 
         self._cell = cell
@@ -168,17 +163,17 @@ class UserModel(db.Model):
         return self._admin
 
     @admin.setter
-    def admin(self, admin):
+    def admin(self, admin: bool) -> None:
         if not isinstance(admin, bool):
             raise TypeError('admin can only be a boolean')
         self._admin = admin
 
     @property
-    def img_link(self):
+    def img_link(self) -> str:
         return self._img_link
 
     @img_link.setter
-    def img_link(self, img_link):
+    def img_link(self, img_link: str) -> None:
         if img_link is None:
             raise ValueError('Image Link cannot be null')
 
@@ -192,7 +187,7 @@ class UserModel(db.Model):
         return self._time_registered
 
     @time_registered.setter
-    def time_registered(self, time_registered):
+    def time_registered(self, time_registered: int) -> None:
         if time_registered is None:
             raise ValueError('Time registered can only be an integer')
         if not isinstance(time_registered, int):
@@ -205,7 +200,7 @@ class UserModel(db.Model):
         return self._time_email_verified
 
     @time_email_verified.setter
-    def time_email_verified(self, time_email_verified):
+    def time_email_verified(self, time_email_verified: int) -> None:
         if time_email_verified is None:
             raise ValueError('Time email verified is Null')
 
@@ -219,7 +214,7 @@ class UserModel(db.Model):
         return self._time_cell_verified
 
     @time_cell_verified.setter
-    def time_cell_verified(self, time_cell_verified):
+    def time_cell_verified(self, time_cell_verified: int) -> None:
         if time_cell_verified is None:
             raise ValueError('Time cell verified is null')
 
@@ -233,7 +228,12 @@ class UserModel(db.Model):
         return self._email_is_verified
 
     @email_is_verified.setter
-    def email_is_verified(self, email_is_verified):
+    def email_is_verified(self, email_is_verified: bool) -> None:
+        """
+
+        :param email_is_verified: bool
+        :return:
+        """
         if not isinstance(email_is_verified, bool):
             raise TypeError('Email is verified can only be a boolean')
 
@@ -241,25 +241,77 @@ class UserModel(db.Model):
 
     @property
     def cell_is_verified(self) -> bool:
+        """
+            cell_is_verified property
+            :return: bool
+        """
         return self._cell_is_verified
 
     @cell_is_verified.setter
-    def cell_is_verified(self, cell_is_verified):
+    def cell_is_verified(self, cell_is_verified: bool) -> None:
+        """
+            cell_is_verified setter
+            :param cell_is_verified: bool
+            returns: None
+        """
         if not isinstance(cell_is_verified, bool):
             raise TypeError('Cell is verified can only be a boolean')
 
         self._cell_is_verified = cell_is_verified
 
     @property
-    def verification_token(self):
+    def verification_token(self) -> str:
+        """
+            verification_token property
+        :return: str
+        """
         return self._verification_token
 
     @verification_token.setter
-    def verification_token(self):
-        self._verification_token = create_id()
+    def verification_token(self, verification_token: str) -> None:
+        """
+            sets the verification token
+            :param verification_token: str
+            :return: None
+        """
+        self._verification_token = verification_token
+
+    @property
+    def payments(self) -> list:
+        """
+            payments relationship property
+            :return: list
+        """
+        return self._payments
+
+    @payments.setter
+    def payments(self, payment) -> None:
+        """
+            add PaymentModel Instance to relationship user instance
+        :param payment: paymentModel
+        :return:
+        """
+        self._payments.append(payment)
+
+    @property
+    def freelancejobs(self) -> list:
+        """
+            UserModel relationship to FreelanceJobs
+        :return:
+        """
+        return self._freelancejobs
+
+    @freelancejobs.setter
+    def freelancejobs(self, freelance_job) -> None:
+        """
+            sets Freelancejobs Instance to freelancejobs relationship on user
+        :param freelance_job:
+        :return:
+        """
+        self._freelancejobs.append(freelance_job)
 
     # NOTE ACTIONS
-    def compare_password(self, password) -> bool:
+    def compare_password(self, password: str) -> bool:
         """
         Args:
             password ([str]): [password string to test]
@@ -279,74 +331,151 @@ class UserModel(db.Model):
         return check_password_hash(self.password, password)
 
     def is_admin(self) -> bool:
+        """
+            is_admin property
+            if user is admin returns true
+            :return: bool
+        """
         return self.admin
 
-    def send_email_verification(self):
-        # TODO- Use Flask-Email
-        pass
-
-    def verify_email(self):
-        pass
-
-    def send_cell_verification(self):
-        pass
-
-    def verify_cell(self, cell):
-        pass
-
-    def __init__(self, username, email, password, names, surname, cell, admin=False, img_link=None):
+    def __init__(self, email: str, password: str, names: str, surname: str,
+                 cell: str, username: str = None, admin: bool = False, img_link: str = None):
         self.uid = str(uuid.uuid4())
-        if username:
+        if isinstance(username, str) and (len(username) > 0):
             self.username = username
         else:
             self.username = email
+
         self.email = email
         self.password = password
         self.names = names
         self.surname = surname
         self.cell = cell
         self.admin = admin
-        if img_link:
+        if isinstance(img_link, str) and (len(username) > 0):
             self.img_link = img_link
         super(UserModel, self).__init__()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '<User {}> <Email {}>'.format(self.username, self.email)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return '<User {}>'.format(self.username)
 
-    def __eq__(self, value):
+    def __eq__(self, value) -> bool:
         if value is None:
             return False
-        if (self.uid == value.uid) and (self.username == value.username) and (self.email == value.email) and (
-                self.password == value.password) and (self.names == value.names) and \
-                (self.surname == value.surname) and (self.cell == value.cell) and (self.admin == value.admin) and (
-                self.img_link == value.img_link):
+        if (self.uid == value.uid) or (self.username == value.username) or (self.email == value.email):
             return True
+        return False
 
+    @classmethod
+    def add_freelance_job(cls, uid: str, freelance_job) -> bool:
+        try:
+            user_instance = UserModel.query.filter_by(_uid=uid).first()
+            user_instance.freelancejobs = freelance_job
+            db.session.update(user_instance)
+            db.session.commit()
+            return True
+        except OperationalError as e:
+            return False
+        except IntegrityError as e:
+            return False
+        except DisconnectionError as e:
+            return False
+
+    @classmethod
+    def add_payment(cls, uid: str, payment) -> bool:
+        try:
+            user_instance = UserModel.query.filter_by(_uid=uid).first()
+            user_instance.payments = payment
+            db.session.update(user_instance)
+            db.session.commit()
+            return True
+        except OperationalError as e:
+            return False
+        except IntegrityError as e:
+            return False
+        except DisconnectionError as e:
+            return False
+
+    @staticmethod
+    def get_user_by_uid(uid: str) -> any:
+        try:
+            return UserModel.query.filter_by(_uid=uid).first()
+        except OperationalError as e:
+            return None
+        except IntegrityError as e:
+            return None
+        except DisconnectionError as e:
+            return None
+
+    @staticmethod
+    def get_user_by_email(email: str) -> any:
+        try:
+            return UserModel.query.filter_by(_email=email).first()
+        except OperationalError as e:
+            return None
+        except IntegrityError as e:
+            return None
+        except DisconnectionError as e:
+            return None
+
+    @staticmethod
+    def verify_email(token: str) -> bool:
+        try:
+            user_instance = UserModel.query.filter_by(_verification_token=token).first()
+            if isinstance(user_instance, UserModel):
+                user_instance.email_is_verified = True
+                user_instance.time_email_verified = timestamp()
+                return True
+            return False
+        except OperationalError as e:
+            return False
+        except IntegrityError as e:
+            return False
+        except DisconnectionError as e:
+            return False
+
+    @staticmethod
+    def verify_cell(token: str) -> bool:
+        user_instance = UserModel.query.filter_by(_cell_verification_token=token).first()
+        if isinstance(user_instance, UserModel):
+            user_instance.cell_is_verified = True
+            user_instance.time_cell_verified = timestamp()
+            return True
         return False
 
     @staticmethod
-    def add_user(email, username=None, names=None, surname=None, cell=None):
-        user = UserModel(email=email, username=username, names=names, surname=surname, cell=cell)
-        db.session.add(user)
-        db.session.commit()
-        return True
+    def send_email_verification():
+        # TODO- Use Flask- to s
+        pass
 
-    @classmethod
-    def add_freelance_job(cls, uid, freelance_job):
-        user_instance = UserModel.query.filter_by(_uid=uid).first()
-        user_instance._freelancejobs.append(freelance_job)
-        db.session.update(user_instance)
-        db.session.commit()
+    @staticmethod
+    def send_cell_verification():
+        pass
 
-    @classmethod
-    def add_payment(cls, uid, payment):
-        user_instance = UserModel.query.filter_by(_uid=uid).first()
-        user_instance._payments.append(payment)
-        db.session.update(user_instance)
-        db.session.commit()
 
-    def get(self, uid):
-        return self.query.filter_by(_uid=uid).first()
+# SQLAlchemy Events
+def on_email_change_event(target, value, oldvalue, initiator):
+    # if not (value == oldvalue):
+    #     target.email_is_verified = False
+    #     return value
+    # return True
+    print('target  : {}'.format(target))
+    return value
+
+
+def on_cell_change_event(target, value, oldvalue, initiator):
+    # if not (value == oldvalue):
+    #     target.cell_is_verified = False
+    #     return False
+    # return True
+    print('target  : {}'.format(target))
+    return value
+
+
+listen(UserModel._email, 'set', on_email_change_event, retval=True)
+listen(UserModel._cell, 'set', on_cell_change_event, retval=True)
+# TODO- consider adding a UserModel Listener for new user that will look if there is a contact message in contacts
+#  and add those messages if there are any

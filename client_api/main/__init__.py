@@ -1,49 +1,24 @@
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import OperationalError, DisconnectionError
 db = SQLAlchemy()
-from flask_restful import Api
-# from .rest_api import UserAPI, ContactAPI, Blog, FreelanceJobAPI,ListFreelanceJobs, Github, Sitemap
-from .library.config import Config, ProductionConfig, DevelopmentConfig
-from flask_blogging import SQLAStorage
+from .library.config import ProductionConfig, DevelopmentConfig
 from flask_caching import Cache
-from flask_login import LoginManager
-from .blog.routes import blogging_engine
-api = Api()
+from main.server.loggingHandlers import EmailErrorLogger
+from .library.utils import is_development
+from main.server.stats import StatsLogger
+from setup import setup_sentry, create_databases, add_admin_user
+from main.app_settings_store.settingsModels import StatsLoggerModel
+
 cache = Cache()
-try:
-    # TODO- Properly Implement Logging Support
-    import sentry_sdk
-    from sentry_sdk.integrations.flask import FlaskIntegration
-    # Sentry based Error Reporting and Logging
-    sentry_sdk.init(
-        dsn=Config().SENTRY_INIT,
-        integrations=[FlaskIntegration()],
-        traces_sample_rate=1.0
-    )
-    # Error Logging
-    # Logging configuration
+server_stats_logger = StatsLogger()
+default_config = DevelopmentConfig if is_development() else ProductionConfig
 
 
-except Exception as e:
-    print('sentry error : {}'.format(e))
+def create_app(config_class=default_config):
 
-
-def create_app(config_class=Config):
     app = Flask(__name__, static_folder="static", template_folder="templates")
-    app.config.from_object(Config)
-    with app.app_context():
-        cache.init_app(app=app)
-        db.init_app(app)
-        storage = SQLAStorage(db=db, bind="blog")
-        blogging_engine.init_app(app=app, storage=storage, cache=cache)
-        login_manager = LoginManager(app=app)
-        from .users.models import UserModel
-
-        @login_manager.user_loader
-        @blogging_engine.user_loader
-        def load_user(userid):
-            return UserModel.get(uid=userid)
+    app.config.from_object(config_class)
 
     # importing blue prints
     from .users.routes import users
@@ -54,15 +29,40 @@ def create_app(config_class=Config):
     from .errorhandlers.routes import error_blueprint
     from .administrator.routes import admin_routes
     from .payments.routes import payments_bp
+    from .notifications.routes import notifications_bp
 
-    app.register_blueprint(error_blueprint)
-    app.register_blueprint(users)
-    app.register_blueprint(main)
-    app.register_blueprint(blog_bp)
-    app.register_blueprint(hireme)
-    app.register_blueprint(projects_bp)
-    app.register_blueprint(admin_routes)
-    app.register_blueprint(payments_bp)
+    with app.app_context():
+        # NOTE: this effectively adds a logging handler to the APP
+        # Loggers
+        setup_sentry(app=app)
+        email_logger_handler = EmailErrorLogger(app=app)
+        email_logger_handler.init_app(app=app, name=app.config['APP_NAME'] + "_logger")
 
+        try:
+            # cache and databases
+            cache.init_app(app=app, config=app.config['CACHE_CONFIG'])
+            db.init_app(app)
+            # if fresh install install
+            if app.config['INSTALL']:
+                create_databases(app)
+                add_admin_user(app)
+        except OperationalError as e:
+            pass
+        except DisconnectionError as e:
+            pass
+
+        # will add before and after request handlers, to add timers to every request, for server stats
+        server_stats_logger.init_app(app=app, logger_model=StatsLoggerModel)
+
+        # request handlers
+        app.register_blueprint(error_blueprint)
+        app.register_blueprint(users)
+        app.register_blueprint(main)
+        app.register_blueprint(blog_bp)
+        app.register_blueprint(hireme)
+        app.register_blueprint(projects_bp)
+        app.register_blueprint(admin_routes)
+        app.register_blueprint(payments_bp)
+        app.register_blueprint(notifications_bp)
 
     return app

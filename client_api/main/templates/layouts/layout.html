@@ -8,13 +8,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='plugins/fontawesome-free/css/all.min.css') }}">
         <!-- Ionicons -->
         <link rel="stylesheet" href="{{ url_for('static', filename='css/ionicons.min.css')}}">
-        <!-- Theme style -->
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/adminlte.min.css') }}">
-        <!-- Google Font: Source Sans Pro -->
-        <!-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" >
-
+        <link rel="stylesheet" href="{{ url_for('static', filename='plugins/summernote/summernote-bs4.css') }}">
     </head>
     <body class="hold-transition sidebar-mini">
         <div class="wrapper">
@@ -50,9 +44,13 @@
                 {% include "layouts/useradmin.html" %}
             {% endblock adminsidebar %}
         </div>
+        <!-- Theme style -->
+        <link rel="stylesheet"  href="{{ url_for('static', filename='css/adminlte.min.css') }}">
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet" >
+
         <script src="{{ url_for('static', filename='js/handlebars.js')}}"></script>
-
-
         <!-- jQuery -->
         <script src="{{ url_for('static', filename='plugins/jquery/jquery.min.js') }}"></script>
         <!-- Bootstrap 4 -->

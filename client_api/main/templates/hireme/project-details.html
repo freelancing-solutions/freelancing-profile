@@ -156,12 +156,12 @@
                   Add files
                 </a>
                 <!-- TODO- Replace XXX with project id -->
-                <a href="{{ url_for('hireme.project_editor', path=freelance_job.link_details) }}" 
+                <a href="{{ url_for('hireme.project_editor', path=freelance_job.project_id) }}"
                   class="btn btn-sm btn-warning">
                   <i class='fas fa-edit'> </i>
                   Edit Project
                 </a>
-                <a href="{{ url_for('hireme.project_payments', path=freelance_job.link_details )}}" class="btn btn-sm btn-info"> 
+                <a href="{{ url_for('hireme.project_payments', path=freelance_job.project_id )}}" class="btn btn-sm btn-info">
                   <i class="fas fa-credit-card"> </i>
                   Make Payment
                 </a>

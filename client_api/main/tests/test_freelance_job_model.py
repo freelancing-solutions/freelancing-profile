@@ -1,5 +1,8 @@
 # import unittest
 import uuid, time
+
+from sqlalchemy.exc import OperationalError
+
 from .. import db, create_app
 from flask import current_app
 from ..library import config
@@ -24,7 +27,7 @@ def test_hireme_freelance_job_model():
             assert False, "Could not retrieve user detail test failed"
 
         project_name = "Website Development"
-        project_category = "Website"
+        project_category = "webdev"
         description = "Develop my website/blog based on wordpress"
         hours_to_complete = 24 * 7
         currency = "R"
@@ -45,10 +48,10 @@ def test_hireme_freelance_job_model():
             db.session.add(freelance_job_model)
             db.session.flush()
             db.session.commit()
-        except Exception as error:
+        except OperationalError as error:
             assert False, "Could not save freelance model to database"
 
-        freelance_job_mo = FreelanceJobModel.query.filter_by(uid=uid).first()
+        freelance_job_mo = FreelanceJobModel.query.filter_by(_uid=uid).first()
         assert freelance_job_mo, "Cannot retrieve freelance job model from database"
         assert freelance_job_mo == freelance_job_model, "Instance Values from database are not equal to created instances"
 

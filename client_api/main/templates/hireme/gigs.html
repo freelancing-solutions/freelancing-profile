@@ -33,10 +33,10 @@
                             </div>
                             <div class="card-footer">
                                 <div class="text-right">
-                                    <a href="{{ url_for('hireme.project_messages', path=job.link_details)}}" class="btn btn-sm bg-teal">
+                                    <a href="{{ url_for('hireme.project_messages', path=job.project_id)}}" class="btn btn-sm bg-teal">
                                         <i class="fas fa-comments"></i> Messages
                                     </a>
-                                    <a href="{{ url_for('hireme.project_details', path=job.link_details)}}" class="btn btn-sm btn-primary">
+                                    <a href="{{ url_for('hireme.project_details', path=job.project_id)}}" class="btn btn-sm btn-primary">
                                         <i class="fas fa-business-time"></i> Job Details
                                     </a>
                                 </div> <!-- text-right-->

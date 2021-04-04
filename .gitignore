@@ -16,3 +16,6 @@ demo.log
 client_api/main/main/__pycache__/routes.cpython-38.pyc
 *.pyc
 *.pyc
+client_api/main/.env
+client_api/main/.env
+client_api/main/.env

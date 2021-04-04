@@ -1,9 +1,10 @@
 
 # import unittest
 import uuid, time
-from .. import db, create_app
-from flask import current_app, url_for
+from .. import create_app
+from flask import current_app
 from ..library import config
+
 
 def test_hireme_routes():
     """

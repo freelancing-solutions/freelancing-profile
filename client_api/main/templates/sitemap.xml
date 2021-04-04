@@ -85,9 +85,13 @@
     <url>
         <loc>{{ url_for('blog.blog_categories', path="api", _external=True) }}</loc>
     </url>
+
     {% for post in blog_posts %}
-        <loc>{{ url_for('blog.blog', _external=True) + '/' + post.category + '/posts/' + post.link }} </loc>
+        <url>
+            <loc>{{ url_for('main.home', path=post.link, _external=True) }} </loc>
+        </url>
     {% endfor %}
+
     <url>
         <loc>{{ url_for('projects.projects', _external=True)}}</loc>
     </url>
@@ -100,15 +104,16 @@
     </url>
     {% for project in github_repos %}
         <url>
-            <loc>{{ url_for('projects.projects_repos', path='github', _external=True) + '/' + project.link }}</loc>
+            <loc>{{ url_for('main.home', path=project.link, _external=True)}}</loc>
         </url>
     {% endfor %}
+
     <url>
         <loc>{{ url_for('projects.projects_repos', path='codepen', _external=True)}}</loc>
     </url>
     {% for project in codepen_repos %}
         <url>
-            <loc>{{ url_for('projects.projects_repos', path='codepen', _external=True) + '/' + project.link }}</loc>
+            <loc>{{ url_for('main.home', path=project.link, _external=True)}}</loc>
         </url>
     {% endfor %}
     <url>

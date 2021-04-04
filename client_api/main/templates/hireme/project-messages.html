@@ -30,6 +30,9 @@
               </div>
               <div class="card-body">
                   <p class="text-dark text-bold"> Your project repository has been successfully created </p>
+                  {% for message in project_messages_list %}
+                      <p class="text-dark text-bold">{{ message.message }}</p>
+                  {% endfor %}
               </div>
             </div>
         </div>

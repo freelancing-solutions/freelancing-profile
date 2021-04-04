@@ -1,0 +1,105 @@
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+          {% include "layouts/flash-messages.html" %}
+          <div class="row mb-2">
+            <div class="col-sm-8">
+              <h1 class="m-0 text-dark">Post Editor</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-4">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active"><a href="{{ url_for('blog.blog') }}">Blog</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                      <div class="card-header bg-dark">
+                            <h3 class="card-title">Post Editor </h3>
+                      </div>
+                      <div class="card-body">
+                          <form class="form-horizontal">
+                              <div class="form-group">
+                                  <span class="input-group-append">
+                                    <label class="text-dark"> Title</label>
+                                  </span>
+                                  <input id="title" type="text" class="form-control" placeholder="Title..." />
+                              </div>
+                              <div class="form-group">
+                                  <span>
+                                    <label class="text-dark"> Description</label>
+                                  </span>
+                                  <textarea id="draft" class="form-control" placeholder="description"></textarea>
+                              </div>
+                              <div class="form-group">
+                                  <span class="input-group-append">
+                                    <label class="text-dark"> Body</label>
+                                  </span>
+                                    <textarea id="article" class="textarea" placeholder="Article..."></textarea>
+                              </div>
+                              <div class="form-group">
+                                <button type="button" class="btn btn-primary btn-sm" id="publish"><i class="fas fa-cloud"> </i> Publish Article</button>
+                                <button type="button" class="btn btn-primary btn-sm" id="save"><i class="fas fa-save"> </i> Save Draft </button>
+                                <button type="reset" class="btn btn-warning btn-sm"><i class="fas fa-eraser"> </i> Reset</button>
+                              </div>
+                              <div class="form-group" id="response_message">
+
+                              </div>
+                          </form>
+                      </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"> Articles </h3>
+                  </div>
+                  <div class="card-body">
+                      <p class='card-text'>
+                          <!-- Text Here -->
+                          <ul>
+                            <li><a href="{{ url_for('blog.frontend_articles', path='service-workers/custom-service-worker-with-push-notifications')}}">Writing a service worker from scratch </a> </li>
+                            <li><a href="{{ url_for('blog.frontend_articles', path='python/testing/using-pytest-for-alchemy-models')}}">Using Pytest for Alchemy Models</a></li>
+                          </ul>
+                      </p>
+                  </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+{% endblock content %}>
+
+{% block sidebar %}
+    {% include "layouts/blog/sidebar.html" %}
+{% endblock %}
+
+{% block header %}
+    {% include "layouts/blog/header.html" %}
+{% endblock header %}
+
+{% block user_scripts_block %}
+
+    <script src="{{ url_for('static', filename='plugins/summernote/summernote-bs4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/blog/editor.js') }}"></script>
+    <script>
+          $(function () {
+            // Summernote
+            $('.textarea').summernote()
+          })
+    </script>
+{% endblock %}

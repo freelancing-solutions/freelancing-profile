@@ -1,5 +1,8 @@
 import time
 import uuid
+
+from sqlalchemy.exc import OperationalError
+
 from .. import db
 from ..library.utils import timestamp, create_id, const
 
@@ -23,7 +26,7 @@ class ContactModel(db.Model):
         return self._time_created
 
     @time_created.setter
-    def time_created(self, time_created):
+    def time_created(self, time_created: int) -> None:
         if time_created is None:
             raise ValueError('Time created cannot be null')
         if not isinstance(time_created, int):
@@ -36,7 +39,7 @@ class ContactModel(db.Model):
         return self._is_read
 
     @is_read.setter
-    def is_read(self, is_read):
+    def is_read(self, is_read: bool) -> None:
         if not isinstance(is_read, bool):
             raise TypeError('Is_read can only be a Boolean')
         self._is_read = is_read
@@ -46,7 +49,7 @@ class ContactModel(db.Model):
         return self._time_read
 
     @time_read.setter
-    def time_read(self, time_read):
+    def time_read(self, time_read: int) -> None:
         if time_read is None:
             raise ValueError('Time is read cannot be Null')
         if not isinstance(time_read, int):
@@ -59,7 +62,7 @@ class ContactModel(db.Model):
         return self._contact_id
 
     @contact_id.setter
-    def contact_id(self, contact_id):
+    def contact_id(self, contact_id: str) -> None:
         if contact_id is None:
             raise ValueError('contact_id can only be a uuid string')
 
@@ -78,7 +81,7 @@ class ContactModel(db.Model):
         return self._uid
 
     @uid.setter
-    def uid(self, uid):
+    def uid(self, uid: str) -> None:
         if uid is None:
             raise ValueError('uid cannot be null')
 
@@ -95,7 +98,7 @@ class ContactModel(db.Model):
         return self._names
 
     @names.setter
-    def names(self, names):
+    def names(self, names: str) -> None:
         if names is None:
             raise ValueError('names cannot be null')
 
@@ -112,7 +115,7 @@ class ContactModel(db.Model):
         return self._email
 
     @email.setter
-    def email(self, email):
+    def email(self, email: str) -> None:
         if email is None:
             raise ValueError('Email cannot be None')
         if not isinstance(email, str):
@@ -130,7 +133,7 @@ class ContactModel(db.Model):
         return self._subject
 
     @subject.setter
-    def subject(self, subject):
+    def subject(self, subject: str) -> None:
         if subject is None:
             raise ValueError("Subject cannot be null")
         if not isinstance(subject, str):
@@ -143,7 +146,7 @@ class ContactModel(db.Model):
         return self._body
 
     @body.setter
-    def body(self, body):
+    def body(self, body: str) -> None:
         if body is None:
             raise ValueError("Body cannot be null")
         if not isinstance(body, str):
@@ -156,7 +159,7 @@ class ContactModel(db.Model):
         return self._reason
 
     @reason.setter
-    def reason(self, reason):
+    def reason(self, reason: str) -> None:
         if reason is None:
             raise ValueError("Reason cannot be null")
 
@@ -165,9 +168,11 @@ class ContactModel(db.Model):
 
         self._reason = reason
 
-    def __init__(self, names, email, cell, subject, body, reason, uid=None):
+    def __init__(self, names: str, email: str, cell: str, subject: str, body: str, reason: str,
+                 uid: str = None):
         self.contact_id = str(uuid.uuid4())
-        if uid:
+        super(ContactModel, self).__init__()
+        if uid is not None:
             self.uid = uid
         self.names = names
         self.email = email
@@ -175,15 +180,11 @@ class ContactModel(db.Model):
         self.reason = reason
         self.subject = subject
         self.body = body
-        super(ContactModel, self).__init__()
 
     def __repr__(self) -> str:
-        return '<ContactModel names : {}, email: {}, cell: {}, subject: {}, body: {}, reason: {}>'.format(self.names,
-                                                                                                          self.email,
-                                                                                                          self.cell,
-                                                                                                          self.subject,
-                                                                                                          self.body,
-                                                                                                          self.reason)
+        return '<ContactModel names : {}, email: {}, ' \
+               'cell: {}, subject: {}, body: {}, reason: {}>'.format(self.names, self.email, self.cell,
+                                                                     self.subject, self.body, self.reason)
 
     def __eq__(self, value) -> bool:
         """
@@ -219,7 +220,7 @@ class ResponseModel(db.Model):
         return self._contact_id
 
     @contact_id.setter
-    def contact_id(self, contact_id):
+    def contact_id(self, contact_id: str) -> None:
         """
             :param contact_id:
             :return Null:
@@ -240,7 +241,7 @@ class ResponseModel(db.Model):
         return self._response_id
 
     @response_id.setter
-    def response_id(self, response_id):
+    def response_id(self, response_id: str) -> None:
         """
             :param response_id:
             :return Null:
@@ -258,7 +259,7 @@ class ResponseModel(db.Model):
         return self._subject
 
     @subject.setter
-    def subject(self, subject):
+    def subject(self, subject: str) -> None:
         """
             :param subject:
             :return Null:
@@ -277,7 +278,7 @@ class ResponseModel(db.Model):
         return self._response
 
     @response.setter
-    def response(self, response):
+    def response(self, response: str) -> None:
         """
             :param response:
             :return Null:
@@ -296,7 +297,7 @@ class ResponseModel(db.Model):
         return self._time_created
 
     @time_created.setter
-    def time_created(self, time_created):
+    def time_created(self, time_created: int) -> None:
         """
             :param time_created:
             :return Null:
@@ -316,7 +317,7 @@ class ResponseModel(db.Model):
         return self._is_sent_by_email
 
     @is_sent_by_email.setter
-    def is_sent_by_email(self, is_sent_by_email):
+    def is_sent_by_email(self, is_sent_by_email: bool) -> None:
         """
             :param is_sent_by_email:
             :return Null:
@@ -333,13 +334,13 @@ class ResponseModel(db.Model):
         return self._is_issue_resolved
 
     @is_issue_resolved.setter
-    def is_issue_resolved(self, is_issue_resolved):
+    def is_issue_resolved(self, is_issue_resolved: bool) -> None:
         if not isinstance(is_issue_resolved, bool):
             raise TypeError('Is Issue Resolved can only be a Boolean')
 
         self._is_issue_resolved = is_issue_resolved
 
-    def __init__(self, subject, response, contact_id):
+    def __init__(self, subject: str, response: str, contact_id: str):
         self.contact_id = contact_id
         self.response_id = str(uuid.uuid4())
         self.subject = subject
@@ -354,3 +355,20 @@ class ResponseModel(db.Model):
 
     def __repr__(self) -> str:
         return "<Response Subject : {}, Response: {}>".format(self.subject, self.response)
+
+
+def attach_orphaned_records_to_accounts() -> None:
+    """
+        :return: null
+    """
+    from ..users.models import UserModel
+    try:
+        contacts_list = ContactModel.query.filter_by(_uid="").all()
+        for contact in contacts_list:
+            user = UserModel.get_user_by_email(email=contact.email)
+            if user and user.uid:
+                contact.uid = user.uid
+                db.session.add(contact)
+        db.session.commit()
+    except OperationalError as e:
+        pass

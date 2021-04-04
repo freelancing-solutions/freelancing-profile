@@ -93,62 +93,55 @@
     }, // end attach event handlers
 
     check_errors: async function(){
-      let results = {is_error: false, errors:{}}
-      return results
+      // let results = {is_error: false, errors:{}}
+      return {is_error: false, errors:{}}
     }, // end check_errors
 
     submit_message : async function(e){
       e.preventDefault();
-      try{
-        // let errors = await this.check_errors();
-        // if (errors.is_error){
-        //   throw new Error('There was an error checking form')
-        // }
-        let message = JSON.stringify({
-          'uid': this.uid,
-          'names': this.names.value,
-          'email': this.email.value,
-          'cell': this.cell.value,
-          'reason': this.select_reason.value,
-          'subject': this.subject.value,
-          'body': this.body.value
-        });
-        let token = localStorage.getItem('x-access-token');
-        let headers = {};
-        if (token && (token !== "undefined") && (token !== "")){
-          headers = new Headers({
-            'Content-Type': 'application/json',
-            'x-access-token' : localStorage.getItem('x-access-token')
-          })
-        }else{
-          headers = new Headers({
-            'Content-Type': 'application/json',
-            'x-access-token' : localStorage.getItem('x-access-token')
-          })
-        }
-        let init = {
-          method : "POST",
-          headers: headers,
-          body: message,
-          mode: "cors",
-          credentials: "same-origin",
-          cache: "no-cache",
-        }
-
-        let request = new Request('/contact',init);
-        await fetch(request).then(response => {
-          if (!response.ok){
-            throw new Error('There was an error communicating with backend')
+      try {
+          // let errors = await this.check_errors();
+          // if (errors.is_error){
+          //   throw new Error('There was an error checking form')
+          // }
+          let message = JSON.stringify({
+              'uid': this.uid,
+              'names': this.names.value,
+              'email': this.email.value,
+              'cell': this.cell.value,
+              'reason': this.select_reason.value,
+              'subject': this.subject.value,
+              'body': this.body.value
+          });
+          let token = localStorage.getItem('x-access-token');
+          let headers = {};
+          if (token && (token !== "undefined") && (token !== "")) {
+              headers = new Headers({
+                  'Content-Type': 'application/json',
+                  'x-access-token': localStorage.getItem('x-access-token')
+              })
+          } else {
+              headers = new Headers({
+                  'Content-Type': 'application/json'
+              })
           }
-          return response.json();
-        }).then(json => {
-            // Data has been sent inform the user
-            console.log(json)
-            document.getElementById('message').innerHTML = json.message;
-        })
+          let init = {
+              method: "POST",
+              headers: headers,
+              body: message,
+              mode: "cors",
+              credentials: "same-origin",
+              cache: "no-cache",
+          }
+
+          let request = new Request('/contact', init);
+          let contact_response = await fetch(request);
+          let json_data = await contact_response.json();
+          document.getElementById('message').innerHTML = json_data.message;
       }catch(e){
-          console.log('error : ', e.message)
+          document.getElementById('message').innerHTML = e.message;
       }
+
     }, // end submit_message
     switch_reason: function(e){
         this.freelance_job_dom_html = `

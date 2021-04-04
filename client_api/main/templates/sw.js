@@ -10,31 +10,28 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
+/*******************************************************************************/
 // Incrementing OFFLINE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
+
 const OFFLINE_VERSION = 1;
-const CACHE_NAME = 'FREELANCE-PROFILESS';
+const CACHE_NAME = 'freelancing-profile';
 const website_base_url = 'http://localhost';
 // Customize this with a different URL if needed.
 
 // TODO- use Flask Assets to bundle some of the adminLTE css files and js files togather,
 // TODO- also bundle adminLTE Files with flask bundler...
 
-
-// NOTE- Never Cache URLS that require Authorization
-const CACHE_URLS = [
-  '/','/about','/contact','/blog','/projects','/privacy-policy',
-  '/terms-of-service','/learn-more/frontend-development','/learn-more/backend-development',
-  '/hire-freelancer', '/hire-freelancer/how-to/create-freelancing-account',
-  '/hire-freelancer/how-to/submit-freelance-jobs','/hire-freelancer/how-to/download-install-slack',
-  '/hire-freelancer/how-to/download-install-teamviewer','/hire-freelancer/how-to/create-a-github-account',
-  '/hire-freelancer/how-to/create-a-gcp-developer-account','/hire-freelancer/how-to/create-a-heroku-developer-account',
-  '/hire-freelancer/expectations/communication-channels-procedures','/hire-freelancer/expectations/payments-procedures-methods',
-  '/hire-freelancer/expectations/due-diligence','/hire-freelancer/expectations/handing-over-procedures','/hire-freelancer/expectations/maintenance-procedures',
-  '/static/plugins/jquery/jquery.min.js','/static/plugins/bootstrap/js/bootstrap.bundle.min.js','/static/js/handlebars.js',
-  '/static/js/adminlte.min.js','/static/css/adminlte.min.css','/static/css/ionicons.min.css','/static/plugins/fontawesome-free/css/all.min.css'
-];
+//language-reference-jinja
+//language-reference: Jinja
+    {% if cache_list %}
+    //CACHE LIST IS BEING LOADED 1
+      const CACHE_URLS = {{ cache_list }}
+    {% else %}
+      // NOTE- Never Cache URLS that require Authorization
+      //CACHE LIST IS BEING LOADED 2
+      const CACHE_URLS = ['/','/about','/contact','/tech-articles','/projects'];
+    {% endif %}
 
 
 // ***********************************************************************************************//
@@ -99,9 +96,15 @@ let cache = self.caches;
 
 
 // NOTE: Installing Service worker
-self.addEventListener('install', (event) => {
+self.addEventListener('install',  (event) => {
   event.waitUntil((async () => {
-    await cache.open(CACHE_NAME).then(cache => cache.addAll(CACHE_URLS));
+      try {
+        cache = await cache.open(CACHE_NAME);
+        await cache.addAll(CACHE_URLS);
+      } catch (e) {
+        console.log('error caching urls', e.message);
+      }
+
   })());
 });
 
@@ -111,7 +114,7 @@ self.addEventListener('activate', (event) => {
     // Enable navigation preload if it's supported.
     // See https://developers.google.com/web/updates/2017/02/navigation-preload
     if ('navigationPreload' in self.registration) {
-      await self.registration.navigationPreload.enable();
+      try {await self.registration.navigationPreload.enable();}catch(e){console.log(e.message)}
     }
   })());
 
@@ -133,29 +136,29 @@ self.addEventListener('fetch', (event) => {
           request_url = String(event.request.url);
           // console.log('request url', request_url);
 
-          if (event.request.method == "POST"){
+          if (event.request.method === "POST"){
             // NOTE- This handles adding auth headers to request
             return event.respondWith( (async () => await fetch(event.request))())
           }
-          if  (event.request.method == "DELETE"){
+          if  (event.request.method === "DELETE"){
             // NOTE- This handles adding auth headers to request
             return event.respondWith( (async () => await fetch(event.request))())
           }
-          if (event.request.method == "PUT"){
+          if (event.request.method === "PUT"){
             // NOTE- This handles adding auth headers to request
             return event.respondWith( (async () => await fetch(event.request))())
           }
           // if its service worker request fetch a fresh copy
-          if  ((event.request.method == "GET") && (request_url.includes('sw.js'))) {
+          if  ((event.request.method === "GET") && (request_url.includes('sw.js'))) {
             return event.respondWith( (async () => await fetch(event.request))())
           }
           // if its for static assets fetch first from cache if failed fetch fresh copy
-          if ((event.request.method == "GET") && (request_url.includes('static'))){
+          if ((event.request.method === "GET") && (request_url.includes('static'))){
             return event.respondWith((async () => {return  await event.preloadResponse || await check_cache_hit(event) || await fetch(event.request)})())
           }
           // if its a GET request to another domain fetch a fresh copy
           // if its service worker request fetch a fresh copy
-          if ((event.request.method == "GET") && (!request_url.includes(website_base_url))){
+          if ((event.request.method === "GET") && (!request_url.includes(website_base_url))){
             return event.respondWith( (async () => await fetch(event.request))())
           }
           // all other requests fetch securely from backend
@@ -189,30 +192,125 @@ let handle_auth_headers = async event => {
   return await fetch(request);
 }
 
+
 //********************************************************************************************* */
 // Message Dispatcher
-let messaging = {
 
+async function fetch_site_secret(){
+  let init_post = {
+    method: "POST",
+    mode:"cors",
+    credentials: "same-origin",
+    headers: new Headers({'content-type':'application/json'})
+  }
+  let request = new Request("/site-secret",init_post)
+  let response = await fetch(request)
+  let json_data = await response.json()
+  return json_data['secret']
+}
+
+let messaging = {
   // This handler should handle all communication from the app to the
   // service worker -> from the service worker to the outside world
-  messages_handler : function(e){
+  messages_handler : async function(e){
     this.dispatch_message_to_sender = function(e, message){e.source.postMessage(message)};
 
     if (e.data && e.data.type === "auth-token"){
         // console.log("setting token", e.data.token);
-      auth_token = e.data.token;
-      if ((auth_token !== "") && (auth_token !== "undefined")){
-        this.dispatch_message_to_sender(e,{type: "auth-token",message: "Token-Received"})
+      temp_auth = e.data.token;
+      if ((temp_auth !== "") && (temp_auth !== null) && (temp_auth !== "undefined") && (temp_auth !== "null")){
+        auth_token = temp_auth;
+        console.log('Auth token', auth_token)
+        this.dispatch_message_to_sender(e,{type: "auth-token",message: "Token-Received"});
+        this.dispatch_message_to_sender(e,{type: "auth-status",status: "logged-in", token:auth_token});
       }else{
         auth_token = "";
         this.dispatch_message_to_sender(e,{type: "auth-token",message: "Not-Logged-IN"})
       }
     }
+    if (e.data && e.data.type === "auth-status"){
+      if (e.data.status === "sign-out"){
+        auth_token = "";
+        this.dispatch_message_to_sender(e,{type: "auth-status", status: "logged-out"})
+      }
+    }
+
+    if(e.data && e.data.type === "user-messages"){
+      switch(e.data.status){
+        case "count-unique":{
+            let secret = await fetch_site_secret()
+            let headers = new Headers({'x-secret-token': secret})
+            let init_get = {
+              method:"GET",
+              headers: headers
+            }
+            let request = new Request('/unique-visitor',init_get)
+            let response = await fetch(request)
+            if (response.ok){
+              let response_data = await response.json()
+              let visitors = parseInt(response_data['payload']['visitors'])
+              let return_visitors = parseInt(response_data['payload']['return_visitors'])
+
+              this.dispatch_message_to_sender(e,{
+                type:"user-messages",
+                status: "counted",
+                unique_visitors: visitors,
+                return_visitors: return_visitors
+              })
+            }
+        } break;
+        case "count-return":{
+            let secret = await fetch_site_secret()
+            let headers = new Headers({'x-secret-token': secret})
+            let init_get = {
+              method:"GET",
+              headers: headers
+            }
+            let request = new Request('/return-visitor',init_get)
+            let response = await fetch(request)
+            if (response.ok){
+              let response_data = await response.json()
+              let visitors = parseInt(response_data['payload']['visitors'])
+              let return_visitors = parseInt(response_data['payload']['return_visitors'])
+
+              this.dispatch_message_to_sender(e,{
+                type:"user-messages",
+                status: "counted",
+                unique_visitors: visitors,
+                return_visitors: return_visitors
+              })
+            }
+        }break;
+
+        case "page-view":{
+            let secret = await fetch_site_secret()
+            let headers = new Headers({'x-secret-token': secret})
+            let init_get = {
+              method:"GET",
+              headers: headers
+            }
+            let request = new Request('/page-view',init_get)
+            let response = await fetch(request)
+            if (response.ok){
+              let response_data = await response.json()
+              let page_views = parseInt(response_data['page_views'])
+              this.dispatch_message_to_sender(e, {
+                type: "user-messages",
+                status:"page-view",
+                page_views: page_views
+              })
+
+            }
+
+        }
+
+      }
+
+    }
     console.log("Service Worker Receiving this message : ", e.data);
   },
 
-
-  //********************************************************************************************* *//
+  //**********************************************************************************************//
   // PUSH Messages Handler
   push_handler : function(e){
     console.log("push dispatching here");
@@ -235,7 +333,7 @@ let messaging = {
   init : function(){
     self.addEventListener('message', this.messages_handler);
     self.addEventListener('sync', this.sync_handler);
-    self.addEventListener('push', this.push_handler)
+    self.addEventListener('push', this.push_handler);
   }
 }
 

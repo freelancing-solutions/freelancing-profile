@@ -29,7 +29,7 @@
                             <h3 class="card-title">Payments </h3>
                       </div>
                       <div class="card-body">
-                            {% include "layouts/payments/payments-list.html" %}
+                            {% include "layouts/payments/payment.html" %}
                       </div>
               </div>
             </div>
@@ -41,8 +41,18 @@
                   <div class="card-body">
                         {% include "layouts/payments/transactions-list.html" %}
                   </div>
-
                 </div>
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title">Create Transactions</h3>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary btn-sm mt-2">
+                            <i class="fab fa-paypal"></i><strong>ay With PayPal</strong>
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 

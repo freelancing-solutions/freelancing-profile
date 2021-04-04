@@ -1,7 +1,9 @@
 
 from flask import render_template, Blueprint
+from .. import cache
 from ..library import Metatags
 from werkzeug.exceptions import BadRequest, Forbidden, NotFound, MethodNotAllowed, Unauthorized, HTTPException
+from ..library.utils import const
 
 error_blueprint = Blueprint('error', __name__)
 
@@ -9,46 +11,57 @@ error_blueprint = Blueprint('error', __name__)
 # Error Handlers
 
 
+# cached for 24 hours
 @error_blueprint.app_errorhandler(BadRequest)
-def handle_bad_request(e):
-    return render_template('error.html', heading="Bad Request", meta_tags=Metatags().set_home())
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_bad_request(e: BadRequest) -> tuple:
+    title: str = "Bad Request"
+    return render_template('error.html', heading=title, message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
 
 @error_blueprint.app_errorhandler(Forbidden)
-def handle_forbidden(e):
-    return render_template('error.html', heading="Request Forbidden", meta_tags=Metatags().set_home())
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_forbidden(e: Forbidden) -> tuple:
+    title: str = "Request Forbidden"
+    return render_template('error.html', heading=title,  message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
 
 @error_blueprint.app_errorhandler(NotFound)
-def handle_not_found(e):
-    return render_template('404.html', heading="Page Not Found", meta_tags=Metatags().set_home())
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_not_found(e: NotFound) -> tuple:
+    title: str = "Page not Found"
+    return render_template('404.html', heading=title,  message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
 
 @error_blueprint.app_errorhandler(MethodNotAllowed)
-def handle_not_allowed(e):
-    return render_template('error.html', heading="Request Method not allowed for this resource", meta_tags=Metatags().set_home())
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_not_allowed(e: MethodNotAllowed) -> tuple:
+    title: str = "Method Not Allowed"
+    return render_template('error.html', heading=title,  message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
 
 @error_blueprint.app_errorhandler(Unauthorized)
-def handle_unauthorized(e):
-    return render_template('error.html', heading="You are not authorized to make this request", meta_tags=Metatags().set_home())
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_unauthorized(e: Unauthorized) -> tuple:
+    title: str = "Not Authorized"
+    return render_template('error.html', heading=title, message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
-# @error_blueprint.app_errorhandler(HTTPException)
-# def handle_exception(e):
-#     """Return JSON instead of HTML for HTTP errors."""
-#     # start with the correct headers and status code from the error
-#     response = e.get_response()
-#     # replace the body with JSON
-#     response.data = json.dumps({
-#         "code": e.code,
-#         "name": e.name,
-#         "description": e.description,
-#     })
-#     response.content_type = "application/json"
-#     return response
+
+@error_blueprint.app_errorhandler(HTTPException)
+@cache.cached(timeout=const.cache_timeout_hour*24)
+def handle_exception(e: HTTPException) -> tuple:
+    title: str = "Request Error"
+    return render_template('error.html', heading=title, message={e.name},
+                           meta_tags=Metatags().set_home()), e.code
 
 
 @error_blueprint.route('/debug-sentry')
+@cache.cached(timeout=const.cache_timeout_hour*24)
 def trigger_sentry():
     division_by_zero = 1 / 0
 

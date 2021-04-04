@@ -5,23 +5,23 @@ class Metatags:
     """
         Default Application Meta Tags
     """
-    title = ""
-    description = ""
-    twitter_title = ""
-    twitter_description = ""
-    og_title = ""
-    og_description = ""
-    page = ""
-    path = ""
-    image_filename = ""
-    image_alt = ""
-    _url = ""
+    title: str = ""
+    description: str = ""
+    twitter_title: str = ""
+    twitter_description: str = ""
+    og_title: str = ""
+    og_description: str = ""
+    page: str = ""
+    path: str = ""
+    image_filename: str = ""
+    image_alt: str = ""
+    _url: str = ""
 
     def __init__(self, url=""):
         self._url = url
 
     # TODO - FINISH this
-    def selector(self,endpoint):
+    def selector(self, endpoint):
         return {
             "main.home": self.set_home,
             "main.about": self.set_about,
@@ -458,3 +458,17 @@ class Metatags:
         self.image_filename = "imgs/hireme.png"
         self.image_alt = "Maintenance Procedures - Freelance Profile"
         return self
+
+    def set_logger(self):
+        self.title = "Server Statistics- Freelancing with AJ Ndou"
+        self.twitter_title = "Server Statistics- Freelancing with AJ Ndou"
+        self.og_title = "Server Statistics- Freelancing with AJ Ndou"
+        self.description = "How to create a simple easy to use server statistics module for a flask app"
+        self.twitter_description = "How to create a simple easy to use server statistics module for a flask app"
+        self.og_description = "How to create a simple easy to use server statistics module for a flask app"
+        self.page = "main.logger"
+        self.path = ""
+        self.image_filename = "imgs/server.png"
+        self.image_alt = "Server Stats"
+        return self
+

@@ -1,0 +1,127 @@
+
+{% extends "layouts/layout.html" %}
+
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+          {% include "layouts/flash-messages.html" %}
+          <div class="row mb-2">
+            <div class="col-sm-8">
+              <h1 class="m-0 text-dark">{{ heading }}</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-4">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active"><a href="{{ url_for('main.home')}}">Home</a></li>
+              </ol>
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content-header -->
+    <!-- Main content -->
+    <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card">
+                      <div class="card-header bg-dark">
+                            <h3 class="card-title">Logger </h3>
+                      </div>
+                      <div class="card-body">
+                    {% if stats_logger %}
+                      <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Time
+                                </h3>
+                            </div>
+                          <ul>
+                              <li class="text tex-info" id="display_started">Server StartUp: {{ stats_logger.server_started_time }} Epoc</li>
+                              <li class="text tex-info" id="display_uptime">Uptime: {{ stats_logger.uptime() }} Milli Seconds</li>
+
+                          </ul>
+                      </div>
+
+
+                      <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    Traffic
+                                </h3>
+                            </div>
+                          <ul>
+                              <li class="text tex-info" id="display_return_visitors">Return Visitors : {{ stats_logger.return_visitor }} </li>
+                              <li class="text tex-info" id="display_unique_visitors">Unique Visitor: {{ stats_logger.unique_visitor }} </li>
+                              <li class="text tex-info" id="display_page_views">Page Views: {{ stats_logger.page_views }} </li>
+                          </ul>
+                      </div>
+                    {% endif %}
+                      </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title"> Stats </h3>
+                  </div>
+                  <div class="card-body">
+                      {% if stats_logger %}
+                      <form>
+                          <input type="hidden" id="uptime" value="{{ stats_logger.uptime() }}" />
+                          <input type="hidden" id="started" value="{{ stats_logger.server_started_time }}" />
+                          <input type="hidden" id="total_requests" value="{{ stats_logger.requests_count }}" />
+                          <input type="hidden" id="static_requests" value="{{ stats_logger.static_requests }}" />
+                          <input type="hidden" id="documents_requests" value="{{ stats_logger.docs_requests }}" />
+                          <input type="hidden" id="latency" value="{{ stats_logger.latency }}" />
+                          <input type="hidden" id="highest_latency" value="{{ stats_logger.highest_latency }}" />
+                          <input type="hidden" id="unique_visitors" value="{{ stats_logger.unique_visitor }}" />
+                          <input type="hidden" id="return_visitors" value="{{ stats_logger.return_visitor }}" />
+                          <input type="hidden" id="page_views" value="{{ stats_logger.page_views }}" />
+                      </form>
+
+
+                      <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                Requests
+                            </h3>
+                        </div>
+                          <ul>
+                              <li class="text tex-info" id="display_total">Total: {{ stats_logger.requests_count }}</li>
+                              <li class="text tex-info" id="display_static">Static Documents : {{ stats_logger.static_requests }}</li>
+                              <li class="text tex-info" id="display_html">HTML Documents: {{ stats_logger.docs_requests }}</li>
+                          </ul>
+                      </div>
+                      <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Request Timers (ms)</h3>
+                            </div>
+                            <ul>
+                                <li class="text text-info" id="display_latency"> Latency : </li>
+                                <li class="text text-info" id="display_highest_latency">Highest Latency : </li>
+                            </ul>
+                      </div>
+                      {% endif %}
+                  </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    </div>
+
+
+{% endblock content %}>
+
+{% block sidebar %}
+    {% include "layouts/sidebar.html" %}
+{% endblock %}
+
+{% block header %}
+    {% include "layouts/header.html" %}
+{% endblock header %}
+
+{% block user_scripts_block %}
+    <script src="{{ url_for('static', filename='js/logger/logger.js') }}" rel="script"></script>
+{% endblock user_scripts_block %}
