@@ -1,7 +1,7 @@
 import uuid
 from .. import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..library.utils import const, create_id, timestamp
+from ..library.utils import const, create_id, timestamp, is_email, is_cell
 from sqlalchemy.event import listen
 from sqlalchemy.exc import OperationalError, DisconnectionError, IntegrityError
 
@@ -340,6 +340,8 @@ class UserModel(db.Model):
 
     def __init__(self, email: str, password: str, names: str, surname: str,
                  cell: str, username: str = None, admin: bool = False, img_link: str = None):
+
+        super(UserModel, self).__init__()
         self.uid = str(uuid.uuid4())
         if isinstance(username, str) and (len(username) > 0):
             self.username = username
@@ -352,15 +354,16 @@ class UserModel(db.Model):
         self.surname = surname
         self.cell = cell
         self.admin = admin
-        if isinstance(img_link, str) and (len(username) > 0):
+        if isinstance(img_link, str) and (len(img_link) > 0):
             self.img_link = img_link
-        super(UserModel, self).__init__()
 
     def __repr__(self) -> str:
-        return '<User {}> <Email {}>'.format(self.username, self.email)
+        return '<User username:{} names: {}, surname : {}, cell: {}, email: {}'.format(self.username, self.names,
+                                                                                       self.surname, self.cell,
+                                                                                       self.email)
 
     def __str__(self) -> str:
-        return '<User {}>'.format(self.username)
+        return self.__repr__()
 
     def __eq__(self, value) -> bool:
         if value is None:
@@ -368,6 +371,9 @@ class UserModel(db.Model):
         if (self.uid == value.uid) or (self.username == value.username) or (self.email == value.email):
             return True
         return False
+
+    def __bool__(self):
+        return False if self.uid is None else True
 
     @classmethod
     def add_freelance_job(cls, uid: str, freelance_job) -> bool:
@@ -377,11 +383,11 @@ class UserModel(db.Model):
             db.session.update(user_instance)
             db.session.commit()
             return True
-        except OperationalError as e:
+        except OperationalError:
             return False
-        except IntegrityError as e:
+        except IntegrityError:
             return False
-        except DisconnectionError as e:
+        except DisconnectionError:
             return False
 
     @classmethod
@@ -392,33 +398,33 @@ class UserModel(db.Model):
             db.session.update(user_instance)
             db.session.commit()
             return True
-        except OperationalError as e:
+        except OperationalError:
             return False
-        except IntegrityError as e:
+        except IntegrityError:
             return False
-        except DisconnectionError as e:
+        except DisconnectionError:
             return False
 
     @staticmethod
     def get_user_by_uid(uid: str) -> any:
         try:
             return UserModel.query.filter_by(_uid=uid).first()
-        except OperationalError as e:
+        except OperationalError:
             return None
-        except IntegrityError as e:
+        except IntegrityError:
             return None
-        except DisconnectionError as e:
+        except DisconnectionError:
             return None
 
     @staticmethod
     def get_user_by_email(email: str) -> any:
         try:
             return UserModel.query.filter_by(_email=email).first()
-        except OperationalError as e:
+        except OperationalError:
             return None
-        except IntegrityError as e:
+        except IntegrityError:
             return None
-        except DisconnectionError as e:
+        except DisconnectionError:
             return None
 
     @staticmethod
@@ -430,11 +436,11 @@ class UserModel(db.Model):
                 user_instance.time_email_verified = timestamp()
                 return True
             return False
-        except OperationalError as e:
+        except OperationalError:
             return False
-        except IntegrityError as e:
+        except IntegrityError:
             return False
-        except DisconnectionError as e:
+        except DisconnectionError:
             return False
 
     @staticmethod
@@ -449,33 +455,51 @@ class UserModel(db.Model):
     @staticmethod
     def send_email_verification():
         # TODO- Use Flask- to s
+        print("Sending email verification")
         pass
 
     @staticmethod
     def send_cell_verification():
+        print("Sending cell verification")
         pass
 
 
 # SQLAlchemy Events
 def on_email_change_event(target, value, oldvalue, initiator):
-    # if not (value == oldvalue):
-    #     target.email_is_verified = False
-    #     return value
-    # return True
-    print('target  : {}'.format(target))
-    return value
+    if not is_email(value.trim()):
+        raise ValueError('Invalid email format')
+    if value.trim() != oldvalue:
+        # target.email_is_verified = False
+        pass
+    return value.trim()
 
 
 def on_cell_change_event(target, value, oldvalue, initiator):
-    # if not (value == oldvalue):
-    #     target.cell_is_verified = False
-    #     return False
-    # return True
-    print('target  : {}'.format(target))
+    if not is_cell(value.trim()):
+        raise ValueError('Invalid cell number format')
+    if value.trim() != oldvalue:
+        # target.cell_is_verified = False
+        pass
+    return value.trim()
+
+
+def trigger_send_email_verification(target, value, oldvalue, initiator):
+    if value:
+        # target.send_email_verification()
+        pass
+    return value
+
+
+def trigger_send_cell_verification(target, value, oldvalue, initiator):
+    if value:
+        # target.send_cell_verification()
+        pass
     return value
 
 
 listen(UserModel._email, 'set', on_email_change_event, retval=True)
 listen(UserModel._cell, 'set', on_cell_change_event, retval=True)
+listen(UserModel._email_is_verified, 'set', trigger_send_email_verification, retval=True)
+listen(UserModel._cell_is_verified, 'set', trigger_send_cell_verification, retval=True)
 # TODO- consider adding a UserModel Listener for new user that will look if there is a contact message in contacts
 #  and add those messages if there are any

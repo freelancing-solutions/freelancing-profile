@@ -7,7 +7,7 @@ from flask_caching import Cache
 from main.server.loggingHandlers import EmailErrorLogger
 from .library.utils import is_development
 from main.server.stats import StatsLogger
-from setup import setup_sentry, create_databases, add_admin_user
+from utils import setup_sentry, create_databases, add_admin_user
 from main.app_settings_store.settingsModels import StatsLoggerModel
 
 cache = Cache()

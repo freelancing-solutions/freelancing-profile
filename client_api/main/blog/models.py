@@ -161,6 +161,9 @@ class Post(db.Model):
         self.date_created = timestamp()
         self.last_modified = timestamp()
 
+    def __bool__(self):
+        return False if self.uid is None else True
+
 
 class Categories(db.Model):
     __bind_key__ = "blog"
@@ -216,6 +219,9 @@ class Categories(db.Model):
 
     def __repr__(self):
         return self.__str__()
+
+    def __bool__(self):
+        return False if self.category_id is None else True
 
 
 def update_link(target, value, oldvalue, initiator):

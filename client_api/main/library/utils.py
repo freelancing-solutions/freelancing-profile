@@ -1,4 +1,5 @@
 import os, random, string, time
+
 char_set = string.ascii_lowercase + string.digits
 
 
@@ -35,7 +36,7 @@ class Const:
     draft_len: int = 128
 
     ip_length: int = 16
-    cache_timeout_hour: int = 1 if is_development() else 60*60
+    cache_timeout_hour: int = 1 if is_development() else 60 * 60
 
 
 const = Const()
@@ -50,16 +51,28 @@ def timestamp() -> int: return int(float(time.time()) * 1000)
 def timestamp_difference(stamp1, stamp2) -> int: return int(stamp1 - stamp2)
 
 
+def is_email(email) -> bool:
+    # TODO- verify email here with regular expressions
+    return True
+
+
+def is_cell(cell) -> bool:
+    # TODO- verify cell number here
+    return True
+
+
 def replace_html(s) -> str:
     """
         given an html string remove all html tags and leave only string
     :param s:
     :return: string
     """
+
     # TODO- optimize this algorithm and test for correctness
-    def replace_tag(in_s, in_marks) -> str:
+    def _replace_tag(in_s, in_marks) -> str:
         print("replacing", in_s)
         return "{} {}".format(in_s.split[:in_marks[0]][0], in_s.split[:in_marks[0]][1][:in_marks[1]])
+
     marks: list = [0, 0]
     for c, i in enumerate(s):
         if c == "<":
@@ -67,10 +80,7 @@ def replace_html(s) -> str:
         if c == ">":
             marks[1] = i
         if marks[1] != 0:
-            s = replace_tag(s, marks)
+            s = _replace_tag(s, marks)
             marks[0] = 0
             marks[1] = 0
     return s
-
-
-

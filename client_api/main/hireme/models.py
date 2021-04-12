@@ -294,6 +294,9 @@ class FreelanceJobModel(db.Model):
             return True
         return False
 
+    def __bool__(self):
+        return False if self.uid is None else True
+
     def add_payment(self, payment) -> bool:
         """
             payment must be fully initialized

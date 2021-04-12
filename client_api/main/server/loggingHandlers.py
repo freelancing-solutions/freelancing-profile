@@ -16,6 +16,7 @@ class EmailErrorLogger:
     mail_handler = None
 
     def __init__(self, app=None, admin_email=None, app_admins=None, server_ip=None):
+        super(EmailErrorLogger, self).__init__()
         with app.app_context():
             config = app.config
             self.app_admins = app_admins if app_admins is not None else config.get('APP_ADMINS')
@@ -31,7 +32,7 @@ class EmailErrorLogger:
                                                 subject=self.email_heading,
                                                 credentials=(self.username, self.password))
                 self.mail_handler.setFormatter(logging.Formatter("%(name)s - %(levelname)s: %(message)s"))
-            except Exception as e:
+            except Exception:
                 pass
 
     @staticmethod

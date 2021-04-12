@@ -11,6 +11,9 @@
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.pytest_cache" />
       <excludeFolder url="file://$MODULE_DIR$/.vscode" />
+      <excludeFolder url="file://$MODULE_DIR$/client_api/.pytest_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/client_api/main/.pytest_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/client_api/main/tests/.pytest_cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

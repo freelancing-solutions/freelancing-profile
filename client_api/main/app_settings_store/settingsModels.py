@@ -25,6 +25,9 @@ class ClientModel(db.Model):
         self.os = os
         self.device = device
 
+    def __bool__(self):
+        return False if self.client_id is None else True
+
 
 class StatsLoggerModel(db.Model):
     __bind_key__ = "settings"
@@ -79,6 +82,9 @@ class SiteMapsModel(db.Model):
         self.id = create_id()
         self.resource_name = resource_name
         self.link = link
+
+    def __bool__(self):
+        return False if self.id is None else True
 
     @staticmethod
     def check_if_all_exist():

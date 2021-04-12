@@ -192,11 +192,14 @@ class ContactModel(db.Model):
             :param value: value
             :return: bool
         """
-        if (value.uid == self.uid) and (value.names == self.names) and (value.email == self.email) and \
+        if (value.names == self.names) and (value.email == self.email) and \
                 (value.cell == self.cell) and (value.subject == self.subject) and (value.body == self.body) \
                 and (value.reason == self.reason):
             return True
         return False
+
+    def __bool__(self):
+        return False if self.contact_id is None else True
 
 
 class ResponseModel(db.Model):
@@ -355,6 +358,9 @@ class ResponseModel(db.Model):
 
     def __repr__(self) -> str:
         return "<Response Subject : {}, Response: {}>".format(self.subject, self.response)
+
+    def __bool__(self):
+        return False if self.response_id is None else True
 
 
 def attach_orphaned_records_to_accounts() -> None:

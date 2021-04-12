@@ -33,6 +33,11 @@ class AmountMixin(object):
             raise TypeError('Amount can only be an integer')
         self._amount = amount
 
+    def __init__(self, amount, currency):
+        super(AmountMixin, self).__init__(None)
+        self.amount = amount
+        self.currency = currency
+
 
 class TransactionModel(AmountMixin, db.Model):
     """
@@ -126,12 +131,10 @@ class TransactionModel(AmountMixin, db.Model):
         self._is_verified = is_verified
 
     def __init__(self, payment_id: str, method: str, currency: str, amount: int):
-        super(TransactionModel, self).__init__()
+        super(TransactionModel, self).__init__(amount, currency)
         self.transaction_id = str(uuid.uuid4())
         self.payment_id = payment_id
         self.method = method.lower()
-        self.amount = amount
-        self.currency = currency
         self.time_paid = timestamp()
         self.add_transaction_to_payment_list()
 
@@ -159,6 +162,9 @@ class TransactionModel(AmountMixin, db.Model):
                                                                                               self.amount,
                                                                                               self.time_paid,
                                                                                               self._is_verified)
+
+    def __bool__(self):
+        return False if self.transaction_id is None else True
 
     # call this method to verify payment
     def verify(self) -> bool:
@@ -322,17 +328,15 @@ class PaymentModel(AmountMixin, db.Model):
         self._time_fully_paid = time_fully_paid
 
     def __init__(self, uid: str, project_id: str, amount: int, currency: str):
-
+        super(PaymentModel, self).__init__(amount, currency)
         self.payment_id = str(uuid.uuid4())
         self.uid = uid
         # project_id of the freelance_job this payment refers to
         self.project_id = project_id
-        self.amount = amount
-        self.currency = currency
         self.total_paid = 0
         self.set_balance()
         self.set_is_fully_paid()
-        super(PaymentModel, self).__init__()
+
         # NOTE: transactions array should be empty at initializing
 
     def __eq__(self, payment) -> bool:
@@ -342,6 +346,9 @@ class PaymentModel(AmountMixin, db.Model):
         if payment.payment_id == self.payment_id and (payment.uid == self.uid) and (payment.amount == self.amount):
             return True
         return False
+
+    def __bool__(self):
+        return False if self.payment_id is None else True
 
     @classmethod
     def add_transaction(cls, payment_id: str, transaction) -> None:
