@@ -17,3 +17,4 @@ client_api/main/.env
 *.pyc
 *.pyc
 *.pyc
+client_api/main/.env
