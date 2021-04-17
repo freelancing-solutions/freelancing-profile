@@ -1,5 +1,4 @@
 Dockerfile
-*.pyc
 *.pyo
 *.pyd
 __pycache__
@@ -8,3 +7,4 @@ __pycache__
 .vscode
 .idea
 demo.log
+*.map
