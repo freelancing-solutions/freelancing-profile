@@ -466,21 +466,21 @@ class UserModel(db.Model):
 
 # SQLAlchemy Events
 def on_email_change_event(target, value, oldvalue, initiator):
-    if not is_email(value.trim()):
+    if not is_email(value.strip()):
         raise ValueError('Invalid email format')
-    if value.trim() != oldvalue:
+    if value.strip() != oldvalue:
         # target.email_is_verified = False
         pass
-    return value.trim()
+    return value.strip()
 
 
 def on_cell_change_event(target, value, oldvalue, initiator):
-    if not is_cell(value.trim()):
+    if not is_cell(value.strip()):
         raise ValueError('Invalid cell number format')
-    if value.trim() != oldvalue:
+    if value.strip() != oldvalue:
         # target.cell_is_verified = False
         pass
-    return value.trim()
+    return value.strip()
 
 
 def trigger_send_email_verification(target, value, oldvalue, initiator):
