@@ -24,3 +24,5 @@ sample_notices: list = [
 @cache.cached(timeout=const.cache_timeout_hour)
 def notifications() -> tuple:
     return jsonify({'status': 'success', 'notifications_list': sample_notices}), 200
+
+# TODO try finalizing Notifications Delivery development

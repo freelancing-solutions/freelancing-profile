@@ -4,6 +4,7 @@ from flask import url_for
 class Metatags:
     """
         Default Application Meta Tags
+        # TODO find a way to intelligently add metatags
     """
     title: str = ""
     description: str = ""

@@ -449,4 +449,6 @@ def total_paid_updated(target, value, oldvalue, initiator):
 
 listen(FreelanceJobModel._total_paid, 'set', total_paid_updated, retval=True)
 
-# TODO complete the listeners
+# TODO  complete the listeners
+
+# TODO Add UpWork Intergrations to HireMe We need to Support UPWork Contracts and Escrow Payments

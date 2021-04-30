@@ -3,7 +3,7 @@ from .. import db
 from ..library.utils import timestamp, const, replace_html
 from sqlalchemy.event import listen
 
-
+# TODO finalize Blog Design and Development
 class Post(db.Model):
     __bind_key__ = "blog"
     _post_id = db.Column(db.String(const.uuid_len), primary_key=True)

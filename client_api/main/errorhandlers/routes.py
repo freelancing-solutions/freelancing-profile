@@ -65,3 +65,4 @@ def handle_exception(e: HTTPException) -> tuple:
 def trigger_sentry():
     division_by_zero = 1 / 0
 
+# TODO create custom Exceptions and also add error handler Wrapper Functions

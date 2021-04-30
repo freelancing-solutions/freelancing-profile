@@ -121,7 +121,7 @@ class ContactModel(db.Model):
         if not isinstance(email, str):
             raise TypeError("Email can only be a string")
 
-        # TODO- check email format
+        # TODO-  check email format
 
         if len(email) > const.email_len:
             raise ValueError('email is too long please provide proper email fields')
