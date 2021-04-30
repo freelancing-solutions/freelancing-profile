@@ -1,7 +1,5 @@
 from sqlalchemy.exc import OperationalError
-
 from .. import db
-from flask import escape
 from sqlalchemy.event import listen
 from ..library.utils import timestamp, const
 import uuid
@@ -450,3 +448,5 @@ def total_paid_updated(target, value, oldvalue, initiator):
 
 
 listen(FreelanceJobModel._total_paid, 'set', total_paid_updated, retval=True)
+
+# TODO complete the listeners
