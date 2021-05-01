@@ -3,6 +3,10 @@ Justice Ndou Web Development and Freelance Profile
 -
 ***The Purpose of this website is to showcase my skills in***
 
+- Development Time
+  
+  [![wakatime](https://wakatime.com/badge/github/freelancing-solutions/freelancing-profile.svg)](https://wakatime.com/badge/github/freelancing-solutions/freelancing-profile)
+
 - Front End Web Development
 
       - Vanilla Javascript
