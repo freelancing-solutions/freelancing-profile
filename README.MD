@@ -51,9 +51,9 @@ Justice Ndou Web Development and Freelance Profile
 
 - Developer
 
-      - Name : Justice Ndou
+      - Name : [Justice Ndou](https://justice-ndou.site)
       - Email : mobiusndou@gmail.com
-      - Twitter : https://twitter.com/blueitserver
+      - Twitter : [Twitter Profile](https://twitter.com/blueitserver)
 
 - Work In Progress
       - it didnt take me a week before i realize i could have done this better
