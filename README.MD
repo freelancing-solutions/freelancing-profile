@@ -58,7 +58,7 @@ Justice Ndou Web Development and Freelance Profile
 - Work In Progress
       - it didnt take me a week before i realize i could have done this better
 
-      ```python
+```python
 import time
 from flask import render_template, request, Blueprint, get_flashed_messages, jsonify, redirect, url_for
 from sqlalchemy.exc import OperationalError, DisconnectionError, InvalidRequestError
@@ -446,4 +446,4 @@ def expectations(current_user: any, path: str) -> tuple:
     else:
         return render_template('404.html', heading="Not Found", menu_open=True,
                                current_user=current_user, meta_tags=Metatags().set_home()), 404      
-      ```
+```
