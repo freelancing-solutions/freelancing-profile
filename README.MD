@@ -3,6 +3,10 @@ Justice Ndou Web Development and Freelance Profile
 -
 ***The Purpose of this website is to showcase my skills in***
 
+- Development Time
+  
+  [![wakatime](https://wakatime.com/badge/github/freelancing-solutions/freelancing-profile.svg)](https://wakatime.com/badge/github/freelancing-solutions/freelancing-profile)
+
 - Front End Web Development
 
       - Vanilla Javascript
@@ -54,6 +58,5 @@ Justice Ndou Web Development and Freelance Profile
       - Name : Justice Ndou
       - Email : mobiusndou@gmail.com
       - Twitter : https://twitter.com/blueitserver
-
 - Live Site
     - coming soon
