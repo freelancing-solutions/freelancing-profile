@@ -45,7 +45,7 @@ const = Const()
 def create_id(size: int = 64, chars: str = char_set) -> str: return ''.join(random.choice(chars) for x in range(size))
 
 
-def timestamp() -> int: return int(float(time.time()) * 1000)
+def timestamp() -> int: return int(float(time.time()))
 
 
 def timestamp_difference(stamp1, stamp2) -> int: return int(stamp1 - stamp2)

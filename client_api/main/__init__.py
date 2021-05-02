@@ -52,7 +52,7 @@ def create_app(config_class=default_config):
             pass
 
         # will add before and after request handlers, to add timers to every request, for server stats
-        server_stats_logger.init_app(app=app, logger_model=StatsLoggerModel)
+        # server_stats_logger.init_app(app=app, logger_model=StatsLoggerModel)
 
         # request handlers
         app.register_blueprint(error_blueprint)

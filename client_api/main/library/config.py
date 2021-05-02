@@ -39,7 +39,15 @@ class Config:
     BLOGGING_SITEMAP: str = os.environ.get("BLOGGING_SITEMAP") or config("BLOGGING_SITEMAP")
     GITHUB_SITEMAP: str = os.environ.get("GITHUB_SITEMAP") or config("GITHUB_SITEMAP")
     CODEPEN_SITEMAP: str = os.environ.get("CODEPEN_SITEMAP") or config("CODEPEN_SITEMAP")
-
+    ADMIN_USER: dict = {
+        "USERNAME": os.environ.get("ADMIN_USERNAME") or config("ADMIN_USERNAME"),
+        "EMAIL": os.environ.get("ADMIN_EMAIL") or config("ADMIN_EMAIL"),
+        "NAMES": os.environ.get("ADMIN_NAMES") or config("ADMIN_NAMES"),
+        "SURNAME": os.environ.get("ADMIN_SURNAME") or config("ADMIN_SURNAME"),
+        "CELL": os.environ.get("ADMIN_CELL") or config("ADMIN_CELL"),
+        "PASSWORD": os.environ.get("ADMIN_PASSWORD") or config("ADMIN_PASSWORD"),
+        "ADMIN": True
+    }
 
 class ProductionConfig(Config):
     TEMPLATES_AUTO_RELOAD: bool = False

@@ -21,7 +21,7 @@ class UserModel(db.Model):
     _cell = db.Column(db.String(const.cell_len), nullable=True)
     _admin = db.Column(db.Boolean, default=False)
     _img_link = db.Column(db.String(const.link_len), nullable=True)
-    _time_registered = db.Column(db.Integer, nullable=False, default=timestamp())
+    _time_registered = db.Column(db.Integer, nullable=False, default=lambda time_reg: timestamp())
     _time_email_verified = db.Column(db.Integer, nullable=False, default=0)
     _time_cell_verified = db.Column(db.Integer, nullable=False, default=0)
     _email_is_verified = db.Column(db.Boolean, nullable=False, default=False)
